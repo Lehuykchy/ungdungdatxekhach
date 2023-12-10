@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:layout_marginBottom="10dp"
+    android:background="@color/white"
+    android:id="@+id/lnItemLocation">
+    <TextView
+        android:id="@+id/tvItemlocationTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:text="9:20"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:layout_centerVertical="true"
+        android:visibility="gone"/>
+    <TextView
+        android:id="@+id/tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:text=" - "
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:layout_toRightOf="@id/tvItemlocationTime"
+        android:layout_centerVertical="true"
+        android:visibility="gone"/>
+    <TextView
+        android:id="@+id/tvItemLocationRoute"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Nhập địa điểm dừng"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:layout_marginRight="40dp"
+        android:layout_toRightOf="@id/tv"
+        android:layout_centerVertical="true"/>
+    <ImageView
+        android:id="@+id/imgItemRemoveLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/remove"
+        android:padding="6dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"/>
+
+
+
+
+</RelativeLayout>

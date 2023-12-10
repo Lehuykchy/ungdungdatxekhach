@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/radius10"
+    android:padding="10dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:id="@+id/lnItemRoute">
+
+    <TextView
+        android:id="@+id/tvItemRouteName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mỹ Đình - Tuyên Quang"
+        android:textColor="@color/black"
+        android:textSize="17dp"
+        android:textStyle="bold"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"/>
+
+    <TextView
+        android:id="@+id/tvgiathamkhao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Giá tham khảo"
+        android:layout_below="@id/tvItemRouteName"
+        android:textStyle="bold"
+        android:textSize="16dp"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/black"/>
+
+    <TextView
+        android:id="@+id/tvItemRouteDistance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="160 Km"
+        android:layout_below="@id/tvgiathamkhao"
+        android:layout_marginTop="5dp"
+        android:textSize="16dp"
+        android:textColor="#6E6E6E"/>
+
+    <TextView
+        android:id="@+id/tvItemRouteTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="3 giờ 00 phút"
+        android:textSize="16dp"
+        android:textColor="#6E6E6E"
+        android:layout_below="@id/tvgiathamkhao"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="5dp"/>
+
+    <TextView
+        android:id="@+id/tvItemRoutePrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="170000đ"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="17dp"
+        android:layout_above="@id/tvItemRouteTime"
+        android:layout_alignParentRight="true"/>
+
+
+
+</RelativeLayout>

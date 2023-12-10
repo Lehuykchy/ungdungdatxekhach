@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/dialog_bg">
+
+    <TextView
+        android:id="@+id/choosetxt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="Bạn có muốn đăng xuất khỏi thiết bị ?"
+        android:textColor="#E4E4E4"
+        android:layout_marginTop="5dp"
+        android:textSize="20dp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/tvBottomSheetOk"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="Có"
+        android:textSize="20dp"
+        android:background="@drawable/radius10_border"
+        android:gravity="center"
+        android:layout_marginTop="15dp"/>
+
+    <TextView
+        android:id="@+id/tvBottomSheetCancle"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="Không"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:background="@drawable/radius10_border"
+        android:gravity="center"
+        android:layout_marginTop="10dp"/>
+
+
+</LinearLayout>

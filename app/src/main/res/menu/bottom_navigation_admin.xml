@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_home_admin"
+        android:icon="@drawable/home_icon"
+        android:title="Trang chủ" />
+    <item
+        android:id="@+id/navigation_routes_admin"
+        android:icon="@drawable/bus"
+        android:title="Chuyến đi" />
+    <item
+        android:id="@+id/navigation_profile_admin"
+        android:icon="@drawable/profile_icon"
+        android:title="Cá nhân" />
+
+
+</menu>

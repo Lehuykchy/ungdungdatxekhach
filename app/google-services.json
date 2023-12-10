@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1098146708684",
+    "project_id": "ungdungdatxe-30fd9",
+    "storage_bucket": "ungdungdatxe-30fd9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1098146708684:android:c8d0c4e8aa402a76c31669",
+        "android_client_info": {
+          "package_name": "com.example.ungdungdatxekhach"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAsev95HD6fRgTjZUNdZ1p8rHmHVW_nGLU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

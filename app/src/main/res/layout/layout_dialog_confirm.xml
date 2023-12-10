@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/dialog_bg">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Bạn có muốn xóa mục này không?"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:minHeight="48dp"
+            android:gravity="center"
+            android:textColor="#E4E4E4"/>
+
+        <Button
+            android:id="@+id/btnConfirmOk"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:backgroundTint="@color/white"
+            android:text="Xác nhận"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="18dp"/>
+
+    <Button
+        android:id="@+id/btnConfirmCancle"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:backgroundTint="@color/white"
+        android:text="Hủy"
+        android:textColor="#FF5252"
+        android:textStyle="bold"
+        android:textSize="18dp"
+        android:layout_marginTop="10dp"/>
+
+</LinearLayout>

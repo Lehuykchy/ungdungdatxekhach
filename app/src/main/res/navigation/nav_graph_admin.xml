@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_admin"
+    app:startDestination="@id/navigation_home_admin">
+
+    <fragment
+        android:id="@+id/navigation_home_admin"
+        android:name="com.example.ungdungdatxekhach.admin.fragment.HomeFragment"
+        android:label="Home"
+        tools:layout="@layout/admin_fragment_home" />
+
+    <fragment
+        android:id="@+id/navigation_profile_admin"
+        android:name="com.example.ungdungdatxekhach.admin.fragment.ProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/admin_fragment_profile" />
+
+    <fragment
+        android:id="@+id/navigation_routes_admin"
+        android:name="com.example.ungdungdatxekhach.admin.fragment.RoutesFragment"
+        android:label="Profile"
+        tools:layout="@layout/admin_fragment_routes" >
+        <action
+            android:id="@+id/action_navigation_routes_admin_to_routeAddFragment2"
+            app:destination="@id/routeAddFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/routeAddFragment"
+        android:name="com.example.ungdungdatxekhach.admin.fragment.RouteAddFragment"
+        android:label="RouteAddFragment" />
+</navigation>
