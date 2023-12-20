@@ -2,7 +2,6 @@ package com.example.ungdungdatxekhach.user.fragment
 
 import android.app.Dialog
 import android.content.Context
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -19,15 +18,12 @@ import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
-import com.example.ungdungdatxekhach.Location
+import com.example.ungdungdatxekhach.modelshare.Location
 import com.example.ungdungdatxekhach.R
 import com.example.ungdungdatxekhach.databinding.FragmentRouteDefaultBuyticketStep1Binding
 import com.example.ungdungdatxekhach.modelshare.Route
 import com.example.ungdungdatxekhach.modelshare.Schedule
-import com.example.ungdungdatxekhach.modelshare.activity.LoginActivity
 import com.example.ungdungdatxekhach.user.model.Ticket
-import com.google.firebase.Firebase
-import com.google.firebase.auth.auth
 import java.util.Date
 
 

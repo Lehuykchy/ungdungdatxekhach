@@ -142,6 +142,7 @@
 
 
     <RelativeLayout
+        android:id="@+id/rltProfileChangePassword"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:paddingLeft="10dp"

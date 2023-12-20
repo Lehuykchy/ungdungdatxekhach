@@ -7,10 +7,15 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import com.example.ungdungdatxekhach.databinding.ActicityPasswordBinding
+import com.example.ungdungdatxekhach.modelshare.Location
 import com.example.ungdungdatxekhach.user.model.User
 import com.google.firebase.firestore.firestore
 import com.google.firebase.Firebase
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class PasswordActivity : AppCompatActivity() {
     private lateinit var binding: ActicityPasswordBinding
@@ -35,18 +40,27 @@ class PasswordActivity : AppCompatActivity() {
         val name = receivedIntent.getStringExtra("name") ?: ""
         val email = receivedIntent.getStringExtra("email") ?: ""
         val phone = receivedIntent.getStringExtra("phone") ?: ""
+        val city = receivedIntent.getStringExtra("city") ?: ""
+        val district = receivedIntent.getStringExtra("district") ?: ""
+        val ward = receivedIntent.getStringExtra("ward") ?: ""
+        var location = Location(city, district, ward)
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        var date = receivedIntent.getStringExtra("date")
+
 
         if (name.isNotEmpty() && email.isNotEmpty()) {
 
 
             binding.btnLoginPassword.setOnClickListener {
                 val password = binding.edtPassword.text.toString()
-                var user = User(name, phone, email, password)
+                val parsedDate: Date = dateFormat.parse(date)
+
+                var user = User(name, phone, email, password, parsedDate, location)
 
                 db.collection("users").document(phone)
                     .set(user)
                     .addOnSuccessListener {
-                        val i : Intent = Intent(this, MainActivity::class.java)
+                        val i: Intent = Intent(this, MainActivity::class.java)
                         i.putExtra("phone", phone)
                         startActivity(i)
                     }
@@ -60,10 +74,10 @@ class PasswordActivity : AppCompatActivity() {
                         val user = documentSnapshot.toObject(User::class.java)
                         if (user != null) {
                             if (user.checkPassword(binding.edtPassword.text.toString())) {
-                                val i : Intent = Intent(this, MainActivity::class.java)
+                                val i: Intent = Intent(this, MainActivity::class.java)
                                 i.putExtra("phone", phone)
                                 startActivity(i)
-                            }else{
+                            } else {
                                 binding.edtPassword.error = "Nhập sai mật khẩu"
                             }
                         } else {
@@ -76,6 +90,7 @@ class PasswordActivity : AppCompatActivity() {
             }
         }
     }
+
     private fun setEdtPhonenumber() {
         binding.edtPassword.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {

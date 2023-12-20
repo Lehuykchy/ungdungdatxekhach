@@ -1,6 +1,5 @@
 package com.example.ungdungdatxekhach.modelshare
 
-import com.example.ungdungdatxekhach.Location
 import java.io.Serializable
 
 data class Route(

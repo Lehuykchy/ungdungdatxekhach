@@ -68,8 +68,8 @@ class RouteDefaultBuyTicketStep2 : Fragment() {
         val dateFormat = SimpleDateFormat("dd/MM/yyyy")
         binding.edtBuyTicketStep2Phone.setText(ticket.customerId)
         binding.tvBuyTicketStep2Route.text = route.departureLocation + " - " + route.destination
-        binding.tvBuyTicketStep2Departure.text = route.location.get(0).other
-        binding.tvBuyTicketStep2Destination.text = route.location.get(route.location.size - 1).other
+        binding.tvBuyTicketStep2Departure.text = ticket.departure
+        binding.tvBuyTicketStep2Destination.text = ticket.destination
         binding.tvBuyTicketStep2CreateAt.text =
             schedule.dateRoute.pickedHour.toString() +
                     ":" + schedule.dateRoute.pickedMinute.toString() +
@@ -82,6 +82,10 @@ class RouteDefaultBuyTicketStep2 : Fragment() {
                 val navController = activity?.findNavController(R.id.framelayout)
                 navController?.navigate(R.id.action_routeDefaultBuyTicketStep2_to_routeDefaultBuyTicketStep3)
             }
+        }
+        binding.imgBuyTicketStep2Back.setOnClickListener {
+            val navController = activity?.findNavController(R.id.framelayout)
+            navController?.popBackStack()
         }
 
     }

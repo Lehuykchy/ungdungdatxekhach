@@ -44,19 +44,14 @@ class RouteDefaultBuyTicketStep3 : Fragment() {
     private fun startCountdownTimer() {
         countdownTimer = object : CountDownTimer(COUNTDOWN_TIME, 1000) {
             override fun onTick(millisUntilFinished: Long) {
-                // Thời gian còn lại
                 val minutes = TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)
                 val seconds = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) % 60
                 val formattedTime = String.format("%02d:%02d", minutes, seconds)
-
-                // Hiển thị thời gian còn lại trong TextView
                 binding.tvBuyTicketStep3NameCountTime.text = formattedTime
             }
 
             override fun onFinish() {
-                // Đồng hồ đếm ngược kết thúc, xử lý tại đây (ví dụ: hủy vé)
                 binding.tvBuyTicketStep3NameCountTime.text = "00:00"
-                // Xử lý khi hết thời gian, ví dụ: hủy vé
                 cancelTicket()
             }
         }
@@ -65,12 +60,12 @@ class RouteDefaultBuyTicketStep3 : Fragment() {
     }
 
     private fun cancelTicket() {
-        // Thực hiện hủy vé ở đây
+
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        // Đảm bảo dừng đồng hồ đếm ngược khi hoạt động bị hủy
+
         countdownTimer?.cancel()
     }
 }

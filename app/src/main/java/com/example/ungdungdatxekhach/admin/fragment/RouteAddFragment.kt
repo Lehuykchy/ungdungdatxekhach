@@ -7,11 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.ungdungdatxekhach.Location
+import com.example.ungdungdatxekhach.modelshare.Location
 import com.example.ungdungdatxekhach.R
-import com.example.ungdungdatxekhach.modelshare.TimeRoute
 import com.example.ungdungdatxekhach.admin.adapter.ItemLocationRouteAdapter
 import com.example.ungdungdatxekhach.modelshare.Route
 import com.example.ungdungdatxekhach.databinding.AdminFragmentRoutesAddBinding

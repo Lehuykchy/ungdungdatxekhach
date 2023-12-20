@@ -14,19 +14,16 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.ungdungdatxekhach.City
-import com.example.ungdungdatxekhach.Location
+import com.example.ungdungdatxekhach.modelshare.City
+import com.example.ungdungdatxekhach.modelshare.Location
 import com.example.ungdungdatxekhach.R
 import com.example.ungdungdatxekhach.user.Utils
-import com.firebase.ui.auth.data.model.PhoneNumber
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import kotlin.math.ln
 
 
 class ItemLocationRouteAdapter : RecyclerView.Adapter<ItemLocationRouteAdapter.ItemViewHolder> {

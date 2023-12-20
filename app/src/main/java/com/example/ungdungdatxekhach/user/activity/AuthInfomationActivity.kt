@@ -3,29 +3,29 @@ package com.example.ungdungdatxekhach.user.activity
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import androidx.core.os.bundleOf
 import com.example.ungdungdatxekhach.R
 import com.example.ungdungdatxekhach.databinding.ActivityAuthInfomationBinding
 import com.example.ungdungdatxekhach.user.Utils
-import com.example.ungdungdatxekhach.City
+import com.example.ungdungdatxekhach.modelshare.City
+import com.example.ungdungdatxekhach.modelshare.Location
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Locale
 
 class AuthInfomationActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAuthInfomationBinding
     private lateinit var cityList: List<City>
     private val db = Firebase.firestore
-    private lateinit var phone : String
-
+    private lateinit var phone: String
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,10 +47,14 @@ class AuthInfomationActivity : AppCompatActivity() {
     }
 
     private fun onClickContinue() {
-        var i : Intent = Intent(this, PasswordActivity::class.java)
+        var i: Intent = Intent(this, PasswordActivity::class.java)
         i.putExtra("name", binding.edtAuthInfoName.text.toString())
         i.putExtra("email", binding.edtAuthInfoEmail.text.toString())
         i.putExtra("phone", binding.tvAuthInfoPhone.text.toString())
+        i.putExtra("city", binding.spinnerAuthInfoCity.selectedItem.toString())
+        i.putExtra("district", binding.spinnerAuthInfoDistrict.selectedItem.toString())
+        i.putExtra("ward", binding.spinnerAuthInfoWard.selectedItem.toString())
+        i.putExtra("date", binding.tvAuthInfoDate.text.toString())
         startActivity(i)
     }
 

@@ -10,9 +10,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:background="#00cba9">
-
         <ImageView
-            android:id="@+id/imgRouteDefaultBackUser"
+            android:id="@+id/imgBuyTicketStep2Back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"

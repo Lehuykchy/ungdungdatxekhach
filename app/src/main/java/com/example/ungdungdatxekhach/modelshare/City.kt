@@ -1,4 +1,4 @@
-package com.example.ungdungdatxekhach
+package com.example.ungdungdatxekhach.modelshare
 
 import com.google.gson.annotations.SerializedName
 
