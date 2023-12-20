@@ -1,26 +1,19 @@
 package com.example.ungdungdatxekhach.admin.fragment
 
-import android.app.Dialog
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
-import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ungdungdatxekhach.Location
 import com.example.ungdungdatxekhach.R
-import com.example.ungdungdatxekhach.Time
+import com.example.ungdungdatxekhach.modelshare.TimeRoute
 import com.example.ungdungdatxekhach.admin.adapter.ItemLocationRouteAdapter
-import com.example.ungdungdatxekhach.admin.adapter.ItemTimeAdapter
-import com.example.ungdungdatxekhach.admin.model.Route
+import com.example.ungdungdatxekhach.modelshare.Route
 import com.example.ungdungdatxekhach.databinding.AdminFragmentRoutesAddBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.timepicker.MaterialTimePicker
@@ -36,8 +29,6 @@ class RouteAddFragment : Fragment() {
     private lateinit var id : String
     private lateinit var adapterLocation: ItemLocationRouteAdapter
     private lateinit var listItemLocation : ArrayList<Location>
-    private lateinit var listItemTime : ArrayList<Time>
-    private lateinit var adapterTimes: ItemTimeAdapter
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -62,17 +53,6 @@ class RouteAddFragment : Fragment() {
 
         })
         binding.rcvRouteAdminAdd.adapter = adapterLocation
-
-
-        listItemTime = ArrayList()
-        binding.rcvRouteAdminTimes.layoutManager = GridLayoutManager(requireActivity(), 3)
-        adapterTimes = ItemTimeAdapter(listItemTime, requireActivity(), object : ItemTimeAdapter.IClickListener{
-            override fun clickDelete(id: Int) {
-
-            }
-        })
-        binding.rcvRouteAdminTimes.adapter = adapterTimes
-
         binding.imgRoutesAddBack.setOnClickListener { onClickImgRouteAddBack() }
         binding.btnUpdate.setOnClickListener {
             if (ischeck()) {
@@ -82,41 +62,23 @@ class RouteAddFragment : Fragment() {
         binding.lnAddRoute.setOnClickListener {
             setOnClickAddLocation()
         }
-        binding.lnRouteAdminSelectTime.setOnClickListener {
-            setOnClickSelectTime()
-        }
     }
 
     private fun setOnClickSelectTime() {
         val materialTimePicker: MaterialTimePicker = MaterialTimePicker.Builder()
-            // set the title for the alert dialog
             .setTitleText("SELECT YOUR TIMING")
-            // set the default hour for the
-            // dialog when the dialog opens
             .setHour(12)
-            // set the default minute for the
-            // dialog when the dialog opens
             .setMinute(10)
-            // set the time format
-            // according to the region
             .setTimeFormat(TimeFormat.CLOCK_12H)
             .build()
 
         materialTimePicker.show(requireActivity().supportFragmentManager, "RouteAddFragment")
-
-        // on clicking the positive button of the time picker
-        // dialog update the TextView accordingly
         materialTimePicker.addOnPositiveButtonClickListener {
-
             val pickedHour: Int = materialTimePicker.hour
             val pickedMinute: Int = materialTimePicker.minute
-            val time = Time(pickedHour, pickedMinute)
-            adapterTimes.addTime(time)
             Log.d("checktime", "setOnClickSelectTime: " + pickedHour.toString() + ":" + pickedMinute.toString())
         }
     }
-
-
 
     private fun setOnClickAddLocation() {
         var location = Location("", "", "", "")
@@ -132,15 +94,13 @@ class RouteAddFragment : Fragment() {
             id,
             binding.edtRoutesAddDepartureLocation.text.toString(),
             binding.edtRoutesAddDestination.text.toString(),
-            binding.edtRoutesAddTotalTime.text.toString(),
+            binding.edtRoutesAddTotalTime.text.toString().toInt(),
             binding.edtRoutesAddDistance.text.toString(),
             binding.edtRoutesAddPrice.text.toString(),
             listItemLocation,
-            listItemTime,
-            ""
         )
 
-        db.collection("admins").document()
+        db.collection("routes").document()
             .set(route)
             .addOnSuccessListener {
                 onClickImgRouteAddBack()

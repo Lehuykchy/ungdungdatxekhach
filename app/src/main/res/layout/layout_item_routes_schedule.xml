@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/radius10"
+    android:layout_marginBottom="10dp"
+    android:id="@+id/itemRouteSchedule">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:gravity="center_vertical">
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="15dp"
+            android:src="@drawable/baseline_circle_24"/>
+
+        <TextView
+            android:id="@+id/tvRouteScheduleDepartureTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="07:00"
+            android:paddingLeft="10dp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="16dp"/>
+
+        <TextView
+            android:id="@+id/tvRouteScheduleDepartureLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bến xe Mỹ Đình"
+            android:paddingLeft="10dp"
+            android:textSize="16dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:gravity="center_vertical">
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:src="@drawable/baseline_location_on_24"/>
+
+        <TextView
+            android:id="@+id/tvRouteScheduleEndTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="12:30"
+            android:paddingLeft="10dp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="16dp"/>
+
+        <TextView
+            android:id="@+id/tvRouteScheduleEndLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Na Hang"
+            android:paddingLeft="10dp"
+            android:textSize="16dp"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/black"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+        <TextView
+            android:id="@+id/tvRouteScheduleType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Giường nằm 40 chỗ"
+            android:textSize="16dp"/>
+
+        <TextView
+            android:id="@+id/tvRouteScheduleBlank"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="xx/yy ghế trống"
+            android:textColor="@color/black"
+            android:layout_below="@id/tvRouteScheduleType"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/tvRouteSchedulePrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:text="200000đ"
+            android:textStyle="bold"
+            android:textSize="18dp"
+            android:textColor="@color/black"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/tvRouteSchedulePrice"
+            android:layout_centerVertical="true"
+            android:text="Giá từ"
+            android:layout_marginRight="5dp"
+            android:textSize="16dp"
+            android:textColor="@color/black"/>
+    </RelativeLayout>
+
+
+
+</LinearLayout>

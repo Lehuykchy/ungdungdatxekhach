@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F6F0F0">
+    android:background="#E8ECFB">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcvRoutes"
@@ -14,12 +14,15 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_above="@+id/rcvRoutes"
-        android:layout_margin="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/radius10"
         android:backgroundTint="#00cba9"
         android:gravity="center"
-        android:orientation="horizontal"
-        android:layout_alignParentBottom="true">
+        android:orientation="horizontal">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -29,7 +32,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Thêm chuyến xe mới"
+            android:text="Thêm tuyến xe mới"
             android:textColor="@color/white"
             android:textSize="20dp"
             android:textStyle="bold" />

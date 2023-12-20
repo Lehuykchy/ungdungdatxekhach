@@ -14,7 +14,6 @@ import com.example.ungdungdatxekhach.R
 import com.example.ungdungdatxekhach.databinding.ActivityAuthInfomationBinding
 import com.example.ungdungdatxekhach.user.Utils
 import com.example.ungdungdatxekhach.City
-import com.example.ungdungdatxekhach.user.viewmodel.SharedViewModel
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
@@ -34,11 +33,8 @@ class AuthInfomationActivity : AppCompatActivity() {
         binding = ActivityAuthInfomationBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val viewModel = ViewModelProvider(this).get(SharedViewModel::class.java)
-        viewModel.dataToPass.observe(this, Observer { data ->
-            Log.d("checkphone", "Dữ liệu được truyền từ Fragment: $data")
-        })
-
+        phone = intent.getStringExtra("phone").toString()
+        binding.tvAuthInfoPhone.text = phone
         binding.btnContinue.setOnClickListener {
             if (ischeck()) {
                 var i: Intent = Intent(this, MainActivity::class.java)

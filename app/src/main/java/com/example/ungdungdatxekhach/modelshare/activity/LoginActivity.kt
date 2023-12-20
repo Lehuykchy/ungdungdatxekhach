@@ -1,4 +1,4 @@
-package com.example.ungdungdatxekhach.user.activity
+package com.example.ungdungdatxekhach.modelshare.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

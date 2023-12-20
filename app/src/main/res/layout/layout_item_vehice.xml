@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="45dp"
+    android:background="@drawable/radius10"
+    android:backgroundTint="@color/white"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:layout_marginBottom="10dp">
+    <TextView
+        android:id="@+id/tvItemVehiceLicensePlate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Biển số xe"
+        android:textSize="18dp"
+        android:textColor="@color/black"
+        android:layout_centerVertical="true"
+        android:textStyle="bold"/>
+    <TextView
+        android:id="@+id/tvItemVehiceType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="18dp"
+        android:hint="Loại xe"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/tvItemVehiceLicensePlate"
+        android:layout_marginLeft="20dp"/>
+
+    <TextView
+        android:id="@+id/tvItemVehiceSeat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="18dp"
+        android:hint="Số chỗ ngồi"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="20dp"/>
+
+</RelativeLayout>

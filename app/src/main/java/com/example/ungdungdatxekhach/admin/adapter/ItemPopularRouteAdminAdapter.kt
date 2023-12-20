@@ -4,11 +4,11 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ungdungdatxekhach.R
-import com.example.ungdungdatxekhach.admin.model.Route
+import com.example.ungdungdatxekhach.modelshare.Route
 
 
 class ItemPopularRouteAdminAdapter :
@@ -16,9 +16,15 @@ class ItemPopularRouteAdminAdapter :
     private lateinit var listItem: ArrayList<Route>
     private lateinit var context: Context
 
-    constructor(listItem: ArrayList<Route>, context: Context) {
+    interface OnClickListener{
+        fun onCLick(postion : Int)
+    }
+    private lateinit var onClickListener: OnClickListener
+
+    constructor(listItem: ArrayList<Route>, context: Context, onClickListener: OnClickListener) {
         this.listItem = listItem
         this.context = context
+        this.onClickListener = onClickListener
     }
 
     class ItemViewHolder(itemView: View) :
@@ -27,13 +33,14 @@ class ItemPopularRouteAdminAdapter :
         lateinit var tvItemRouteDistance: TextView
         lateinit var tvItemRouteTime: TextView
         lateinit var tvItemRoutePrice: TextView
-        lateinit var lnItem: LinearLayout
+        lateinit var lnItem: RelativeLayout
 
         init {
             tvItemRouteName = itemView.findViewById(R.id.tvItemRouteName)
             tvItemRouteDistance = itemView.findViewById(R.id.tvItemRouteDistance)
             tvItemRouteTime = itemView.findViewById(R.id.tvItemRouteTime)
             tvItemRoutePrice = itemView.findViewById(R.id.tvItemRoutePrice)
+            lnItem = itemView.findViewById(R.id.lnItemRoute)
         }
     }
 
@@ -63,6 +70,9 @@ class ItemPopularRouteAdminAdapter :
         holder.tvItemRouteDistance.text = route.distance.toString() + "km"
         holder.tvItemRoutePrice.text = route.price.toString() + " đ"
         holder.tvItemRouteTime.text = hour.toString() + " giờ " + minuteRemain + " phút"
+        holder.lnItem.setOnClickListener {
+            onClickListener.onCLick(position)
+        }
     }
 
     fun changeTime(

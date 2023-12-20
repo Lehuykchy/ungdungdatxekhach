@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:background="@drawable/dialog_bg"
+    android:backgroundTint="@color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvAddVihiceCancle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:padding="10dp"
+            android:text="Hủy"
+            android:textColor="#FF5252"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/tvAddVihiceSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="Lưu"
+            android:textColor="#00cba9"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:padding="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="5dp"
+            android:text="Thời gian xuất phát"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Biển số xe"
+        android:textSize="18dp"
+        android:textStyle="bold"/>
+    <EditText
+        android:id="@+id/edtAddVihiceLicensePlate"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/radius10_border"
+        android:maxLength="20"
+        android:hint="Nhập biển số xe"
+        android:inputType="textCapCharacters|number"
+        android:digits="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        android:paddingLeft="10dp"
+        android:textSize="18dp"
+        android:layout_marginBottom="10dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Kiểu xe"
+        android:textSize="18dp"
+        android:textStyle="bold"/>
+    <Spinner
+        android:id="@+id/spinnerAddVihiceType"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/radius10_border"
+        android:layout_marginBottom="10dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Loại xe"
+        android:textSize="18dp"
+        android:textStyle="bold"/>
+    <Spinner
+        android:id="@+id/spinnerAddVihiceSeat"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/radius10_border"
+        android:layout_marginBottom="60dp"/>
+
+
+
+</LinearLayout>

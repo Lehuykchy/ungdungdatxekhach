@@ -15,7 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.ungdungdatxekhach.R
 import com.example.ungdungdatxekhach.databinding.FragmentProfileBinding
-import com.example.ungdungdatxekhach.user.activity.LoginActivity
+import com.example.ungdungdatxekhach.modelshare.activity.LoginActivity
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 
@@ -67,5 +67,6 @@ class ProfileFragment : Fragment() {
     private fun onClickRltProfile() {
         val navController = activity?.findNavController(R.id.framelayout)
         navController?.navigate(R.id.action_navigation_profile_to_profileEditFragment)
+
     }
 }

@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">UngDungDatXeKhach</string>
+
+    <string-array name="VehiceType">
+        <item>Xe khách</item>
+        <item>Xe con</item>
+        <item>Xe giường nằm</item>
+    </string-array>
+
+    <string-array name="VehiceSeat">
+        <item>4</item>
+        <item>7</item>
+        <item>16</item>
+        <item>40</item>
+    </string-array>
 </resources>

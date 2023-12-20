@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.ungdungdatxekhach.databinding.AdminFragmentHomeBinding
 
-class HomeFragment : Fragment(){
+class AdminHomeFragment : Fragment(){
     private lateinit var binding: AdminFragmentHomeBinding
     override fun onCreateView(
         inflater: LayoutInflater,

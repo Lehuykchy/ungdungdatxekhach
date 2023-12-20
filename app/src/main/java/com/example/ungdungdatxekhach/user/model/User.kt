@@ -1,6 +1,7 @@
 package com.example.ungdungdatxekhach.user.model
 
 import org.mindrot.jbcrypt.BCrypt
+import java.io.Serializable
 
 data class User(
     var id: String? = null,
@@ -8,7 +9,7 @@ data class User(
     var phone: String? = null,
     var email: String? = null,
     var password: String ? = null,
-) {
+) : Serializable {
     constructor() : this("", "", "", "")
     constructor(name: String, phone: String, email: String, password: String) : this("", name, phone, email, password)
 

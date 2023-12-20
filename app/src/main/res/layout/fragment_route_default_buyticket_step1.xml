@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/rltabc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="#00cba9">
+
+        <ImageView
+            android:id="@+id/imgBuyTicketStep1BackUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:minHeight="48dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:paddingRight="30dp"
+            android:paddingBottom="10dp"
+            android:src="@drawable/baseline_arrow_back_24" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_vertical"
+            android:minHeight="48dp"
+            android:text="Chọn vé"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/lnabc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rltabc"
+        android:elevation="10dp"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                app:srcCompat="@drawable/baseline_circle_24"
+                app:tint="#00cba9" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Hình thức đón trả"
+                android:textSize="16dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                app:srcCompat="@drawable/baseline_circle_24"
+                app:tint="#a5a5a5" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Thông tin liên hệ"
+                android:textSize="16dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                app:srcCompat="@drawable/baseline_circle_24"
+                app:tint="#a5a5a5" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Thanh toán"
+                android:textSize="16dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/scrollabc"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/lnFootter"
+        android:layout_below="@id/lnabc"
+        android:background="#E9EAF1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="10dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:gravity="center"
+                        android:text="Số lượng vé đặt"
+                        android:textSize="17dp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/imgBuyTicketStep1MinusTicket"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        app:srcCompat="@drawable/baseline_horizontal_rule_24"
+                        app:tint="#00cba9"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"/>
+
+                    <TextView
+                        android:id="@+id/tvBuyTicketStep1CountTicket"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:background="@drawable/radius10"
+                        android:gravity="center"
+                        android:text="0"
+                        android:minWidth="40dp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:inputType="number"/>
+
+                    <ImageView
+                        android:id="@+id/imgBuyTicketStep1AddTicket"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        app:srcCompat="@drawable/baseline_add_24"
+                        app:tint="#00cba9"
+                        android:paddingLeft="10dp"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical"
+                    android:text="Hình thức đón"
+                    android:textSize="17dp"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:id="@+id/spinnerTvBuyTicketStep1Departure"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/radius10"
+                    android:gravity="center_vertical"
+                    android:hint="Hình thức đón"
+                    android:textSize="17dp" />
+
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical"
+                    android:text="Điểm khởi hành"
+                    android:textSize="17dp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/edtBuyTicketStep1Departure"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/radius10"
+                    android:gravity="center_vertical"
+                    android:hint="Nhập địa chỉ đón"
+                    android:paddingLeft="10dp"
+                    android:textSize="17dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.7dp"
+                    android:layout_marginTop="10dp"
+                    android:background="#a5a5a5" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical"
+                    android:text="Hình thức trả"
+                    android:textSize="17dp"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:id="@+id/spinnerTvBuyTicketStep1Destination"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/radius10"
+                    android:gravity="center_vertical"
+                    android:hint="Hình thức trả"
+                    android:textSize="17dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical"
+                    android:text="Điểm đến"
+                    android:textSize="17dp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/edtBuyTicketStep1Destination"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/radius10"
+                    android:gravity="center_vertical"
+                    android:hint="Nhập địa chỉ đến"
+                    android:paddingLeft="10dp"
+                    android:textSize="17dp" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
+
+
+    <LinearLayout
+        android:id="@+id/lnFootter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:elevation="15dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/lnBuyTicketStep1Schedule"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lịch trình"
+                android:textColor="#1565C0"
+                android:textSize="18dp" />
+
+            <ImageView
+                android:layout_width="17dp"
+                android:layout_height="17dp"
+                app:srcCompat="@drawable/baseline_arrow_forward_ios_24"
+                app:tint="#1565C0" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.7dp"
+            android:background="#A5A5A5" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/tvBuyTicketStep1CountSeat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="0 ghế"
+                android:textColor="@color/black"
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/tvBuyTicketStep1TotalMoney"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvBuyTicketStep1CountSeat"
+                android:hint="0 đ"
+                android:textColor="@color/black"
+                android:textSize="20dp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnBuyTicketStep1Confirm"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/radius10"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:text="Xác nhận đặt"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:backgroundTint="#00cba9" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

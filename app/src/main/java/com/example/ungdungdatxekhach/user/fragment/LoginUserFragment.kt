@@ -18,7 +18,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.ungdungdatxekhach.databinding.FragmentLoginUserBinding
 import com.example.ungdungdatxekhach.user.activity.AuthInfomationActivity
 import com.example.ungdungdatxekhach.user.activity.PasswordActivity
-import com.example.ungdungdatxekhach.user.viewmodel.SharedViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
@@ -83,10 +82,9 @@ class LoginUserFragment : Fragment() {
         mAuth!!.signInWithCredential(credential)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    val viewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
-                    viewModel.dataToPass.value = binding.edtPhone.text.toString()
-                    val i: Intent = Intent(requireActivity(), AuthInfomationActivity::class.java)
-                    requireActivity().startActivity(i)
+                    val i: Intent = Intent(requireContext(), AuthInfomationActivity::class.java)
+                    i.putExtra("phone", binding.edtPhone.text.toString())
+                    requireContext().startActivity(i)
                 } else {
                     Log.d("otp", task.exception!!.message.toString())
                 }
@@ -140,6 +138,9 @@ class LoginUserFragment : Fragment() {
                         binding.lnLoginVertifyOTP.visibility = View.VISIBLE
                         phone = binding.edtPhone.text.toString()
                         sendVerificationCode("+84" + binding.edtPhone.text.toString()!!);
+//                        val i: Intent = Intent(requireContext(), AuthInfomationActivity::class.java)
+//                        i.putExtra("phone", binding.edtPhone.text.toString())
+//                        requireContext().startActivity(i)
                     }
                 }
                 .addOnFailureListener { exception ->

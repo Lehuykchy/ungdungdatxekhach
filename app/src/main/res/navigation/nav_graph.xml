@@ -9,7 +9,11 @@
         android:id="@+id/navigation_home"
         android:name="com.example.ungdungdatxekhach.user.fragment.HomeFragment"
         tools:layout="@layout/fragment_home"
-        android:label="Home"/>
+        android:label="Home">
+        <action
+            android:id="@+id/action_navigation_home_to_homeRouteDefaultFragment"
+            app:destination="@id/homeRouteDefaultFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_orders"
@@ -36,4 +40,32 @@
         android:id="@+id/profileEditFragment"
         android:name="com.example.ungdungdatxekhach.user.fragment.ProfileEditFragment"
         android:label="ProfileEditFragment" />
+    <fragment
+        android:id="@+id/homeRouteDefaultFragment"
+        android:name="com.example.ungdungdatxekhach.user.fragment.HomeRouteDefaultFragment"
+        android:label="HomeRouteDefaultFragment" >
+        <action
+            android:id="@+id/action_homeRouteDefaultFragment_to_routeDefaultBuyTicketStep1"
+            app:destination="@id/routeDefaultBuyTicketStep1" />
+    </fragment>
+    <fragment
+        android:id="@+id/routeDefaultBuyTicketStep1"
+        android:name="com.example.ungdungdatxekhach.user.fragment.RouteDefaultBuyTicketStep1"
+        android:label="RouteDefaultBuyTicketStep1" >
+        <action
+            android:id="@+id/action_routeDefaultBuyTicketStep1_to_routeDefaultBuyTicketStep2"
+            app:destination="@id/routeDefaultBuyTicketStep2" />
+    </fragment>
+    <fragment
+        android:id="@+id/routeDefaultBuyTicketStep2"
+        android:name="com.example.ungdungdatxekhach.user.fragment.RouteDefaultBuyTicketStep2"
+        android:label="RouteDefaultBuyTicketStep2" >
+        <action
+            android:id="@+id/action_routeDefaultBuyTicketStep2_to_routeDefaultBuyTicketStep3"
+            app:destination="@id/routeDefaultBuyTicketStep3" />
+    </fragment>
+    <fragment
+        android:id="@+id/routeDefaultBuyTicketStep3"
+        android:name="com.example.ungdungdatxekhach.user.fragment.RouteDefaultBuyTicketStep3"
+        android:label="RouteDefaultBuyTicketStep3" />
 </navigation>

@@ -7,27 +7,39 @@
 
     <fragment
         android:id="@+id/navigation_home_admin"
-        android:name="com.example.ungdungdatxekhach.admin.fragment.HomeFragment"
-        android:label="Home"
+        android:name="com.example.ungdungdatxekhach.admin.fragment.AdminHomeFragment"
         tools:layout="@layout/admin_fragment_home" />
 
     <fragment
         android:id="@+id/navigation_profile_admin"
-        android:name="com.example.ungdungdatxekhach.admin.fragment.ProfileFragment"
-        android:label="Profile"
-        tools:layout="@layout/admin_fragment_profile" />
+        android:name="com.example.ungdungdatxekhach.admin.fragment.AdminProfileFragment"
+        tools:layout="@layout/admin_fragment_profile" >
+        <action
+            android:id="@+id/action_navigation_profile_admin_to_adminProfileVehiceManagerFragment"
+            app:destination="@id/adminProfileVehiceManagerFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_routes_admin"
         android:name="com.example.ungdungdatxekhach.admin.fragment.RoutesFragment"
-        android:label="Profile"
         tools:layout="@layout/admin_fragment_routes" >
         <action
             android:id="@+id/action_navigation_routes_admin_to_routeAddFragment2"
             app:destination="@id/routeAddFragment" />
+        <action
+            android:id="@+id/action_navigation_routes_admin_to_layoutRouteDefaultFragment"
+            app:destination="@id/layoutRouteDefaultFragment" />
     </fragment>
     <fragment
         android:id="@+id/routeAddFragment"
         android:name="com.example.ungdungdatxekhach.admin.fragment.RouteAddFragment"
         android:label="RouteAddFragment" />
+    <fragment
+        android:id="@+id/layoutRouteDefaultFragment"
+        android:name="com.example.ungdungdatxekhach.admin.fragment.AdminRouteDefaultFragment"
+        android:label="LayoutRouteDefaultFragment" />
+    <fragment
+        android:id="@+id/adminProfileVehiceManagerFragment"
+        android:name="com.example.ungdungdatxekhach.admin.fragment.AdminProfileVehiceManagerFragment"
+        android:label="AdminProfileVehiceManagerFragment" />
 </navigation>
