@@ -12,36 +12,31 @@ import com.example.ungdungdatxekhach.admin.model.Vehicle
 import com.example.ungdungdatxekhach.modelshare.Route
 import com.example.ungdungdatxekhach.modelshare.Schedule
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.toObject
 import com.google.firebase.ktx.Firebase
 
 class ItemRouteScheduleAdapter : RecyclerView.Adapter<ItemRouteScheduleAdapter.ItemViewHolder> {
     private lateinit var listItem: ArrayList<Schedule>
-    private var vehicleMap = hashMapOf<String, Vehicle>()
-    private lateinit var listVehicle: ArrayList<Vehicle>
     private lateinit var context: Context
-    private lateinit var route: Route
     val db = Firebase.firestore
+    private lateinit var route: Route
 
 
     interface IClickListener {
         fun clickDelete(id: Int)
-        fun onClick(position : Int)
+        fun onClick(position: Int, route: Route)
     }
 
     private lateinit var iClickListener: IClickListener
 
     constructor(
         listItem: ArrayList<Schedule>,
-        listVehicle: ArrayList<Vehicle>,
         context: Context,
         iClickListener: IClickListener,
-        route: Route
     ) {
         this.listItem = listItem
-        this.listVehicle = listVehicle
         this.context = context
         this.iClickListener = iClickListener
-        this.route = route
     }
 
     class ItemViewHolder(itemView: View) :
@@ -82,33 +77,51 @@ class ItemRouteScheduleAdapter : RecyclerView.Adapter<ItemRouteScheduleAdapter.I
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        for (vehicle in listVehicle) {
-            vehicleMap[vehicle.id] = vehicle
-        }
-        var ticket = listItem.get(position)
-        holder.tvRouteScheduleDepartureLocation.text = route.departureLocation
-        holder.tvRouteScheduleEndLocation.text = route.destination
-        holder.tvRouteSchedulePrice.text = route.price
-        holder.tvRouteScheduleDepartureTime.text = ticket.dateRoute.pickedHour.toString() +
-                ":" + ticket.dateRoute.pickedMinute.toString()
-        holder.tvRouteScheduleEndTime.text = ticket.dateRoute.addMinutes(route.totalTime)
+        var schedule = listItem.get(position)
+        route = Route()
+        db.collection("routes").document(schedule.routeId)
+            .get()
+            .addOnSuccessListener { document ->
+                route = document.toObject(Route::class.java)!!
+                route.id = document.id
+                holder.tvRouteScheduleDepartureLocation.text = route?.departureLocation
+                holder.tvRouteScheduleEndLocation.text = route?.destination
+                holder.tvRouteSchedulePrice.text = route?.price
+                holder.tvRouteScheduleEndTime.text = route?.totalTime?.let {
+                    schedule.dateRoute.addMinutes(
+                        it.toInt()
+                    )
+                }
+                route?.idAdmin?.let {
+                    db.collection("admins").document(it).collection("vehicles")
+                        .document(schedule.vehicleId)
+                        .get()
+                        .addOnSuccessListener { document ->
+                            val vehicle = document.toObject(Vehicle::class.java)
+                            if (vehicle != null) {
+                                holder.tvRouteScheduleType.text =
+                                    vehicle.type + " " + vehicle.seats.toString() + " chỗ"
+                                holder.tvRouteScheduleBlank.text = schedule.customerIds.size.toString() +
+                                        "/" + vehicle.seats.toString() + " chỗ trống"
+                            }
+                            holder.itemRouteSchedule.setOnClickListener {
+                                iClickListener.onClick(position, route)
+                            }
+                        }
+                        .addOnFailureListener { exception ->
+                        }
+                }
+            }
+            .addOnFailureListener { exception ->
+            }
 
-        val foundVehicle = vehicleMap[ticket.vehicleId]
-        if (foundVehicle != null) {
-            holder.tvRouteScheduleType.text =
-                foundVehicle.type + " " + foundVehicle.seats.toString() + " chỗ"
-            holder.tvRouteScheduleBlank.text = ticket.customerIds.size.toString() +
-                    "/" + foundVehicle.seats.toString() + " chỗ trống"
-        }
-        holder.itemRouteSchedule.setOnClickListener {
-            iClickListener.onClick(position)
-        }
-
+        holder.tvRouteScheduleDepartureTime.text = schedule.dateRoute.pickedHour.toString() +
+                ":" + schedule.dateRoute.pickedMinute.toString()
 
     }
 
-    fun addTicket(ticket: Schedule) {
-        listItem.add(ticket)
+    fun addSchedule(schedule: Schedule) {
+        listItem.add(schedule)
         notifyDataSetChanged()
     }
 }

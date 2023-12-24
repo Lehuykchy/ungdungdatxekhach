@@ -40,7 +40,7 @@ import java.util.Locale
 class AdminRouteDefaultFragment : Fragment() {
     private lateinit var binding: AdminFragmentRoutesDefaultBinding
     private lateinit var vehicleList: ArrayList<Vehicle>
-    private lateinit var ticketList: ArrayList<Schedule>
+    private lateinit var scheduleList: ArrayList<Schedule>
     val firebaseAuth = FirebaseAuth.getInstance()
     val currentUser = firebaseAuth.currentUser
     val id = currentUser!!.uid
@@ -69,31 +69,29 @@ class AdminRouteDefaultFragment : Fragment() {
         }
         vehicleList = ArrayList()
         getVehicleList()
-        ticketList = ArrayList()
-        getTicketList()
+        scheduleList = ArrayList()
+        getscheduleList()
 
 
 
         binding.rcvSchedule.layoutManager = LinearLayoutManager(requireActivity())
         adapter = ItemRouteScheduleAdapter(
-            ticketList,
-            vehicleList,
+            scheduleList,
             requireActivity(),
             object : ItemRouteScheduleAdapter.IClickListener {
                 override fun clickDelete(id: Int) {
                 }
 
-                override fun onClick(id: Int) {
+                override fun onClick(id: Int, route: Route) {
 
                 }
 
             },
-            route
         )
         binding.rcvSchedule.adapter = adapter
 
-        binding.imgAddTicket.setOnClickListener {
-            onClickAddTicket()
+        binding.imgAddSchedule.setOnClickListener {
+            onClickAddschedule()
         }
         binding.tvRouteDefaultClickDate.setOnClickListener {
             showDatePickerDialog()
@@ -104,14 +102,15 @@ class AdminRouteDefaultFragment : Fragment() {
 
     }
 
-    private fun getTicketList() {
-        db.collection("admins").document(id).collection("tickets")
+    private fun getscheduleList() {
+        db.collection("routes").document(route.id).collection("schedules")
+
             .get()
             .addOnSuccessListener { result ->
                 for (document in result) {
-                    val ticket = document.toObject<Schedule>()
-                    if (ticket != null) {
-                        adapter.addTicket(ticket)
+                    val schedule = document.toObject<Schedule>()
+                    if (schedule != null) {
+                        adapter.addSchedule(schedule)
                     }
                 }
             }
@@ -143,10 +142,10 @@ class AdminRouteDefaultFragment : Fragment() {
             }
     }
 
-    private fun onClickAddTicket() {
+    private fun onClickAddschedule() {
         val dialog: Dialog = Dialog(requireActivity())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.admin_dialog_routes_default_add_ticket);
+        dialog.setContentView(R.layout.admin_dialog_routes_default_add_schedule);
         dialog.show();
 
         var spinnerSelectBus = dialog.findViewById<Spinner>(R.id.spinnerSelectBus)
@@ -174,15 +173,17 @@ class AdminRouteDefaultFragment : Fragment() {
             try {
                 val parsedDate: Date = dateFormat.parse(dateString)
 
-                var ticket = Schedule(
+                var schedule = Schedule(
                     route.id,
                     timeRoute as TimeRoute,
+                    route.departureLocation,
+                    route.destination,
                     vehicleList.get(spinnerSelectBus.selectedItemPosition).id,
                     parsedDate
                 )
-                adapter.addTicket(ticket)
-                db.collection("admins").document(id).collection("tickets")
-                    .add(ticket)
+                adapter.addSchedule(schedule)
+                db.collection("routes").document(route.id).collection("schedules")
+                    .add(schedule)
                     .addOnSuccessListener { documentReference ->
                         Toast.makeText(requireActivity(), "Thêm vé xe thành công", Toast.LENGTH_SHORT)
                             .show()

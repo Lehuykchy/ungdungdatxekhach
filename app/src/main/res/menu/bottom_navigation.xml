@@ -7,7 +7,7 @@
     <item
         android:id="@+id/navigation_orders"
         android:icon="@drawable/orders_icon"
-        android:title="Đơn hàng" />
+        android:title="Chuyến đi" />
     <item
         android:id="@+id/navigation_notification"
         android:icon="@drawable/notification"

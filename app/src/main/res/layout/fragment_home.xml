@@ -2,7 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F6F0F0">
+    android:background="#E9EAF1">
 
 
     <LinearLayout
@@ -11,20 +11,19 @@
         android:background="@drawable/wave_background"
         android:orientation="vertical">
 
-    <androidx.appcompat.widget.SearchView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:background="@drawable/radius10_border" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="30dp"
         android:background="@drawable/radius10_border"
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/lnHomeSelectDeparture"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -55,10 +54,12 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/tvHomeSelectDeparture"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Chọn điểm khởi hành"
                     android:padding="5dp"
+                    android:textColor="@color/black"
                     android:textSize="18dp" />
             </LinearLayout>
         </LinearLayout>
@@ -69,6 +70,7 @@
             android:background="#000000" />
 
         <LinearLayout
+            android:id="@+id/lnHomeSelectDestination"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
@@ -97,13 +99,15 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/tvHomeSelectDestination"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Chọn điểm đến"
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
                     android:paddingBottom="5dp"
-                    android:textSize="18dp" />
+                    android:textSize="18dp"
+                    android:textColor="@color/black"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -113,6 +117,7 @@
             android:background="#000000" />
 
         <LinearLayout
+            android:id="@+id/lnHomeSelectDepartureDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -140,24 +145,30 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/tvHomeSelectDepartureDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Chọn điểm khởi hành"
+                    android:hint="Chọn thời gian đi"
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
                     android:paddingBottom="5dp"
-                    android:textSize="18dp" />
+                    android:textSize="18dp"
+                    android:textColor="@color/black"/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnHomeSearch"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="50dp"
         android:layout_margin="10dp"
         android:backgroundTint="#00cba9"
+        android:textColor="@color/white"
+        android:textSize="18dp"
         android:text="Tìm chuyến"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:background="@drawable/radius10"/>
 
     <RelativeLayout
         android:layout_width="match_parent"

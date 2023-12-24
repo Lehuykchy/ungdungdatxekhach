@@ -61,19 +61,16 @@ class HomeRouteDefaultFragment : Fragment() {
         }
 
         scheduletList = ArrayList()
-        getTicketList()
-        vehicleList = ArrayList()
-        getVehicleList()
+        getScheduleList()
         binding.rcvScheduleUser.layoutManager = LinearLayoutManager(requireActivity())
         adapter = ItemRouteScheduleAdapter(
             scheduletList,
-            vehicleList,
             requireActivity(),
             object : ItemRouteScheduleAdapter.IClickListener {
                 override fun clickDelete(id: Int) {
                 }
 
-                override fun onClick(position: Int) {
+                override fun onClick(position: Int, route: Route) {
                     var schedule = scheduletList.get(position)
                     val bundle = bundleOf("route" to route, "schedule" to schedule, "phone" to phone)
                     val navController = activity?.findNavController(R.id.framelayout)
@@ -82,44 +79,28 @@ class HomeRouteDefaultFragment : Fragment() {
 
 
             },
-            route
         )
         binding.rcvScheduleUser.adapter = adapter
 
 
     }
 
-    private fun getVehicleList() {
-        db.collection("admins").document(route.idAdmin).collection("vehicles")
-            .get()
-            .addOnSuccessListener { result ->
-                for (document in result) {
-                    val vehicle = document.toObject<Vehicle>()
-                    if (vehicle != null) {
-                        vehicle.id = document.id
-                        vehicleList.add(vehicle)
-                    }
-                }
-            }
-            .addOnFailureListener { exception ->
-            }
-    }
-
-    private fun getTicketList() {
+    private fun getScheduleList() {
         scheduletList.clear()
         val dateString = binding.tvRouteDefaultDateUser.text.toString()
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         try {
             val parsedDate: Date = dateFormat.parse(dateString)
 
-            db.collection("admins").document(route.idAdmin).collection("tickets")
+            db.collection("routes").document(route.id).collection("schedules")
 //                .whereEqualTo("date", parsedDate)
                 .get()
                 .addOnSuccessListener { documents ->
                     for (document in documents) {
-                        val ticket = document.toObject<Schedule>()
-                        if (ticket != null) {
-                            adapter.addTicket(ticket)
+                        val schedule = document.toObject<Schedule>()
+                        if (schedule != null) {
+                            schedule.id = document.id
+                            adapter.addSchedule(schedule)
                         }
                     }
                 }
@@ -149,7 +130,7 @@ class HomeRouteDefaultFragment : Fragment() {
             DatePickerDialog(it, { _, year, month, dayOfMonth ->
                 val selectedDate = "$dayOfMonth/${month + 1}/$year"
                 binding.tvRouteDefaultDateUser.text = selectedDate
-                getTicketList()
+                getScheduleList()
             }, year, month, day)
         }
         datePickerDialog.datePicker.minDate = currentDate.timeInMillis

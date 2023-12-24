@@ -13,13 +13,20 @@
         <action
             android:id="@+id/action_navigation_home_to_homeRouteDefaultFragment"
             app:destination="@id/homeRouteDefaultFragment" />
+        <action
+            android:id="@+id/action_navigation_home_to_homeFragmentSearch"
+            app:destination="@id/homeFragmentSearch" />
     </fragment>
 
     <fragment
         android:id="@+id/navigation_orders"
         android:name="com.example.ungdungdatxekhach.user.fragment.OrdersFragment"
         tools:layout="@layout/fragment_orders"
-        android:label="Orders"/>
+        android:label="Orders">
+        <action
+            android:id="@+id/action_navigation_orders_to_ordersDefaultFragment"
+            app:destination="@id/ordersDefaultFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_notification"
@@ -67,5 +74,23 @@
     <fragment
         android:id="@+id/routeDefaultBuyTicketStep3"
         android:name="com.example.ungdungdatxekhach.user.fragment.RouteDefaultBuyTicketStep3"
-        android:label="RouteDefaultBuyTicketStep3" />
+        android:label="RouteDefaultBuyTicketStep3" >
+        <action
+            android:id="@+id/action_routeDefaultBuyTicketStep3_to_navigation_home"
+            app:destination="@id/navigation_home"
+            app:popUpTo="@+id/routeDefaultBuyTicketStep3"
+            app:popUpToInclusive="false"/>
+    </fragment>
+    <fragment
+        android:id="@+id/ordersDefaultFragment"
+        android:name="com.example.ungdungdatxekhach.user.fragment.OrdersDefaultFragment"
+        android:label="OrdersDefaultFragment" />
+    <fragment
+        android:id="@+id/homeFragmentSearch"
+        android:name="com.example.ungdungdatxekhach.user.fragment.HomeFragmentSearch"
+        android:label="HomeFragmentSearch" >
+        <action
+            android:id="@+id/action_homeFragmentSearch_to_routeDefaultBuyTicketStep1"
+            app:destination="@id/routeDefaultBuyTicketStep1" />
+    </fragment>
 </navigation>

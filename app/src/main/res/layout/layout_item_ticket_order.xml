@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="360dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/custom_ticket_order"
+    android:orientation="vertical"
+    android:layout_gravity="center_horizontal"
+    android:layout_marginBottom="10dp"
+    android:id="@+id/lnItemTicketOrder">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:gravity="center_vertical"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/tvItemTicketOrderTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="07:00"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            android:paddingLeft="20dp"/>
+
+        <TextView
+            android:id="@+id/tvItemTicketOrderStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Chờ Thanh toán"
+            android:textColor="@color/white"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/radius_5"
+            android:padding="3dp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:gravity="center_vertical"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            android:id="@+id/tvItemTicketOrderDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="21/12/2023"
+            android:textColor="@color/black"
+            android:textSize="16dp"
+            android:paddingLeft="20dp"/>
+
+        <TextView
+            android:id="@+id/tvItemTicketOrderCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="3423432-3243434"
+            android:textColor="@color/black"
+            android:textSize="16dp"
+            android:layout_alignParentRight="true"
+            android:paddingRight="20dp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:gravity="center_vertical"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            android:id="@+id/tvItemTicketOrderRoute"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:hint="My Dinh - Na Hang"
+            android:textColor="@color/black"
+            android:textSize="16dp"
+            android:paddingLeft="20dp"/>
+
+        <TextView
+            android:id="@+id/tvItemTicketOrderPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="200000 đ"
+            android:textColor="@color/black"
+            android:textSize="19dp"
+            android:textStyle="bold"
+            android:layout_alignParentRight="true"
+            android:paddingRight="20dp"/>
+    </RelativeLayout>
+</LinearLayout>

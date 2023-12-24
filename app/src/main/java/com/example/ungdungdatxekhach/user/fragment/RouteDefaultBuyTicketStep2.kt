@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.ungdungdatxekhach.R
@@ -75,12 +76,19 @@ class RouteDefaultBuyTicketStep2 : Fragment() {
                     ":" + schedule.dateRoute.pickedMinute.toString() +
                     " " + dateFormat.format(schedule.date)
         binding.tvBuyTicketStep2TotalMoney.text =
-            (ticket.count.toString().toInt() * route.price.toInt()).toString()
+            (ticket.count.toString().toInt() * route.price.toInt()).toString() + " đ"
 
         binding.btnBuyTicketStep2Confirm.setOnClickListener {
             if (ischeck()) {
+                ticket.email = binding.edtBuyTicketStep2Email.text.toString()
+                ticket.name = binding.edtBuyTicketStep2Name.text.toString()
+                ticket.phone = binding.edtBuyTicketStep2Phone.text.toString()
+                ticket.description = binding.edtBuyTicketStep2Description.text.toString()
+                ticket.adminId = route.idAdmin
+                ticket.routeId = route.id
+                val bundle = bundleOf("route" to route, "schedule" to schedule, "ticket" to ticket)
                 val navController = activity?.findNavController(R.id.framelayout)
-                navController?.navigate(R.id.action_routeDefaultBuyTicketStep2_to_routeDefaultBuyTicketStep3)
+                navController?.navigate(R.id.action_routeDefaultBuyTicketStep2_to_routeDefaultBuyTicketStep3, bundle)
             }
         }
         binding.imgBuyTicketStep2Back.setOnClickListener {

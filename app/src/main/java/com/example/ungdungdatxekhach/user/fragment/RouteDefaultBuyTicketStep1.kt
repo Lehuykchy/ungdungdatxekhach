@@ -65,10 +65,12 @@ class RouteDefaultBuyTicketStep1 : Fragment() {
                 val ticket = Ticket(
                     phone,
                     schedule.id,
+                    route.id,
                     binding.edtBuyTicketStep1Departure.text.toString(),
                     binding.edtBuyTicketStep1Destination.text.toString(),
                     binding.tvBuyTicketStep1CountTicket.text.toString().toInt(),
-                    Date()
+                    Date(),
+                    (binding.tvBuyTicketStep1CountTicket.text.toString().toInt() * route.price.toString().toInt()).toString(),
                 )
                 val bundle = bundleOf("route" to route, "schedule" to schedule, "ticket" to ticket)
                 val navController = activity?.findNavController(R.id.framelayout)
@@ -143,7 +145,7 @@ class RouteDefaultBuyTicketStep1 : Fragment() {
         binding.imgBuyTicketStep1AddTicket.setOnClickListener {
             val i: Int = binding.tvBuyTicketStep1CountTicket.text.toString().toInt() + 1
             binding.tvBuyTicketStep1CountTicket.setText(i.toString())
-            binding.tvBuyTicketStep1CountSeat.setText(i.toString())
+            binding.tvBuyTicketStep1CountSeat.setText(i.toString()+ " vé")
             binding.tvBuyTicketStep1TotalMoney.setText((i * route.price.toInt()).toString() + " đ")
         }
     }
