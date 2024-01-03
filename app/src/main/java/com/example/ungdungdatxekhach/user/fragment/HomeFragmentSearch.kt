@@ -66,6 +66,15 @@ class HomeFragmentSearch : Fragment() {
                 }
             })
         binding.rcvHomeSearch.adapter = adapter
-        Log.d("checklist", "onViewCreated: " + scheduletList)
+        binding.imgHomeSearchBack.setOnClickListener {
+            onClickSearchBack()
+        }
+    }
+
+    private fun onClickSearchBack() {
+        val navController = activity?.findNavController(R.id.framelayout)
+        navController?.popBackStack()
+        val bottomNavigationView = activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        bottomNavigationView?.visibility = View.VISIBLE
     }
 }

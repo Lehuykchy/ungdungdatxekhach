@@ -69,8 +69,8 @@ class RouteDefaultBuyTicketStep2 : Fragment() {
         val dateFormat = SimpleDateFormat("dd/MM/yyyy")
         binding.edtBuyTicketStep2Phone.setText(ticket.customerId)
         binding.tvBuyTicketStep2Route.text = route.departureLocation + " - " + route.destination
-        binding.tvBuyTicketStep2Departure.text = ticket.departure
-        binding.tvBuyTicketStep2Destination.text = ticket.destination
+        binding.tvBuyTicketStep2Departure.text = ticket.departure.other
+        binding.tvBuyTicketStep2Destination.text = ticket.destination.other
         binding.tvBuyTicketStep2CreateAt.text =
             schedule.dateRoute.pickedHour.toString() +
                     ":" + schedule.dateRoute.pickedMinute.toString() +

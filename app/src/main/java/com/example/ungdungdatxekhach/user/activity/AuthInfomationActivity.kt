@@ -106,7 +106,6 @@ class AuthInfomationActivity : AppCompatActivity() {
                     position: Int,
                     id: Long
                 ) {
-                    // Lấy danh sách huyện tương ứng với thành phố được chọn và hiển thị chúng
                     val districtNames = cityList[position].districts.map { it.name }
                     val districtAdapter = ArrayAdapter(
                         this@AuthInfomationActivity,
@@ -115,7 +114,6 @@ class AuthInfomationActivity : AppCompatActivity() {
                     )
                     districtAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                     binding.spinnerAuthInfoDistrict.adapter = districtAdapter
-
                     binding.spinnerAuthInfoDistrict.onItemSelectedListener =
                         object : AdapterView.OnItemSelectedListener {
                             override fun onItemSelected(
@@ -124,7 +122,6 @@ class AuthInfomationActivity : AppCompatActivity() {
                                 position1: Int,
                                 id: Long
                             ) {
-                                // Lấy danh sách xã tương ứng với huyện được chọn và hiển thị chúng
                                 val wardNames =
                                     cityList[position].districts[position1].wards.map { it.name }
                                 val wardAdapter = ArrayAdapter(
@@ -135,15 +132,12 @@ class AuthInfomationActivity : AppCompatActivity() {
                                 wardAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                                 binding.spinnerAuthInfoWard.adapter = wardAdapter
                             }
-
                             override fun onNothingSelected(parentView: AdapterView<*>?) {
-                                // Không cần xử lý khi không có huyện nào được chọn
                             }
                         }
                 }
 
                 override fun onNothingSelected(parentView: AdapterView<*>?) {
-                    // Không cần xử lý khi không có thành phố nào được chọn
                 }
             }
 

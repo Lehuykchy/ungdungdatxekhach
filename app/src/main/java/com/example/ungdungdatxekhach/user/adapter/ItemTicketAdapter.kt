@@ -10,6 +10,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ungdungdatxekhach.R
+import com.example.ungdungdatxekhach.admin.Constants
 import com.example.ungdungdatxekhach.admin.adapter.ItemVehiceManagerAdapter
 import com.example.ungdungdatxekhach.admin.model.Vehicle
 import com.example.ungdungdatxekhach.modelshare.Schedule
@@ -27,6 +28,7 @@ class ItemTicketAdapter : RecyclerView.Adapter<ItemTicketAdapter.ItemViewHolder>
     interface IClickListener {
         fun clickDelete(position: Int)
         fun clickNext(ticket: Ticket, schedule: Schedule)
+        fun clickNextOrder(ticket: Ticket)
     }
 
     private lateinit var iClickListener: IClickListener
@@ -77,38 +79,73 @@ class ItemTicketAdapter : RecyclerView.Adapter<ItemTicketAdapter.ItemViewHolder>
             return
         }
         val dateFormat = SimpleDateFormat("dd/MM/yyyy")
-        if (ticket.statusPay) {
-            holder.tvItemTicketOrderStatus.text = "Đã thanh toán"
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                holder.tvItemTicketOrderStatus.backgroundTintList= android.content.res.ColorStateList.valueOf(
-                    Color.parseColor("#4BFA07"))
+        if (!ticket.adminId.isEmpty() && (ticket.status.equals(Constants.STATUS_PAID) || ticket.status.equals(
+                Constants.STATUS_WAIT_PAID
+            ))
+        ) {
+
+            if (ticket.status.equals(Constants.STATUS_PAID)) {
+                holder.tvItemTicketOrderStatus.text = "Đã thanh toán"
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    holder.tvItemTicketOrderStatus.backgroundTintList =
+                        android.content.res.ColorStateList.valueOf(
+                            Color.parseColor("#4BFA07")
+                        )
+                }
+            } else if (ticket.status.equals(Constants.STATUS_WAIT_PAID)) {
+                holder.tvItemTicketOrderStatus.text = "Chờ thanh toán"
             }
-        }else{
-            holder.tvItemTicketOrderStatus.text = "Chờ thanh toán"
-        }
-        holder.tvItemTicketOrderPrice.text = ticket.totalPrice + " đ"
+            holder.tvItemTicketOrderPrice.text = ticket.totalPrice + " đ"
 
 
-        var schedule = Schedule()
-        db.collection("routes").document(ticket.routeId).collection("schedules").document(ticket.scheduleId)
-            .get()
-            .addOnSuccessListener { document ->
-                if(document != null){
-                    schedule = document.toObject<Schedule>()!!
-                    if (schedule != null) {
-                        holder.tvItemTicketOrderTime.text = schedule.dateRoute.pickedHour.toString() +
-                                ":" +schedule.dateRoute.pickedMinute.toString()
-                        holder.tvItemTicketOrderDate.text = dateFormat.format(schedule.date)
-                        holder.tvItemTicketOrderRoute.text = schedule.departureLocation.toString() + " - " + schedule.destinationLocation.toString()
+            var schedule = Schedule()
+            db.collection("routes").document(ticket.routeId).collection("schedules")
+                .document(ticket.scheduleId)
+                .get()
+                .addOnSuccessListener { document ->
+                    if (document != null) {
+                        schedule = document.toObject<Schedule>()!!
+                        if (schedule != null) {
+                            holder.tvItemTicketOrderTime.text =
+                                schedule.dateRoute.pickedHour.toString() +
+                                        ":" + schedule.dateRoute.pickedMinute.toString()
+                            holder.tvItemTicketOrderDate.text = dateFormat.format(schedule.date)
+                            holder.tvItemTicketOrderRoute.text =
+                                schedule.departureLocation.toString() + " - " + schedule.destinationLocation.toString()
 
-                        holder.lnItemTicketOrder.setOnClickListener {
-                            iClickListener.clickNext(ticket, schedule)
+                            holder.lnItemTicketOrder.setOnClickListener {
+                                iClickListener.clickNext(ticket, schedule)
+                            }
                         }
                     }
                 }
+                .addOnFailureListener { exception ->
+                }
+        } else
+            if (ticket.status.equals(Constants.STATUS_SEARCH_ADMIN)) {
+                holder.tvItemTicketOrderStatus.text = "Đang tìm nhà xe"
+            } else if (ticket.status.equals(Constants.STATUS_WAIT_CUSTOMER)) {
+                holder.tvItemTicketOrderStatus.text = "Đã tìm thấy nhà xe"
+            }else if(ticket.status.equals(Constants.STATUS_DESTROY)){
+                holder.tvItemTicketOrderStatus.text = "Đã hủy chuyến"
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    holder.tvItemTicketOrderStatus.backgroundTintList =
+                        android.content.res.ColorStateList.valueOf(
+                            Color.parseColor("#111111")
+                        )
+                }
+
             }
-            .addOnFailureListener { exception ->
+            holder.tvItemTicketOrderRoute.text = "test"
+            holder.tvItemTicketOrderPrice.text = "0 đ"
+            holder.tvItemTicketOrderTime.text =
+                ticket.timeRoute.pickedHour.toString() +
+                        ":" + ticket.timeRoute.pickedMinute.toString()
+            holder.tvItemTicketOrderDate.text = dateFormat.format(ticket.dateDeparture)
+            holder.lnItemTicketOrder.setOnClickListener {
+                iClickListener.clickNextOrder(ticket)
             }
+
 
 
     }

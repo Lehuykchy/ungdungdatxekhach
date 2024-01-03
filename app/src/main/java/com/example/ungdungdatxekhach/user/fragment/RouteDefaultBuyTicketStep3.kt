@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import com.example.ungdungdatxekhach.R
+import com.example.ungdungdatxekhach.admin.Constants
 import com.example.ungdungdatxekhach.databinding.FragmentRouteDefaultBuyticketStep3Binding
 import com.example.ungdungdatxekhach.modelshare.Route
 import com.example.ungdungdatxekhach.modelshare.Schedule
@@ -55,8 +56,8 @@ class RouteDefaultBuyTicketStep3 : Fragment() {
                 (ticket.count * route.price.toString().toInt()).toString() + " đ"
             binding.tvBuyTicketStep3DepartureLocation.text = route.departureLocation
             binding.tvBuyTicketStep3DestinationLocation.text = route.destination
-            binding.tvBuyTicketStep3DepartureMyLocation.text = ticket.departure
-            binding.tvBuyTicketStep3DestinationMyLocation.text = ticket.destination
+            binding.tvBuyTicketStep3DepartureMyLocation.text = ticket.departure.other
+            binding.tvBuyTicketStep3DestinationMyLocation.text = ticket.destination.other
             binding.tvBuyTicketStep3Name.text = ticket.name
             binding.tvBuyTicketStep3Email.text = ticket.email
             binding.tvBuyTicketStep3Phone.text = ticket.phone
@@ -95,6 +96,7 @@ class RouteDefaultBuyTicketStep3 : Fragment() {
 
         val i = requireActivity().intent
         val phone = i.getStringExtra("phone").toString()
+        ticket.status = Constants.STATUS_WAIT_PAID
         db.collection("users").document(phone).collection("tickets")
             .add(ticket)
             .addOnSuccessListener { document ->

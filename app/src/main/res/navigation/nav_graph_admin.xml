@@ -8,7 +8,11 @@
     <fragment
         android:id="@+id/navigation_home_admin"
         android:name="com.example.ungdungdatxekhach.admin.fragment.AdminHomeFragment"
-        tools:layout="@layout/admin_fragment_home" />
+        tools:layout="@layout/admin_fragment_home" >
+        <action
+            android:id="@+id/action_navigation_home_admin_to_adminHomeOrderDefaultFragment"
+            app:destination="@id/adminHomeOrderDefaultFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_profile_admin"
@@ -17,6 +21,9 @@
         <action
             android:id="@+id/action_navigation_profile_admin_to_adminProfileVehiceManagerFragment"
             app:destination="@id/adminProfileVehiceManagerFragment" />
+        <action
+            android:id="@+id/action_navigation_profile_admin_to_adminProfileEditFragment"
+            app:destination="@id/adminProfileEditFragment" />
     </fragment>
 
     <fragment
@@ -42,4 +49,12 @@
         android:id="@+id/adminProfileVehiceManagerFragment"
         android:name="com.example.ungdungdatxekhach.admin.fragment.AdminProfileVehiceManagerFragment"
         android:label="AdminProfileVehiceManagerFragment" />
+    <fragment
+        android:id="@+id/adminHomeOrderDefaultFragment"
+        android:name="com.example.ungdungdatxekhach.admin.fragment.AdminHomeOrderDefaultFragment"
+        android:label="AdminHomeOrderDefaultFragment" />
+    <fragment
+        android:id="@+id/adminProfileEditFragment"
+        android:name="com.example.ungdungdatxekhach.admin.fragment.AdminProfileEditFragment"
+        android:label="AdminProfileEditFragment" />
 </navigation>

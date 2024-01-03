@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_navigation_home_to_homeFragmentSearch"
             app:destination="@id/homeFragmentSearch" />
+        <action
+            android:id="@+id/action_navigation_home_to_homeOrderFragment"
+            app:destination="@id/homeOrderFragment" />
     </fragment>
 
     <fragment
@@ -26,6 +29,9 @@
         <action
             android:id="@+id/action_navigation_orders_to_ordersDefaultFragment"
             app:destination="@id/ordersDefaultFragment" />
+        <action
+            android:id="@+id/action_navigation_orders_to_homeOrderFragment"
+            app:destination="@id/homeOrderFragment" />
     </fragment>
 
     <fragment
@@ -92,5 +98,24 @@
         <action
             android:id="@+id/action_homeFragmentSearch_to_routeDefaultBuyTicketStep1"
             app:destination="@id/routeDefaultBuyTicketStep1" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeOrderFragment"
+        android:name="com.example.ungdungdatxekhach.user.fragment.HomeOrderFragment"
+        android:label="HomeOrderFragment" >
+        <action
+            android:id="@+id/action_homeOrderFragment_to_ordersDefaultFragment"
+            app:destination="@id/ordersDefaultFragment" />
+        <action
+            android:id="@+id/action_homeOrderFragment_to_homeOrderDefaultAdminFragment"
+            app:destination="@id/homeOrderDefaultAdminFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeOrderDefaultAdminFragment"
+        android:name="com.example.ungdungdatxekhach.user.fragment.HomeOrderDefaultAdminFragment"
+        android:label="HomeOrderDefaultAdminFragment" >
+        <action
+            android:id="@+id/action_homeOrderDefaultAdminFragment_to_homeRouteDefaultFragment"
+            app:destination="@id/homeRouteDefaultFragment" />
     </fragment>
 </navigation>

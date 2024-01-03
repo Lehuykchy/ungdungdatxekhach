@@ -16,6 +16,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.ungdungdatxekhach.R
+import com.example.ungdungdatxekhach.admin.Constants
 import com.example.ungdungdatxekhach.admin.model.Vehicle
 import com.example.ungdungdatxekhach.databinding.FragmentOrderDefaultBinding
 import com.example.ungdungdatxekhach.modelshare.Route
@@ -55,20 +56,20 @@ class OrdersDefaultFragment : Fragment() {
         ticket = receivedBundle.getSerializable("ticket") as Ticket
         Log.d("checkdb", "clickNext: " + ticket + " " + schedule)
 
-        if(ticket.statusPay){
+        if(ticket.status.equals(Constants.STATUS_PAID)){
             binding.btnOrderDefaultConfirm.visibility = View.GONE
         }
 
         val dateFormat = SimpleDateFormat("dd/MM/yyyy")
         binding.tvOrderDefaultDepartureDate.text = schedule.dateRoute.pickedHour.toString() + ":" +
-                schedule.dateRoute.pickedMinute.toString() + dateFormat.format(schedule.date)
+                schedule.dateRoute.pickedMinute.toString() +" | "+ dateFormat.format(schedule.date)
             .toString()
         binding.tvOrderDefaultTotalMoney.text =
             ticket.totalPrice.toString() + " đ"
         binding.tvOrderDefaultDepartureLocation.text = schedule.departureLocation
         binding.tvOrderDefaultDestinationLocation.text = schedule.destinationLocation
-        binding.tvOrderDefaultDepartureMyLocation.text = ticket.departure
-        binding.tvOrderDefaultDestinationMyLocation.text = ticket.destination
+        binding.tvOrderDefaultDepartureMyLocation.text = ticket.departure.other
+        binding.tvOrderDefaultDestinationMyLocation.text = ticket.destination.other
         binding.tvOrderDefaultName.text = ticket.name
         binding.tvOrderDefaultEmail.text = ticket.email
         binding.tvOrderDefaultPhone.text = ticket.phone
@@ -109,7 +110,7 @@ class OrdersDefaultFragment : Fragment() {
             val intent = requireActivity().intent
             if (intent.getStringExtra("phone") != null) {
                 db.collection("users").document(intent.getStringExtra("phone").toString()).collection("tickets").document(ticket.id)
-                    .update("statusPay", true)
+                    .update("status", Constants.STATUS_PAID)
                     .addOnSuccessListener { document ->
                         Toast.makeText(requireActivity(), "Quý khách dã thanh toán thành công!", Toast.LENGTH_SHORT).show()
                         binding.btnOrderDefaultConfirm.visibility= View.GONE

@@ -1,7 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rltAdminProfile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#56F3D8"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:cardCornerRadius="15dp"
+            android:backgroundTint="@color/white"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/baseline_mode_edit_24"
+                android:padding="2dp"/>
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardviewProfile"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignParentTop="true"
+            android:backgroundTint="#FBC7C7"
+            app:cardCornerRadius="50dp"
+            android:layout_centerHorizontal="true">
+
+            <ImageView
+                android:id="@+id/imgProfile"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:elevation="4dp"
+                android:src="@drawable/profile"
+                android:scaleType="centerCrop"/>
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/tvAdminProfileName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nhà xe Lê Huy"
+            android:textColor="@color/black"
+            android:textSize="24dp"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/cardviewProfile"
+            android:layout_centerHorizontal="true"/>
+
+        <TextView
+            android:id="@+id/tvAdminProfilePhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0966554xxx"
+            android:textSize="20dp"
+            android:textColor="@color/black"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/tvAdminProfileName"/>
+
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/rltAdminProfileBusManager"
@@ -22,6 +89,35 @@
             android:layout_height="32dp"
             android:layout_marginLeft="50dp"
             android:text="Quản lý xe"
+            android:textSize="20dp"
+            android:textColor="#555555"/>
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="32dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/baseline_arrow_forward_ios_24" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rltAdminProfileLogout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/logout" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_marginLeft="50dp"
+            android:text="Đăng xuất"
             android:textSize="20dp"
             android:textColor="#555555"/>
 

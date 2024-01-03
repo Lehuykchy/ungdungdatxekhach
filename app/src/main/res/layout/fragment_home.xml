@@ -12,6 +12,7 @@
         android:orientation="vertical">
 
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -158,17 +159,40 @@
         </LinearLayout>
     </LinearLayout>
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnHomeSearch"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_margin="10dp"
-        android:backgroundTint="#00cba9"
-        android:textColor="@color/white"
-        android:textSize="18dp"
-        android:text="Tìm chuyến"
-        android:textStyle="bold"
-        android:background="@drawable/radius10"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnHomeSearch"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                android:backgroundTint="#00cba9"
+                android:textColor="@color/white"
+                android:textSize="18dp"
+                android:text="Tìm chuyến"
+                android:textStyle="bold"
+                android:background="@drawable/radius10"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnHomeCreate"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                android:backgroundTint="#00cba9"
+                android:textColor="@color/white"
+                android:textSize="18dp"
+                android:text="Đặt chuyến đi"
+                android:textStyle="bold"
+                android:background="@drawable/radius10"/>
+        </LinearLayout>
+
+
+
+
 
     <RelativeLayout
         android:layout_width="match_parent"

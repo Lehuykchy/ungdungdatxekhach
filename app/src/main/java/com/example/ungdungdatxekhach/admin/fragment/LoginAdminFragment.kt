@@ -11,7 +11,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.example.ungdungdatxekhach.admin.activity.AdminInfomationActivity
 import com.example.ungdungdatxekhach.admin.activity.MainActivity
+import com.example.ungdungdatxekhach.admin.model.Admin
 import com.example.ungdungdatxekhach.databinding.FragmentLoginAdminBinding
 import com.example.ungdungdatxekhach.databinding.FragmentLoginUserBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -44,10 +46,34 @@ class LoginAdminFragment : Fragment() {
             auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(requireActivity()) { task ->
                     if (task.isSuccessful) {
-                        requireActivity().startActivity(Intent(requireActivity(), MainActivity::class.java))
+                        db.collection("admins").document(auth.currentUser?.uid ?: "")
+                            .get()
+                            .addOnSuccessListener { document ->
+                                if (!document.exists()) {
+                                    requireActivity().startActivity(
+                                        Intent(
+                                            requireActivity(),
+                                            AdminInfomationActivity::class.java
+                                        )
+                                    )
+                                } else {
+                                    requireActivity().startActivity(
+                                        Intent(
+                                            requireActivity(),
+                                            MainActivity::class.java
+                                        )
+                                    )
+                                }
+
+                            }
+
                     } else {
                         Log.w("login", "createUserWithEmail:failure", task.exception)
-                        Toast.makeText(requireContext(), "Không đăng nhập thành công", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            requireContext(),
+                            "Không đăng nhập thành công",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
 

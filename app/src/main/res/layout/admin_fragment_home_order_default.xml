@@ -12,7 +12,7 @@
         android:gravity="center_vertical">
 
         <ImageView
-            android:id="@+id/imgOrderDefaultBack"
+            android:id="@+id/imgAdminHomeOrderDefaultBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -30,7 +30,7 @@
             android:layout_centerHorizontal="true"
             android:gravity="center_vertical"
             android:minHeight="48dp"
-            android:text="Chi tiết vé"
+            android:text="Thông tin vé"
             android:textColor="@color/white"
             android:textSize="20dp"
             android:textStyle="bold" />
@@ -40,19 +40,21 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#E9EAF1"
-        android:paddingTop="20dp"
         android:layout_above="@id/rltFootter"
         android:layout_below="@id/rltHeader">
         <LinearLayout
-            android:layout_width="350dp"
-            android:layout_height="500dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
-            android:background="@drawable/custom_ticket_order_default"
+            android:background="@drawable/radius10"
+            android:layout_margin="15dp"
             android:orientation="vertical">
+            
+            
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="110dp"
+                android:layout_height="115dp"
                 android:orientation="horizontal"
                 android:paddingLeft="10dp"
                 android:paddingTop="10dp"
@@ -85,7 +87,7 @@
                             android:textSize="15dp" />
 
                         <TextView
-                            android:id="@+id/tvOrderDefaultCodeTicket"
+                            android:id="@+id/tvAdminHomeAdminHomeOrderDefaultTicket"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -106,15 +108,15 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center_vertical"
-                            android:text="Khởi hành"
+                            android:text="Ngày khởi hành"
                             android:textColor="@color/black"
                             android:textSize="15dp" />
 
                         <TextView
-                            android:id="@+id/tvOrderDefaultDepartureDate"
+                            android:id="@+id/tvAdminHomeOrderDefaultDepartureDate"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="2"
+                            android:layout_weight="1"
                             android:gravity="right|center_vertical"
                             android:hint="aa/bb/cccc"
                             android:textColor="@color/black"
@@ -125,251 +127,32 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Chờ thanh toán"
+                        android:text="Chờ xác nhận"
                         android:textColor="#8A7D04"
                         android:textSize="16dp"
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/tvOrderDefaultTotalMoney"
+                        android:id="@+id/tvAdminHomeOrderDefaultTotalMoney"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="120000đ"
+                        android:text="120000 đ"
                         android:textColor="@color/black"
                         android:textSize="18dp" />
 
                 </LinearLayout>
             </LinearLayout>
-
-            <TableLayout
-                android:layout_width="match_parent"
-                android:layout_height="140dp"
-                android:layout_marginTop="10dp"
-                android:padding="10dp"
-                android:stretchColumns="*">
-
-                <TableRow>
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="left|center_vertical"
-                        android:text="Điểm khởi hành"
-                        android:textSize="15dp" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="left|center_vertical"
-                        android:text="Điểm đến"
-                        android:textSize="15dp" />
-
-                </TableRow>
-
-                <TableRow>
-
-                    <TextView
-                        android:id="@+id/tvOrderDefaultDepartureLocation"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="left|center_vertical"
-                        android:text="Thành phố Tuyên Quang "
-                        android:textColor="@color/black"
-                        android:paddingRight="10dp"
-                        android:textSize="16dp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tvOrderDefaultDestinationLocation"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="left|center_vertical"
-                        android:text="Bến xe Mỹ Đình"
-                        android:textColor="@color/black"
-                        android:textSize="16dp"
-                        android:textStyle="bold" />
-                </TableRow>
-
-                <TableRow>
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="left|center_vertical"
-                        android:text="Địa chỉ"
-                        android:textSize="15dp" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="left|center_vertical"
-                        android:text="Địa chỉ"
-                        android:textSize="15dp" />
-
-                </TableRow>
-
-                <TableRow>
-
-                    <TextView
-                        android:id="@+id/tvOrderDefaultDepartureMyLocation"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="left|center_vertical"
-                        android:paddingRight="10dp"
-                        android:text="Thành phố Tuyên Quang "
-                        android:textColor="@color/black"
-                        android:textSize="16dp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tvOrderDefaultDestinationMyLocation"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="left|center_vertical"
-                        android:text="Bến xe Mỹ Đình"
-                        android:textColor="@color/black"
-                        android:textSize="16dp"
-                        android:textStyle="bold" />
-                </TableRow>
-
-            </TableLayout>
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.7dp"
                 android:layout_margin="10dp"
                 android:background="#a5a5a5" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
                 android:orientation="horizontal"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:gravity="center_vertical">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="Họ và tên"
-                    android:textColor="@color/black"
-                    android:textSize="15dp" />
-
-                <TextView
-                    android:id="@+id/tvOrderDefaultName"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="right|center_vertical"
-                    android:hint="Lê Văn A"
-                    android:textColor="@color/black"
-                    android:textSize="15dp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="25dp"
-                android:orientation="horizontal"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:gravity="center_vertical">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="Số điện thoại"
-                    android:textColor="@color/black"
-                    android:textSize="15dp" />
-
-                <TextView
-                    android:id="@+id/tvOrderDefaultPhone"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="right|center_vertical"
-                    android:hint="0966554xxx"
-                    android:textColor="@color/black"
-                    android:textSize="15dp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="25dp"
-                android:orientation="horizontal"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:gravity="center_vertical">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="Email"
-                    android:textColor="@color/black"
-                    android:textSize="15dp" />
-
-                <TextView
-                    android:id="@+id/tvOrderDefaultEmail"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="right|center_vertical"
-                    android:hint="user@gmail.com"
-                    android:textColor="@color/black"
-                    android:textSize="15dp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="25dp"
-                android:orientation="horizontal"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:gravity="center_vertical">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="Số vé"
-                    android:textColor="@color/black"
-                    android:textSize="15dp" />
-
-                <TextView
-                    android:id="@+id/tvOrderDefaultMountTicket"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="right|center_vertical"
-                    android:hint="1 vé"
-                    android:textColor="@color/black"
-                    android:textSize="15dp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="25dp"
-                android:orientation="horizontal"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:layout_marginTop="25dp"
                 android:gravity="center_vertical">
 
                 <TextView
@@ -382,15 +165,17 @@
                     android:textSize="15dp" />
 
                 <TextView
+                    android:id="@+id/tvAdminHomeOrderDefaultName"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="right|center_vertical"
-                    android:hint="Nhà xe Lê Huy"
+                    android:hint="Lê Huy"
                     android:textColor="@color/black"
                     android:textSize="15dp"
                     android:textStyle="bold" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
@@ -409,7 +194,7 @@
                     android:textSize="15dp" />
 
                 <TextView
-                    android:id="@+id/tvOrderDefaultLicencePlate"
+                    android:id="@+id/tvAdminHomeOrderDefaultLicencePlate"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -438,7 +223,7 @@
                     android:textSize="15dp" />
 
                 <TextView
-                    android:id="@+id/tvOrderDefaultTypeVehicle"
+                    android:id="@+id/tvAdminHomeOrderDefaultTypeVehicle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -449,8 +234,232 @@
                     android:textStyle="bold" />
             </LinearLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.7dp"
+                android:layout_margin="10dp"
+                android:background="#a5a5a5" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:orientation="horizontal"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:gravity="center_vertical">
 
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="Khách hàng"
+                    android:textColor="@color/black"
+                    android:textSize="15dp" />
 
+                <TextView
+                    android:id="@+id/tvAdminHomeOrderDefaultCustomer"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right|center_vertical"
+                    android:hint="Lê Văn A"
+                    android:textColor="@color/black"
+                    android:textSize="15dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+            
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:orientation="horizontal"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="Số điện thoại"
+                    android:textColor="@color/black"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/tvAdminHomeOrderDefaultPhoneCustomer"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right|center_vertical"
+                    android:hint="0966554xxx"
+                    android:textColor="@color/black"
+                    android:textSize="15dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:orientation="horizontal"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="Email"
+                    android:textColor="@color/black"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/tvAdminHomeOrderDefaultEmailCustomer"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right|center_vertical"
+                    android:hint="user@gmail.com"
+                    android:textColor="@color/black"
+                    android:textSize="15dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:orientation="horizontal"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="Số vé"
+                    android:textColor="@color/black"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/tvAdminHomeOrderDefaultMountTicket"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right|center_vertical"
+                    android:hint="1 vé"
+                    android:textColor="@color/black"
+                    android:textSize="15dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.7dp"
+                android:layout_margin="10dp"
+                android:background="#a5a5a5" />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:stretchColumns="*">
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="left|center_vertical"
+                        android:text="Điểm khởi hành"
+                        android:textSize="15dp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="left|center_vertical"
+                        android:text="Điểm đến"
+                        android:textSize="15dp" />
+
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:id="@+id/tvAdminHomeOrderDefaultDepartureLocation"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="left|center_vertical"
+                        android:text="Thành phố Tuyên Quang "
+                        android:textColor="@color/black"
+                        android:paddingRight="10dp"
+                        android:textSize="16dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvAdminHomeOrderDefaultDestinationLocation"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="left|center_vertical"
+                        android:text="Bến xe Mỹ Đình"
+                        android:textColor="@color/black"
+                        android:textSize="16dp"
+                        android:textStyle="bold" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="left|center_vertical"
+                        android:text="Địa chỉ"
+                        android:textSize="15dp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="left|center_vertical"
+                        android:text="Địa chỉ"
+                        android:textSize="15dp" />
+
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:id="@+id/tvAdminHomeOrderDefaultDepartureCustomerLocation"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="left|center_vertical"
+                        android:paddingRight="10dp"
+                        android:text="Thành phố Tuyên Quang "
+                        android:textColor="@color/black"
+                        android:textSize="16dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvAdminHomeOrderDefaultDestinationCustomerLocation"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="left|center_vertical"
+                        android:text="Bến xe Mỹ Đình"
+                        android:textColor="@color/black"
+                        android:textSize="16dp"
+                        android:textStyle="bold" />
+                </TableRow>
+
+            </TableLayout>
         </LinearLayout>
     </ScrollView>
 
@@ -461,7 +470,7 @@
         android:layout_alignParentBottom="true"
         android:padding="10dp">
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnOrderDefaultConfirm"
+            android:id="@+id/btnAdminHomeOrderDefaultConfirm"
             android:layout_width="150dp"
             android:layout_height="47dp"
             android:background="@drawable/radius10"

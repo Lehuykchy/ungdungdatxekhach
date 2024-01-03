@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:background="#E9EAF1">
     <RelativeLayout
-        android:id="@+id/lnProfileEditBack"
+        android:id="@+id/lnAdminProfileEditBack"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_alignParentTop="true"
@@ -81,18 +81,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Họ và tên"
+                android:text="Tên nhà xe"
                 android:textColor="@color/black"
                 android:textSize="17dp"
                 android:paddingLeft="5dp"
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/edtProfileEditName"
+                android:id="@+id/edtAdminProfileEditName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="48dp"
-                android:hint="Họ và tên"
+                android:hint="Tên nhà xe"
                 android:textSize="17dp"
                 android:textColor="@color/black"/>
 
@@ -107,7 +107,7 @@
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/edtProfileEditEmail"
+                android:id="@+id/edtAdminProfileEditEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="48dp"
@@ -127,7 +127,7 @@
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/edtProfileEditPhone"
+                android:id="@+id/edtAdminProfileEditPhone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="48dp"
@@ -141,34 +141,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Ngày sinh"
-                android:textColor="@color/black"
-                android:textSize="17dp"
-                android:paddingLeft="5dp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tvProfileEditDate"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:hint="Ngày sinh"
-                android:textSize="17dp"
-                android:textColor="@color/black"
-                android:gravity="bottom"
-                android:paddingBottom="5dp"
-                android:paddingLeft="5dp"
-                android:maxLines="1"/>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/black"
-                android:paddingLeft="10dp"
-                android:layout_marginBottom="5dp"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:text="Địa chỉ"
                 android:textColor="@color/black"
                 android:textSize="17dp"
@@ -176,7 +148,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/tvProfileEditLocation"
+                android:id="@+id/tvAdminProfileEditLocation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="48dp"
@@ -186,6 +158,33 @@
                 android:textColor="@color/black"
                 android:gravity="center_vertical"
                 android:paddingLeft="7dp"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginBottom="5dp"
+                android:background="@color/black" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Thông tin nhà xe"
+                android:textColor="@color/black"
+                android:textSize="17dp"
+                android:paddingLeft="5dp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/edtAdminProfileEditDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:hint="Miêu tả"
+                android:enabled="true"
+                android:textSize="17dp"
+                android:textColor="@color/black"/>
+
 
             <Button
                 android:id="@+id/btnUpdate"

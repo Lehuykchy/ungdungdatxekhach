@@ -59,6 +59,19 @@ class OrdersFragment : Fragment() {
                     bundle
                 )
             }
+
+            override fun clickNextOrder(ticket: Ticket) {
+                val bundle = bundleOf(
+                    "ticket" to ticket
+                )
+                val navController = activity?.findNavController(R.id.framelayout)
+                val bottomNavigationView =
+                    activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+                bottomNavigationView?.visibility = View.GONE
+                navController?.navigate(
+                    R.id.action_navigation_orders_to_homeOrderFragment, bundle
+                )
+            }
         })
         binding.rcvOrders.adapter = adapter
     }

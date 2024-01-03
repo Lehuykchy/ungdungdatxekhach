@@ -84,7 +84,6 @@
             android:id="@+id/tvItemTicketOrderPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="200000 đ"
             android:textColor="@color/black"
             android:textSize="19dp"
             android:textStyle="bold"

@@ -26,6 +26,7 @@
         <activity android:name=".user.activity.MainActivity"/>
         <activity android:name=".user.activity.PasswordActivity"/>
         <activity android:name=".admin.activity.MainActivity"/>
+        <activity android:name=".admin.activity.AdminInfomationActivity"/>
     </application>
 
 </manifest>

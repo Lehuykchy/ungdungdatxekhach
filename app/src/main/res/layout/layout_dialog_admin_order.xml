@@ -11,13 +11,13 @@
         android:layout_marginTop="20dp"
         android:gravity="center_vertical"
         android:paddingLeft="5dp"
-        android:text="Tỉnh/Thành phố"
+        android:text="Tuyến xe"
         android:textColor="@color/black"
         android:textSize="17dp"
         android:textStyle="bold" />
 
     <Spinner
-        android:id="@+id/spinnerDialogCity"
+        android:id="@+id/spinnerDialogAdminOrderRoute"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:elevation="5dp"
@@ -37,13 +37,13 @@
         android:layout_marginTop="10dp"
         android:gravity="center_vertical"
         android:paddingLeft="5dp"
-        android:text="Quận/Huyện"
+        android:text="Vé xe"
         android:textColor="@color/black"
         android:textSize="17dp"
         android:textStyle="bold" />
 
     <Spinner
-        android:id="@+id/spinnerDialogDistrict"
+        android:id="@+id/spinnerDialogAdminOrderSchedule"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:elevation="5dp"
@@ -55,66 +55,20 @@
         android:layout_marginLeft="3dp"
         android:layout_marginBottom="5dp"
         android:background="@color/black" />
-
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:paddingLeft="5dp"
-        android:text="Phường/Xã"
-        android:layout_marginTop="10dp"
-        android:textColor="@color/black"
-        android:textSize="17dp"
-        android:textStyle="bold" />
-
-    <Spinner
-        android:id="@+id/spinnerDialogWard"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:elevation="5dp"
-        android:padding="5dp"/>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="3dp"
-        android:layout_marginBottom="5dp"
-        android:background="@color/black" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:paddingLeft="5dp"
-        android:text="Khác"
-        android:layout_marginTop="10dp"
-        android:textColor="@color/black"
-        android:textSize="17dp"
-        android:textStyle="bold" />
-
-    <EditText
-        android:id="@+id/edtDialogOther"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="48dp"
-        android:hint="Nhập địa điểm khác"
-        android:paddingLeft="5dp"/>
-
 
     <Button
-        android:id="@+id/btnDialogSave"
+        android:id="@+id/btnDialogAdminOrderConfirm"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginTop="20dp"
         android:backgroundTint="#00cba9"
-        android:text="Thêm"
+        android:text="Xác nhận"
         android:textColor="@color/white"
         android:textSize="18dp"
         android:textStyle="bold"/>
 
     <Button
-        android:id="@+id/btnDialogCancel"
+        android:id="@+id/btnDialogAdminOrderCancel"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginTop="20dp"

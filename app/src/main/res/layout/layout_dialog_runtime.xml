@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/radius10_border"
+    android:orientation="vertical"
+    android:layout_margin="20dp">
+
+    <LinearLayout
+        android:id="@+id/lnDialogRuntimeTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingBottom="5dp"
+            android:text="Chọn Thời gian"
+            android:textSize="20dp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:background="@drawable/radius10_boder_top"/>
+
+        <TimePicker
+            android:id="@+id/timePickerDialogRuntime"
+            android:layout_width="wrap_content"
+            android:layout_height="170dp"
+            android:layout_gravity="center"
+            android:timePickerMode="spinner" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:text="Số lượng vé đặt"
+                android:textSize="17dp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/imgDialogRuntimeTimeMinusTicket"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                app:srcCompat="@drawable/baseline_horizontal_rule_24"
+                app:tint="#00cba9"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"/>
+
+            <TextView
+                android:id="@+id/tvDialogRuntimeTimeCountTicket"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="40dp"
+                android:background="@drawable/radius10"
+                android:gravity="center"
+                android:inputType="number"
+                android:minWidth="40dp"
+                android:maxLength="2"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:textSize="17dp"
+                android:text="0" />
+
+            <ImageView
+                android:id="@+id/imgDialogRuntimeTimeAddTicket"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                app:srcCompat="@drawable/baseline_add_24"
+                app:tint="#00cba9"
+                android:paddingLeft="10dp"/>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#000000" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tvDialogRuntimeTimeDestroy"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Hủy"
+                android:gravity="center"
+                android:textSize="20dp"
+                android:textColor="#F80707" />
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#000000" />
+            <TextView
+                android:id="@+id/tvDialogRuntimeTimeContinue"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Tiếp tục"
+                android:gravity="center"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:textColor="#00cba9" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lnDialogRuntimeConfirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tvDialogRuntimeConfirmText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="50dp"
+            android:textColor="@color/white"
+            android:text="Vui lòng xác nhận trong khoảng \nthời gian 15 s"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:padding="10dp"
+            android:background="@drawable/radius10_boder_top"/>
+
+        <LinearLayout
+            android:id="@+id/lnHomeSelectDeparture"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/baseline_my_location_24" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:paddingBottom="5dp"
+                    android:text="Điểm khởi hành"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvDialogRuntimeConfirmDeparture"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Chọn điểm khởi hành"
+                    android:padding="5dp"
+                    android:textColor="@color/black"
+                    android:textSize="18dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/baseline_location_on_24" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="Điểm đến"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvDialogRuntimeConfirmDestination"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Chọn điểm đến"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:paddingBottom="5dp"
+                    android:textColor="@color/black"
+                    android:textSize="18dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/clock" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="Thời gian"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvDialogRuntimeConfirmTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Thời gian"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:paddingBottom="5dp"
+                    android:textColor="@color/black"
+                    android:textSize="18dp" />
+            </LinearLayout>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#000000" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tvDialogRuntimeConfirmCancle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Hủy"
+                android:gravity="center"
+                android:textSize="20dp"
+                android:textColor="#F80707" />
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#000000" />
+            <TextView
+                android:id="@+id/tvDialogRuntimeConfirmContinue"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Tiếp tục"
+                android:gravity="center"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:textColor="#00cba9" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
