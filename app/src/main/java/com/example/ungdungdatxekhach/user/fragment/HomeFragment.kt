@@ -30,6 +30,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ungdungdatxekhach.R
 import com.example.ungdungdatxekhach.admin.Constants
 import com.example.ungdungdatxekhach.admin.adapter.ItemPopularRouteAdminAdapter
+import com.example.ungdungdatxekhach.admin.adapter.ItemScheduleAdapter
+import com.example.ungdungdatxekhach.admin.model.Admin
 import com.example.ungdungdatxekhach.modelshare.Route
 import com.example.ungdungdatxekhach.databinding.FragmentHomeBinding
 import com.example.ungdungdatxekhach.modelshare.City
@@ -43,6 +45,7 @@ import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -55,14 +58,14 @@ import kotlin.math.log
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var adapter: ItemPopularRouteAdminAdapter
-    private lateinit var listItem: ArrayList<Route>
+//    private lateinit var adapter: ItemScheduleAdapter
+    private lateinit var listItem: ArrayList<Schedule>
     private lateinit var listScheduleSearch: ArrayList<Schedule>
     private val db = Firebase.firestore
-    private lateinit var cityList: List<City>
-    private var locationDeparture = Location()
-    private var locationDestination = Location()
-    private var timeRoute = TimeRoute()
+    private lateinit var cityList: List<City> // chọn spinner
+    private var locationDeparture = Location() // chọn điểm đầu
+    private var locationDestination = Location() // chọn điểm cuối
+    private var timeRoute = TimeRoute() // chọn thời gian
     private var countdownTimer: CountDownTimer? = null
     private val COUNTDOWN_TIME = TimeUnit.SECONDS.toMillis(15)
     private var customer = User()
@@ -77,39 +80,31 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        listItem = ArrayList()
-        val first = db.collection("routes").limit(5)
+//        listItem = ArrayList()
+//        getListItem()
 
-        first.get().addOnSuccessListener { documentSnapshots ->
-            for (document in documentSnapshots) {
-                val route = document.toObject(Route::class.java)
-                route.id = document.id
-                listItem.add(route)
-            }
-            adapter.notifyDataSetChanged()
-        }
-        binding.rcvPopularRouteItem.layoutManager = LinearLayoutManager(activity)
-        adapter = ItemPopularRouteAdminAdapter(
-            listItem,
-            requireActivity(),
-            object : ItemPopularRouteAdminAdapter.OnClickListener {
-                override fun onCLick(postion: Int) {
-                    val receivedIntent = requireActivity().intent
-                    val phone = receivedIntent.getStringExtra("phone") ?: ""
-                    var route = listItem.get(postion)
-                    val bundle = bundleOf("route" to route, "phone" to phone)
-                    val navController = activity?.findNavController(R.id.framelayout)
-                    val bottomNavigationView =
-                        activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-                    bottomNavigationView?.visibility = View.GONE
-                    navController?.navigate(
-                        R.id.action_navigation_home_to_homeRouteDefaultFragment, bundle
-                    )
-                }
-
-            })
-        binding.rcvPopularRouteItem.adapter = adapter
-        binding.rcvPopularRouteItem.isNestedScrollingEnabled = false
+//        binding.rcvItemSchedule.layoutManager = LinearLayoutManager(activity)
+//        adapter = ItemScheduleAdapter(
+//            listItem,
+//            requireActivity(),
+//            object : ItemScheduleAdapter.IClickListener {
+//                override fun clickDelete(id: Int) {
+//                }
+//
+//                override fun onClick(position: Int, route: Route, admin: Admin) {
+//                    val bundle = bundleOf("route" to route, "schedule" to listItem.get(position), "admin" to admin)
+//                    val navController = activity?.findNavController(R.id.framelayout)
+//                    val bottomNavigationView =
+//                        activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+//                    bottomNavigationView?.visibility = View.GONE
+//                    navController?.navigate(
+//                        R.id.action_navigation_home_to_routeDefaultBuyTicketStep1, bundle
+//                    )
+//                }
+//
+//            })
+//        binding.rcvItemSchedule.adapter = adapter
+//        binding.rcvItemSchedule.isNestedScrollingEnabled = false
 
         binding.lnHomeSelectDeparture.setOnClickListener {
             setLocation { selectedLocation ->
@@ -154,7 +149,7 @@ class HomeFragment : Fragment() {
                                                 "checklistSchedule",
                                                 "datasearch $dateSearch - $schedule"
                                             )
-                                            addListSeacrch(schedule)
+                                            listScheduleSearch.add(schedule)
                                         }
                                     }
                                 }
@@ -166,8 +161,6 @@ class HomeFragment : Fragment() {
                     }
 
                     Tasks.whenAll(scheduleTasks).addOnSuccessListener {
-                        Log.d("checklistHome", "onViewCreated: $listScheduleSearch")
-
                         val bundle = Bundle().apply {
                             putSerializable("listSchedule", ArrayList(listScheduleSearch))
                         }
@@ -191,6 +184,29 @@ class HomeFragment : Fragment() {
 
     }
 
+//    private fun getListItem() {
+//        val checkRoute = db.collection("routes")
+//        checkRoute.get()
+//            .addOnSuccessListener { documetnSnapsot ->
+//                for(document in documetnSnapsot){
+//                    var route = document.toObject<Route>()
+//                    if(route != null){
+//                       checkRoute.document(document.id).collection("schedules")
+//                           .get()
+//                           .addOnSuccessListener { documents ->
+//                               for (documentSchedule in documents){
+//                                   var schedule = documentSchedule.toObject<Schedule>()
+//                                   if(schedule != null){
+//                                       schedule.id = documentSchedule.id
+//                                       adapter.addSchedule(schedule)
+//                                   }
+//                               }
+//                           }
+//                    }
+//                }
+//            }
+//    }
+
     private fun onClickBtnCreate() {
         val dialog: Dialog = Dialog(requireActivity())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -211,19 +227,16 @@ class HomeFragment : Fragment() {
 
         val lnDialogRuntimeTime = dialog.findViewById<LinearLayout>(R.id.lnDialogRuntimeTime)
         val timePickerDialogRuntime = dialog.findViewById<TimePicker>(R.id.timePickerDialogRuntime)
-        val imgDialogRuntimeTimeMinusTicket = dialog.findViewById<ImageView>(R.id.imgDialogRuntimeTimeMinusTicket)
-        val tvDialogRuntimeTimeCountTicket = dialog.findViewById<TextView>(R.id.tvDialogRuntimeTimeCountTicket)
-        val imgDialogRuntimeTimeAddTicket = dialog.findViewById<ImageView>(R.id.imgDialogRuntimeTimeAddTicket)
+        val imgDialogRuntimeTimeMinusTicket =
+            dialog.findViewById<ImageView>(R.id.imgDialogRuntimeTimeMinusTicket)
+        val tvDialogRuntimeTimeCountTicket =
+            dialog.findViewById<TextView>(R.id.tvDialogRuntimeTimeCountTicket)
+        val imgDialogRuntimeTimeAddTicket =
+            dialog.findViewById<ImageView>(R.id.imgDialogRuntimeTimeAddTicket)
         val cancleTime = dialog.findViewById<TextView>(R.id.tvDialogRuntimeTimeDestroy)
         val tvContinue = dialog.findViewById<TextView>(R.id.tvDialogRuntimeTimeContinue)
         timePickerDialogRuntime.is24HourView
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            timeRoute =
-                TimeRoute(
-                    timePickerDialogRuntime.hour.toString().toInt(),
-                    timePickerDialogRuntime.minute.toString().toInt()
-                )
-        }
+
 
         imgDialogRuntimeTimeMinusTicket.setOnClickListener {
             if (tvDialogRuntimeTimeCountTicket.text.toString().toInt() > 0) {
@@ -239,39 +252,98 @@ class HomeFragment : Fragment() {
 
 
         tvContinue.setOnClickListener {
-            lnConfirm.visibility = View.VISIBLE
-            lnDialogRuntimeTime.visibility = View.GONE
+            val calendar = Calendar.getInstance()
+            val hour = calendar.get(Calendar.HOUR_OF_DAY)
+            val minute = calendar.get(Calendar.MINUTE)
 
-            countdownTimer = object : CountDownTimer(COUNTDOWN_TIME, 1000) {
-                override fun onTick(millisUntilFinished: Long) {
-                    val seconds = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished)
-                    val formattedTime = String.format("%02d", seconds)
-                    val countdownText =
-                        "Vui lòng xác nhận trong khoảng " + ("\nthời gian  $formattedTime").toString()
-                    tvDialogRuntimeConfirmText.text = countdownText
-                }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                val time = timePickerDialogRuntime.hour.toString()
+                    .toInt() * 60 + timePickerDialogRuntime.minute.toString()
+                    .toInt() - hour * 60 - minute
+                timeRoute =
+                    TimeRoute(
+                        timePickerDialogRuntime.hour.toString().toInt(),
+                        timePickerDialogRuntime.minute.toString().toInt()
+                    )
+                val formatDate = SimpleDateFormat("dd/MM/yyyy")
 
-                override fun onFinish() {
-                    onClickConfirm(tvDialogRuntimeTimeCountTicket.text.toString().toInt())
-                    dialog.dismiss()
+                if(formatDate.format(Date()).equals(binding.tvHomeSelectDepartureDate.text)) {
+                    if (time >= 15) {
+                        lnConfirm.visibility = View.VISIBLE
+                        lnDialogRuntimeTime.visibility = View.GONE
+                        tvDialogRuntimeConfirmDeparture.text =
+                            locationDeparture.city + ", " + locationDeparture.district +
+                                    ", " + locationDeparture.ward + ", " + locationDeparture.other
+                        tvDialogRuntimeConfirmDestination.text =
+                            locationDestination.city + ", " + locationDestination.district +
+                                    ", " + locationDestination.ward + ", " + locationDestination.other
+                        tvDialogRuntimeConfirmTime.text =
+                            timeRoute.pickedHour.toString() + ":" + timeRoute.pickedMinute.toString() +
+                                    " | " + binding.tvHomeSelectDepartureDate.text.toString()
+                        countdownTimer = object : CountDownTimer(COUNTDOWN_TIME, 1000) {
+                            override fun onTick(millisUntilFinished: Long) {
+                                val seconds = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished)
+                                val formattedTime = String.format("%02d", seconds)
+                                val countdownText =
+                                    "Vui lòng xác nhận trong khoảng " + ("\nthời gian  $formattedTime").toString()
+                                tvDialogRuntimeConfirmText.text = countdownText
+                            }
+
+                            override fun onFinish() {
+                                onClickConfirm(
+                                    tvDialogRuntimeTimeCountTicket.text.toString().toInt()
+                                )
+                                dialog.dismiss()
+                            }
+                        }
+                        countdownTimer?.start()
+                    } else {
+                        Toast.makeText(
+                            requireActivity(),
+                            "Vui lòng chọn thời gian xuất phát lớn hơn thời gian hiện tại 15 phút!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }else{
+
+                    lnConfirm.visibility = View.VISIBLE
+                    lnDialogRuntimeTime.visibility = View.GONE
+                    tvDialogRuntimeConfirmDeparture.text =
+                        locationDeparture.city + ", " + locationDeparture.district +
+                                ", " + locationDeparture.ward + ", " + locationDeparture.other
+                    tvDialogRuntimeConfirmDestination.text =
+                        locationDestination.city + ", " + locationDestination.district +
+                                ", " + locationDestination.ward + ", " + locationDestination.other
+                    tvDialogRuntimeConfirmTime.text =
+                        timeRoute.pickedHour.toString() + ":" + timeRoute.pickedMinute.toString() +
+                                " | " + binding.tvHomeSelectDepartureDate.text.toString()
+                    countdownTimer = object : CountDownTimer(COUNTDOWN_TIME, 1000) {
+                        override fun onTick(millisUntilFinished: Long) {
+                            val seconds = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished)
+                            val formattedTime = String.format("%02d", seconds)
+                            val countdownText =
+                                "Vui lòng xác nhận trong khoảng " + ("\nthời gian  $formattedTime").toString()
+                            tvDialogRuntimeConfirmText.text = countdownText
+                        }
+
+                        override fun onFinish() {
+                            onClickConfirm(
+                                tvDialogRuntimeTimeCountTicket.text.toString().toInt()
+                            )
+                            dialog.dismiss()
+                        }
+                    }
                 }
             }
-            countdownTimer?.start()
         }
+
         cancleTime.setOnClickListener {
             dialog.dismiss()
         }
 
-        cancleConfirm.setOnClickListener { dialog.dismiss() }
-        tvDialogRuntimeConfirmDeparture.text =
-            locationDeparture.city + ", " + locationDeparture.district +
-                    ", " + locationDeparture.ward + ", " + locationDeparture.other
-        tvDialogRuntimeConfirmDestination.text =
-            locationDestination.city + ", " + locationDestination.district +
-                    ", " + locationDestination.ward + ", " + locationDestination.other
-        tvDialogRuntimeConfirmTime.text =
-            timeRoute.pickedHour.toString() + ":" + timeRoute.pickedMinute.toString() +
-                    " | " + binding.tvHomeSelectDepartureDate.text.toString()
+        cancleConfirm.setOnClickListener {
+            dialog.dismiss()
+        }
 
         confirm.setOnClickListener {
             onClickConfirm(tvDialogRuntimeTimeCountTicket.text.toString().toInt())
@@ -296,9 +368,19 @@ class HomeFragment : Fragment() {
             .get()
             .addOnSuccessListener { document ->
                 customer = document.toObject(User::class.java)!!
-                ticket = Ticket(phone, locationDeparture, locationDestination, customer.phone.toString(),
-                    customer.email.toString(), customer.name.toString(), count, Constants.STATUS_SEARCH_ADMIN,
-                    "", timeRoute,date)
+                ticket = Ticket(
+                    phone,
+                    locationDeparture,
+                    locationDestination,
+                    customer.phone.toString(),
+                    customer.email.toString(),
+                    customer.name.toString(),
+                    count,
+                    Constants.STATUS_SEARCH_ADMIN,
+                    "",
+                    timeRoute,
+                    date
+                )
                 val bundle = bundleOf(
                     "locationDeparture" to locationDeparture,
                     "locationDestination" to locationDestination,
@@ -310,7 +392,8 @@ class HomeFragment : Fragment() {
                 db.collection("tickets")
                     .add(ticket)
                     .addOnSuccessListener { documentReference ->
-                        db.collection("users").document(phone).collection("tickets").document(documentReference.id)
+                        db.collection("users").document(phone).collection("tickets")
+                            .document(documentReference.id)
                             .set(ticket)
                             .addOnSuccessListener { documentReference ->
                             }
@@ -333,9 +416,9 @@ class HomeFragment : Fragment() {
     }
 
 
-    private fun addListSeacrch(schedule: Schedule) {
-        listScheduleSearch.add(schedule)
-    }
+//    private fun addListSeacrch(schedule: Schedule) {
+//
+//    }
 
     private fun setOpenDialogDate() {
         val currentDate = Calendar.getInstance()
@@ -345,10 +428,19 @@ class HomeFragment : Fragment() {
 
         val datePickerDialog = requireActivity().let {
             DatePickerDialog(it, { _, year, month, dayOfMonth ->
-                val selectedDate = "$dayOfMonth/${month + 1}/$year"
+                val selectedDateCalendar = Calendar.getInstance().apply {
+                    set(Calendar.YEAR, year)
+                    set(Calendar.MONTH, month)
+                    set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                }
+
+                val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                val selectedDate = dateFormat.format(selectedDateCalendar.time)
+
                 binding.tvHomeSelectDepartureDate.text = selectedDate
             }, year, month, day)
         }
+        datePickerDialog.datePicker.minDate = currentDate.timeInMillis
         datePickerDialog!!.show()
     }
 

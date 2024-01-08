@@ -20,7 +20,8 @@
             android:paddingTop="10dp"
             android:paddingRight="30dp"
             android:paddingBottom="10dp"
-            android:src="@drawable/baseline_arrow_back_24" />
+            app:srcCompat="@drawable/baseline_arrow_back_24"
+            app:tint = "#ffffff"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -34,87 +35,14 @@
             android:textStyle="bold" />
     </RelativeLayout>
 
-    <LinearLayout
-        android:id="@+id/lnabc"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/rltabc"
-        android:elevation="10dp"
-        android:orientation="horizontal"
-        android:padding="10dp">
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                app:srcCompat="@drawable/baseline_circle_24"
-                app:tint="#00cba9" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Hình thức đón trả"
-                android:textSize="16dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                app:srcCompat="@drawable/baseline_circle_24"
-                app:tint="#00cba9" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Thông tin liên hệ"
-                android:textSize="16dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                app:srcCompat="@drawable/baseline_circle_24"
-                app:tint="#a5a5a5" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Thanh toán"
-                android:textSize="16dp" />
-        </LinearLayout>
-    </LinearLayout>
 
     <ScrollView
         android:id="@+id/scrollabc"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/lnFootter"
-        android:layout_below="@id/lnabc"
+        android:layout_below="@id/rltabc"
         android:background="#E9EAF1">
 
         <LinearLayout
@@ -122,7 +50,13 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="10dp">
-
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
+                android:text="Thông tin cá nhân"
+                android:textColor="#00cba9"
+                android:textSize="17dp" />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -205,110 +139,98 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:gravity="center_vertical"
-                android:text="Thông tin chuyến đi"
+                android:text="Chọn hình thức đón"
                 android:textColor="#00cba9"
                 android:textSize="17dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:layout_weight="1"
+                    android:layout_marginTop="10dp"
                     android:gravity="center_vertical"
-                    android:text="Tuyến"
-                    android:textColor="@color/black"
-                    android:textSize="17dp" />
+                    android:text="Hình thức đón"
+                    android:textSize="17dp"
+                    android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/tvBuyTicketStep2Route"
-                    android:layout_width="0dp"
+                <Spinner
+                    android:id="@+id/spinnerTvBuyTicketStep2Departure"
+                    android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical|right"
-                    android:hint="My Dinh - Tuyen Quang"
-                    android:textColor="#6c6C6C"
-                    android:textSize="17dp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="40dp"
-                    android:layout_weight="1"
+                    android:background="@drawable/radius10"
                     android:gravity="center_vertical"
-                    android:text="Ngày khởi hành"
-                    android:textColor="@color/black"
+                    android:hint="Hình thức đón"
                     android:textSize="17dp" />
 
-                <TextView
-                    android:id="@+id/tvBuyTicketStep2CreateAt"
-                    android:layout_width="0dp"
-                    android:layout_height="40dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical|right"
-                    android:hint="AA/BB/CCCC"
-                    android:textColor="#6c6C6C"
-                    android:textSize="17dp" />
-            </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:text="Điểm khởi hành"
-                    android:textColor="@color/black"
+                    android:textSize="17dp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/edtBuyTicketStep2Departure"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/radius10"
+                    android:gravity="center_vertical"
+                    android:hint="Nhập địa chỉ đón"
+                    android:paddingLeft="10dp"
+                    android:textSize="17dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.7dp"
+                    android:layout_marginTop="10dp"
+                    android:background="#a5a5a5" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical"
+                    android:text="Hình thức trả"
+                    android:textSize="17dp"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:id="@+id/spinnerTvBuyTicketStep2Destination"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/radius10"
+                    android:gravity="center_vertical"
+                    android:hint="Hình thức trả"
                     android:textSize="17dp" />
 
                 <TextView
-                    android:id="@+id/tvBuyTicketStep2Departure"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical|right"
-                    android:hint="Ben xe My Dinh"
-                    android:textColor="#6c6C6C"
-                    android:textSize="17dp" />
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="40dp"
-                    android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:text="Điểm đến"
-                    android:textColor="@color/black"
+                    android:textSize="17dp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/edtBuyTicketStep2Destination"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/radius10"
+                    android:gravity="center_vertical"
+                    android:hint="Nhập địa chỉ đến"
+                    android:paddingLeft="10dp"
                     android:textSize="17dp" />
 
-                <TextView
-                    android:id="@+id/tvBuyTicketStep2Destination"
-                    android:layout_width="0dp"
-                    android:layout_height="40dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical|right"
-                    android:hint="Thanh pho Tuyen Quang"
-                    android:textColor="#6c6C6C"
-                    android:textSize="17dp" />
             </LinearLayout>
+
 
             <View
                 android:layout_width="match_parent"
@@ -380,7 +302,8 @@
                 android:background="@drawable/radius10"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:text="Thanh toán"
+                android:text="Tiếp tục"
+                android:textSize="18dp"
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 app:backgroundTint="#00cba9" />

@@ -1,17 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E9EAF1">
-
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/wave_background"
-        android:orientation="vertical">
+        android:layout_height="70dp"
+        android:elevation="30dp"
+        android:gravity="center_vertical|right"
+        android:background="@drawable/wave_background">
 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardviewEditcontact"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="15dp"
+            android:backgroundTint="#979797"
+            android:foregroundGravity="center"
+            app:cardCornerRadius="25dp"
+            app:cardElevation="10dp">
 
+            <ImageView
+                android:id="@+id/imgEditcontact"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/profile" />
+
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#a5a5a5" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:src="@drawable/busiconhome" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,28 +52,52 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
-        android:layout_marginTop="30dp"
-        android:background="@drawable/radius10_border"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
         <LinearLayout
-            android:id="@+id/lnHomeSelectDeparture"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
+            android:layout_width="30dp"
+            android:layout_height="350dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
                 android:src="@drawable/baseline_my_location_24" />
 
+            <View
+                android:layout_width="1.2dp"
+                android:layout_height="110dp"
+                android:background="#a5a5a5" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_location_on_24" />
+
+            <View
+                android:layout_width="1.2dp"
+                android:layout_height="110dp"
+                android:background="#a5a5a5" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_date_range_24" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:layout_marginLeft="10dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
             <LinearLayout
+                android:id="@+id/lnHomeSelectDeparture"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:orientation="vertical">
 
                 <TextView
@@ -51,7 +108,8 @@
                     android:paddingRight="5dp"
                     android:paddingBottom="5dp"
                     android:text="Điểm khởi hành"
-                    android:textSize="20dp"
+                    android:textColor="#251C50"
+                    android:textSize="18dp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -62,33 +120,19 @@
                     android:padding="5dp"
                     android:textColor="@color/black"
                     android:textSize="18dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginRight="10dp"
+                    android:background="#a5a5a5" />
             </LinearLayout>
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#000000" />
-
-        <LinearLayout
-            android:id="@+id/lnHomeSelectDestination"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:src="@drawable/baseline_location_on_24" />
 
             <LinearLayout
+                android:id="@+id/lnHomeSelectDestination"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_marginTop="145dp"
                 android:orientation="vertical">
 
                 <TextView
@@ -96,7 +140,8 @@
                     android:layout_height="wrap_content"
                     android:padding="5dp"
                     android:text="Điểm đến"
-                    android:textSize="20dp"
+                    android:textColor="#211945"
+                    android:textSize="18dp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -107,34 +152,21 @@
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
                     android:paddingBottom="5dp"
-                    android:textSize="18dp"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/black"
+                    android:textSize="18dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginRight="10dp"
+                    android:background="#a5a5a5" />
             </LinearLayout>
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#000000" />
-
-        <LinearLayout
-            android:id="@+id/lnHomeSelectDepartureDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:src="@drawable/baseline_date_range_24" />
 
             <LinearLayout
+                android:id="@+id/lnHomeSelectDepartureDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_alignParentBottom="true"
                 android:orientation="vertical">
 
                 <TextView
@@ -142,7 +174,8 @@
                     android:layout_height="wrap_content"
                     android:padding="5dp"
                     android:text="Ngày xuất phát"
-                    android:textSize="20dp"
+                    android:textColor="#211945"
+                    android:textSize="18dp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -153,74 +186,84 @@
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
                     android:paddingBottom="5dp"
-                    android:textSize="18dp"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/black"
+                    android:textSize="18dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginRight="10dp"
+                    android:background="#a5a5a5" />
             </LinearLayout>
-        </LinearLayout>
+
+        </RelativeLayout>
+
+
     </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnHomeSearch"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:layout_weight="1"
-                android:layout_margin="10dp"
-                android:backgroundTint="#00cba9"
-                android:textColor="@color/white"
-                android:textSize="18dp"
-                android:text="Tìm chuyến"
-                android:textStyle="bold"
-                android:background="@drawable/radius10"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnHomeCreate"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:layout_weight="1"
-                android:layout_margin="10dp"
-                android:backgroundTint="#00cba9"
-                android:textColor="@color/white"
-                android:textSize="18dp"
-                android:text="Đặt chuyến đi"
-                android:textStyle="bold"
-                android:background="@drawable/radius10"/>
-        </LinearLayout>
-
-
-
-
-
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="30dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20dp"
-            android:padding="5dp"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:layout_marginBottom="10dp">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnHomeSearch"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:background="@drawable/radius10"
+            android:backgroundTint="#00cba9"
+            android:text="Tìm chuyến"
+            android:textColor="@color/white"
+            android:textSize="18dp"
             android:textStyle="bold"
-            android:text="Các chuyến xe phổ biến" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Xem thêm >>"
-            android:textStyle="bold"
-            android:textSize="20dp"
-            android:layout_alignParentRight="true"
-            android:padding="5dp"/>
-    </RelativeLayout>
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rcvPopularRouteItem"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"/>
+            android:layout_marginRight="20dp"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnHomeCreate"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:background="@drawable/radius10"
+            android:backgroundTint="#00cba9"
+            android:text="Đặt chuyến đi"
+            android:textColor="@color/white"
+            android:textSize="18dp"
+            android:textStyle="bold" />
     </LinearLayout>
 
-</ScrollView>
+
+    <!--        <RelativeLayout-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_marginLeft="5dp"-->
+    <!--            android:layout_marginRight="5dp"-->
+    <!--            android:layout_marginTop="30dp">-->
+
+    <!--            <TextView-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:textSize="20dp"-->
+    <!--                android:padding="5dp"-->
+    <!--                android:textStyle="bold"-->
+    <!--                android:text="Các chuyến xe phổ biến" />-->
+
+    <!--            <TextView-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:text="Xem thêm >>"-->
+    <!--                android:textStyle="bold"-->
+    <!--                android:textSize="20dp"-->
+    <!--                android:layout_alignParentRight="true"-->
+    <!--                android:padding="5dp" />-->
+    <!--        </RelativeLayout>-->
+
+    <!--        <androidx.recyclerview.widget.RecyclerView-->
+    <!--            android:id="@+id/rcvItemSchedule"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_marginBottom="20dp" />-->
+</LinearLayout>

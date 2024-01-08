@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/radius10"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="Đánh giá chuyến đi"
+        android:textSize="20dp" />
+
+    <RatingBar
+        android:id="@+id/ratingBarEvaluate"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:backgroundTint="#F6D60B" />
+
+    <EditText
+        android:id="@+id/edtCommentEvaluate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/radius10"
+        android:backgroundTint="#EFEDED"
+        android:hint="Mô tả chất lượng chuyến đi"
+        android:minHeight="48dp"
+        android:padding="10dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvEvaluateCancle"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/radius10"
+            android:backgroundTint="#6F636363"
+            android:gravity="center"
+            android:text="Không đánh giá"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvEvaluateConrirm"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/radius10"
+            android:backgroundTint="#00cba9"
+            android:gravity="center"
+            android:text="Gửi đánh giá"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:layout_marginLeft="20dp"/>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

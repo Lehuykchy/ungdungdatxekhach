@@ -11,14 +11,14 @@
         tools:layout="@layout/fragment_home"
         android:label="Home">
         <action
-            android:id="@+id/action_navigation_home_to_homeRouteDefaultFragment"
-            app:destination="@id/homeRouteDefaultFragment" />
-        <action
             android:id="@+id/action_navigation_home_to_homeFragmentSearch"
             app:destination="@id/homeFragmentSearch" />
         <action
             android:id="@+id/action_navigation_home_to_homeOrderFragment"
             app:destination="@id/homeOrderFragment" />
+        <action
+            android:id="@+id/action_navigation_home_to_routeDefaultBuyTicketStep1"
+            app:destination="@id/routeDefaultBuyTicketStep1" />
     </fragment>
 
     <fragment
@@ -38,7 +38,11 @@
         android:id="@+id/navigation_notification"
         android:name="com.example.ungdungdatxekhach.user.fragment.NotificationFragment"
         tools:layout="@layout/fragment_notification"
-        android:label="Notification"/>
+        android:label="Notification">
+        <action
+            android:id="@+id/action_navigation_notification_to_ordersDefaultFragment"
+            app:destination="@id/ordersDefaultFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_profile"
@@ -53,14 +57,6 @@
         android:id="@+id/profileEditFragment"
         android:name="com.example.ungdungdatxekhach.user.fragment.ProfileEditFragment"
         android:label="ProfileEditFragment" />
-    <fragment
-        android:id="@+id/homeRouteDefaultFragment"
-        android:name="com.example.ungdungdatxekhach.user.fragment.HomeRouteDefaultFragment"
-        android:label="HomeRouteDefaultFragment" >
-        <action
-            android:id="@+id/action_homeRouteDefaultFragment_to_routeDefaultBuyTicketStep1"
-            app:destination="@id/routeDefaultBuyTicketStep1" />
-    </fragment>
     <fragment
         android:id="@+id/routeDefaultBuyTicketStep1"
         android:name="com.example.ungdungdatxekhach.user.fragment.RouteDefaultBuyTicketStep1"
@@ -113,9 +109,5 @@
     <fragment
         android:id="@+id/homeOrderDefaultAdminFragment"
         android:name="com.example.ungdungdatxekhach.user.fragment.HomeOrderDefaultAdminFragment"
-        android:label="HomeOrderDefaultAdminFragment" >
-        <action
-            android:id="@+id/action_homeOrderDefaultAdminFragment_to_homeRouteDefaultFragment"
-            app:destination="@id/homeRouteDefaultFragment" />
-    </fragment>
+        android:label="HomeOrderDefaultAdminFragment" />
 </navigation>

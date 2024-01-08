@@ -1,9 +1,18 @@
 package com.example.ungdungdatxekhach.user.fragment
 
+import android.app.Dialog
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.widget.ListView
+import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
@@ -12,21 +21,27 @@ import com.example.ungdungdatxekhach.R
 import com.example.ungdungdatxekhach.admin.adapter.ItemPopularRouteAdminAdapter
 import com.example.ungdungdatxekhach.admin.model.Admin
 import com.example.ungdungdatxekhach.databinding.FragmentHomeOrderDefaultAdminBinding
+import com.example.ungdungdatxekhach.modelshare.Evaluate
 import com.example.ungdungdatxekhach.modelshare.Route
+import com.example.ungdungdatxekhach.modelshare.Schedule
+import com.example.ungdungdatxekhach.modelshare.adapter.ItemEvaluateAdapter
 import com.example.ungdungdatxekhach.user.model.Ticket
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.toObject
 import com.google.firebase.ktx.Firebase
+import java.text.SimpleDateFormat
 
 class HomeOrderDefaultAdminFragment : Fragment() {
     private lateinit var binding: FragmentHomeOrderDefaultAdminBinding
-    private var ticket = Ticket()
-    private var admin = Admin()
-    private lateinit var listRoute : ArrayList<Route>
+    private lateinit var route: Route
+    private lateinit var schedule: Schedule
+    private lateinit var admin: Admin
+    private lateinit var adapter: ItemEvaluateAdapter
+    private lateinit var listItem: ArrayList<Evaluate>
+    private lateinit var phone: String
+    private val dateFormat = SimpleDateFormat("dd/MM/yyyy")
     private val db = Firebase.firestore
-    private lateinit var adapter: ItemPopularRouteAdminAdapter
-    private var checkInfo = false
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -38,76 +53,119 @@ class HomeOrderDefaultAdminFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val receivedBundle = arguments
-        if ((receivedBundle == null)) {
+        if (receivedBundle == null) {
             return
         }
-        ticket = receivedBundle.getSerializable("ticket") as Ticket
-        listRoute = ArrayList()
-        getAdmin()
-        getListRoute()
-        binding.imgHomeOrderBack.setOnClickListener {
-            onClickBack()
+        route = receivedBundle.getSerializable("route") as Route
+        schedule = receivedBundle.getSerializable("schedule") as Schedule
+        admin = receivedBundle.getSerializable("admin") as Admin
+
+        listItem = ArrayList()
+
+        setInfo()
+
+        val colorClick = ColorStateList.valueOf(android.graphics.Color.parseColor("#00cba9"))
+        val colorDilableClick = ColorStateList.valueOf(android.graphics.Color.parseColor("#D2E4E1"))
+
+        binding.tvHomeOrderDefaultInfoBus.setOnClickListener {
+            binding.tvHomeOrderDefaultInfoBus.setTextColor(Color.WHITE)
+            binding.lnInfoAdmin.visibility = View.VISIBLE
+            binding.lnInfoEvaluate.visibility = View.GONE
+            binding.tvHomeOrderDefaultEvaluate.setTextColor(Color.BLACK)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                binding.tvHomeOrderDefaultInfoBus.backgroundTintList = colorClick
+                binding.tvHomeOrderDefaultEvaluate.backgroundTintList = colorDilableClick
+            }
+            setInfo()
         }
-        binding.rcvHomeOrderDefaultAdmin.layoutManager = LinearLayoutManager(requireActivity())
-        adapter = ItemPopularRouteAdminAdapter(
-            listRoute,
-            requireActivity(),
-            object : ItemPopularRouteAdminAdapter.OnClickListener {
-                override fun onCLick(postion: Int) {
-                    val phone = ticket.phone
-                    var route = listRoute.get(postion)
-                    val bundle = bundleOf("route" to route, "phone" to phone)
-                    val navController = activity?.findNavController(R.id.framelayout)
-                    navController?.navigate(
-                        R.id.action_homeOrderDefaultAdminFragment_to_homeRouteDefaultFragment, bundle
-                    )
+        binding.tvHomeOrderDefaultEvaluate.setOnClickListener {
+            getListEvaluate()
+            binding.tvHomeOrderDefaultInfoBus.setTextColor(Color.BLACK)
+            binding.lnInfoAdmin.visibility = View.GONE
+            binding.lnInfoEvaluate.visibility = View.VISIBLE
+            binding.tvHomeOrderDefaultEvaluate.setTextColor(Color.WHITE)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                binding.tvHomeOrderDefaultInfoBus.backgroundTintList = colorDilableClick
+                binding.tvHomeOrderDefaultEvaluate.backgroundTintList = colorClick
+            }
+            binding.rcvHomeOrderDefaultEvaluate.layoutManager = LinearLayoutManager(requireActivity())
+            adapter = ItemEvaluateAdapter(listItem, requireActivity(), object : ItemEvaluateAdapter.IClickListener{
+                override fun onClick(position: Int) {
+
                 }
 
             })
-        binding.rcvHomeOrderDefaultAdmin.adapter = adapter
-        binding.lnClickInfoAdmin.setOnClickListener {
-            if(checkInfo){
-                binding.lnInfoAdmin.visibility = View.GONE
-                checkInfo =false
-            }else{
-                binding.lnInfoAdmin.visibility = View.VISIBLE
-                checkInfo = true
-            }
+            binding.rcvHomeOrderDefaultEvaluate.adapter = adapter
+            binding.rcvHomeOrderDefaultEvaluate.isNestedScrollingEnabled = false
+
+        }
+        binding.lnHomeOrderDefaultSchedule.setOnClickListener {
+            onClickSchedule()
+        }
+
+        binding.imgHomeOrderDefaultBackUser.setOnClickListener {
+            onClickBack()
+        }
+    }
+
+    private fun onClickSchedule() {
+        val dialog: Dialog = Dialog(requireActivity())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.layout_dialog_schedule);
+        dialog.show();
+
+        val cancle: TextView
+        val list: ListView
+
+        cancle = dialog.findViewById(R.id.tvLayoutDialogScheduleCancel)
+        list = dialog.findViewById(R.id.lwLayoutDialogSchedule)
+
+        val locationAdapter =
+            RouteDefaultBuyTicketStep1.LocationAdapter(requireActivity(), route.location)
+        list.adapter = locationAdapter
+
+        cancle.setOnClickListener {
+            dialog.dismiss()
         }
 
 
+        dialog.getWindow()
+            ?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow()?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow()?.getAttributes()?.windowAnimations = R.style.DialogAnimation
+        dialog.getWindow()?.setGravity(Gravity.BOTTOM);
     }
 
-    private fun getAdmin() {
-        db.collection("admins").document(ticket.adminId)
-            .get()
-            .addOnSuccessListener { document ->
-                admin = document.toObject(Admin::class.java)!!
-                binding.tvHomeOrderDefaultAdminName.text = admin.name
-                binding.tvHomeOrderDefaultAdminPhone.text = admin.phone
-                binding.tvHomeOrderDefaultAdminEmail.text = admin.email
-                if (!admin.description.isEmpty()) {
-                    binding.tvHomeOrderDefaultAdminInfomation.text = admin.description
-                }
-            }
-    }
 
-    private fun getListRoute() {
-        db.collection("routes")
-            .whereEqualTo("idAdmin", ticket.adminId.toString())
+    private fun getListEvaluate() {
+        listItem.clear()
+        db.collection("evaluates")
+            .whereEqualTo("adminId", route.idAdmin)
             .get()
-            .addOnSuccessListener { documentSnapshots ->
-                for (document in documentSnapshots) {
-                    val route = document.toObject(Route::class.java)
-                    route.id = document.id
-                    listRoute.add(route)
+            .addOnSuccessListener { documentSnapshot ->
+                for(document in documentSnapshot){
+                    var evaluate = document.toObject<Evaluate>()
+                    if(evaluate!=null){
+                        listItem.add(evaluate)
+                    }
                 }
                 adapter.notifyDataSetChanged()
             }
-            .addOnFailureListener { exception -> }
+
     }
 
+    private fun setInfo() {
+        binding.tvHomeOrderDefaultDepartureTime.text = schedule.dateRoute.pickedHour.toString() + ":"+
+                schedule.dateRoute.pickedMinute.toString() + " | " + dateFormat.format(schedule.date)
+        binding.tvHomeOrderDefaultSchedule.text = route.departureLocation + " - " + route.destination
+        binding.tvHomeOrderDefaultDistance.text = route.distance +" Km"
+        binding.tvHomeOrderDefaultPrice.text = route.price + " đ"
+        binding.tvHomeOrderDefaultAdminName.text = admin.name
+        binding.tvHomeOrderDefaultAdminPhone.text = admin.phone
+        binding.tvHomeOrderDefaultAdminEmail.text = admin.email
+    }
     private fun onClickBack() {
         val navController = activity?.findNavController(R.id.framelayout)
         navController?.popBackStack()

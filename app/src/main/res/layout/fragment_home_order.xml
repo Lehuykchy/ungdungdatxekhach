@@ -93,35 +93,34 @@
 
                     <TextView
                         android:id="@+id/tvHomeOrderNameAdmin"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:hint="Nhà xe Lê Huy"
                         android:textColor="@color/black"
                         android:textSize="20dp"
                         android:textStyle="bold" />
-
-                    <LinearLayout
-                        android:id="@+id/lnHomeOrderSchedule"
-                        android:layout_width="0dp"
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:src="@drawable/star"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:layout_marginLeft="10dp"/>
+                    <TextView
+                        android:id="@+id/tvHomeOrderNameEvaluate"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical|right"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Xem lộ trình"
-                            android:textColor="#1565C0"
-                            android:textSize="18dp" />
-
-                        <ImageView
-                            android:layout_width="17dp"
-                            android:layout_height="17dp"
-                            app:srcCompat="@drawable/baseline_arrow_forward_ios_24"
-                            app:tint="#1565C0" />
-                    </LinearLayout>
+                        android:hint="5.0"
+                        android:textSize="18dp"
+                        android:layout_marginLeft="10dp"/>
+                    <TextView
+                        android:id="@+id/tvHomeOrderNameDistance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="160 Km"
+                        android:textSize="18dp"
+                        android:textColor="#6E6E6E"
+                        android:gravity="right" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -137,7 +136,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center_vertical"
-                        android:hint="28/12/2023 | 23:00"
+                        android:hint="28/12/2023"
                         android:textSize="18dp"
                         android:textColor="@color/black"/>
 
@@ -148,7 +147,8 @@
                         android:layout_weight="1"
                         android:gravity="center_vertical|right"
                         android:hint="120000đ"
-                        android:textSize="18dp"
+                        android:textSize="20dp"
+                        android:textStyle="bold"
                         android:textColor="@color/black"/>
                 </LinearLayout>
 
@@ -166,13 +166,22 @@
                         android:src="@drawable/baseline_my_location_24" />
 
                     <TextView
-                        android:id="@+id/tvHomeOrderDepartureAdmin"
-                        android:layout_width="match_parent"
+                        android:id="@+id/tvHomeOrderNameDepartureTime"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:hint="Chọn điểm khởi hành"
-                        android:padding="5dp"
+                        android:hint="07:00"
+                        android:paddingLeft="10dp"
+                        android:textStyle="bold"
                         android:textColor="@color/black"
-                        android:textSize="18dp" />
+                        android:textSize="18dp"/>
+
+                    <TextView
+                        android:id="@+id/tvHomeOrderDepartureAdmin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Bến xe Mỹ Đình"
+                        android:paddingLeft="10dp"
+                        android:textSize="18dp"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -189,13 +198,48 @@
                         android:src="@drawable/baseline_location_on_24" />
 
                     <TextView
-                        android:id="@+id/tvHomeOrderDestinationAdmin"
-                        android:layout_width="match_parent"
+                        android:id="@+id/tvHomeOrderNameEndTime"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:hint="Chọn điểm kết thúc"
-                        android:padding="5dp"
+                        android:hint="12:30"
+                        android:paddingLeft="10dp"
+                        android:textStyle="bold"
                         android:textColor="@color/black"
-                        android:textSize="18dp" />
+                        android:textSize="18dp"/>
+
+                    <TextView
+                        android:id="@+id/tvHomeOrderDestinationAdmin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Na Hang"
+                        android:paddingLeft="10dp"
+                        android:textSize="18dp"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvHomeOrderType"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="Giường nằm 40 chỗ"
+                        android:textSize="18dp"/>
+
+                    <TextView
+                        android:id="@+id/tvHomeOrderNameBlank"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="yy ghế trống"
+                        android:textColor="@color/black"
+                        android:textSize="17dp"
+                        android:gravity="right"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
             </LinearLayout>

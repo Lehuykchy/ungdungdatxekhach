@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/radius10"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:layout_marginRight="15dp"
+    android:layout_marginLeft="15dp"
+    android:layout_marginBottom="15dp"
+    android:id="@+id/lnItemNotification">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Thông báo"
+        android:textSize="17dp"
+        android:textStyle="bold"/>
+    <TextView
+        android:id="@+id/tvItemNotificationInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nội dung thông báo"
+        android:textSize="17dp"/>
+    <TextView
+        android:id="@+id/tvItemNotificationTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="AA:BB | dd/MM/yyyy"
+        android:gravity="right"
+        android:textSize="16dp"/>
+
+</LinearLayout>

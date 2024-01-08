@@ -79,12 +79,8 @@ class ItemTicketAdapter : RecyclerView.Adapter<ItemTicketAdapter.ItemViewHolder>
             return
         }
         val dateFormat = SimpleDateFormat("dd/MM/yyyy")
-        if (!ticket.adminId.isEmpty() && (ticket.status.equals(Constants.STATUS_PAID) || ticket.status.equals(
-                Constants.STATUS_WAIT_PAID
-            ))
-        ) {
-
-            if (ticket.status.equals(Constants.STATUS_PAID)) {
+        if (!ticket.adminId.isEmpty() && !ticket.status.equals(Constants.STATUS_WAIT_CUSTOMER)) {
+            if (ticket.status.equals(Constants.STATUS_PAID) ) {
                 holder.tvItemTicketOrderStatus.text = "Đã thanh toán"
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     holder.tvItemTicketOrderStatus.backgroundTintList =
@@ -94,6 +90,22 @@ class ItemTicketAdapter : RecyclerView.Adapter<ItemTicketAdapter.ItemViewHolder>
                 }
             } else if (ticket.status.equals(Constants.STATUS_WAIT_PAID)) {
                 holder.tvItemTicketOrderStatus.text = "Chờ thanh toán"
+            }else if(ticket.status.equals(Constants.STATUS_SUCCESS)){
+                holder.tvItemTicketOrderStatus.text = "Thành công"
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    holder.tvItemTicketOrderStatus.backgroundTintList =
+                        android.content.res.ColorStateList.valueOf(
+                            Color.parseColor("#4BFA07")
+                        )
+                }
+            }else if(ticket.status.equals(Constants.STATUS_EVALUATE)) {
+                holder.tvItemTicketOrderStatus.text = "Đã đánh giá"
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    holder.tvItemTicketOrderStatus.backgroundTintList =
+                        android.content.res.ColorStateList.valueOf(
+                            Color.parseColor("#4BFA07")
+                        )
+                }
             }
             holder.tvItemTicketOrderPrice.text = ticket.totalPrice + " đ"
 
@@ -121,12 +133,12 @@ class ItemTicketAdapter : RecyclerView.Adapter<ItemTicketAdapter.ItemViewHolder>
                 }
                 .addOnFailureListener { exception ->
                 }
-        } else
+        } else {
             if (ticket.status.equals(Constants.STATUS_SEARCH_ADMIN)) {
                 holder.tvItemTicketOrderStatus.text = "Đang tìm nhà xe"
             } else if (ticket.status.equals(Constants.STATUS_WAIT_CUSTOMER)) {
                 holder.tvItemTicketOrderStatus.text = "Đã tìm thấy nhà xe"
-            }else if(ticket.status.equals(Constants.STATUS_DESTROY)){
+            } else if (ticket.status.equals(Constants.STATUS_DESTROY)) {
                 holder.tvItemTicketOrderStatus.text = "Đã hủy chuyến"
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     holder.tvItemTicketOrderStatus.backgroundTintList =
@@ -136,8 +148,8 @@ class ItemTicketAdapter : RecyclerView.Adapter<ItemTicketAdapter.ItemViewHolder>
                 }
 
             }
-            holder.tvItemTicketOrderRoute.text = "test"
-            holder.tvItemTicketOrderPrice.text = "0 đ"
+            holder.tvItemTicketOrderRoute.text =
+                ticket.departure.other + " - " + ticket.destination.other
             holder.tvItemTicketOrderTime.text =
                 ticket.timeRoute.pickedHour.toString() +
                         ":" + ticket.timeRoute.pickedMinute.toString()
@@ -145,8 +157,6 @@ class ItemTicketAdapter : RecyclerView.Adapter<ItemTicketAdapter.ItemViewHolder>
             holder.lnItemTicketOrder.setOnClickListener {
                 iClickListener.clickNextOrder(ticket)
             }
-
-
-
+        }
     }
 }

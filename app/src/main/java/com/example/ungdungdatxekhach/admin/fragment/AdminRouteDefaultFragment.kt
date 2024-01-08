@@ -16,6 +16,7 @@ import android.widget.Spinner
 import android.widget.TextView
 import android.widget.TimePicker
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -82,7 +83,11 @@ class AdminRouteDefaultFragment : Fragment() {
                 override fun clickDelete(id: Int) {
                 }
 
-                override fun onClick(id: Int, route: Route) {
+                override fun onClick(position: Int, route: Route) {
+                    var schedule = scheduleList.get(position)
+                    val bundle = bundleOf("schedule" to schedule)
+                    val navController = activity?.findNavController(R.id.framelayoutAdmin)
+                    navController?.navigate(R.id.action_layoutRouteDefaultFragment_to_adminRouteDefaultTicketFragment, bundle)
 
                 }
 
@@ -110,6 +115,7 @@ class AdminRouteDefaultFragment : Fragment() {
                 for (document in result) {
                     val schedule = document.toObject<Schedule>()
                     if (schedule != null) {
+                        schedule.id = document.id
                         adapter.addSchedule(schedule)
                     }
                 }

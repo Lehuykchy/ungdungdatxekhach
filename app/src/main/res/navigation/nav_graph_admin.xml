@@ -44,7 +44,11 @@
     <fragment
         android:id="@+id/layoutRouteDefaultFragment"
         android:name="com.example.ungdungdatxekhach.admin.fragment.AdminRouteDefaultFragment"
-        android:label="LayoutRouteDefaultFragment" />
+        android:label="LayoutRouteDefaultFragment" >
+        <action
+            android:id="@+id/action_layoutRouteDefaultFragment_to_adminRouteDefaultTicketFragment"
+            app:destination="@id/adminRouteDefaultTicketFragment" />
+    </fragment>
     <fragment
         android:id="@+id/adminProfileVehiceManagerFragment"
         android:name="com.example.ungdungdatxekhach.admin.fragment.AdminProfileVehiceManagerFragment"
@@ -57,4 +61,8 @@
         android:id="@+id/adminProfileEditFragment"
         android:name="com.example.ungdungdatxekhach.admin.fragment.AdminProfileEditFragment"
         android:label="AdminProfileEditFragment" />
+    <fragment
+        android:id="@+id/adminRouteDefaultTicketFragment"
+        android:name="com.example.ungdungdatxekhach.admin.fragment.AdminRouteDefaultTicketFragment"
+        android:label="AdminRouteDefaultTicketFragment" />
 </navigation>

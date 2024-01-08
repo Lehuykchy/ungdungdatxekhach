@@ -74,6 +74,7 @@ class OrdersFragment : Fragment() {
             }
         })
         binding.rcvOrders.adapter = adapter
+        binding.rcvOrders.isNestedScrollingEnabled = false
     }
 
     private fun getListTicket() {

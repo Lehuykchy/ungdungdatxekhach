@@ -19,6 +19,7 @@ import androidx.navigation.findNavController
 import com.example.ungdungdatxekhach.R
 import com.example.ungdungdatxekhach.admin.Constants
 import com.example.ungdungdatxekhach.admin.model.Admin
+import com.example.ungdungdatxekhach.admin.model.Vehicle
 import com.example.ungdungdatxekhach.databinding.FragmentHomeOrderBinding
 import com.example.ungdungdatxekhach.modelshare.Location
 import com.example.ungdungdatxekhach.modelshare.Route
@@ -40,6 +41,7 @@ class HomeOrderFragment : Fragment() {
     private var route = Route()
     private var schedule = Schedule()
     private var admin = Admin()
+    private var vehicle = Vehicle()
     private val db = Firebase.firestore
     private val formatDate = SimpleDateFormat("dd/MM/yyyy")
 
@@ -91,11 +93,8 @@ class HomeOrderFragment : Fragment() {
                 getSchedule()
                 getAdmin()
 
-                binding.tvHomeOrderNameAdmin.setOnClickListener {
+                binding.lnHomeOrderStatusWaitConfirmCustomer.setOnClickListener {
                     onClickAdmin()
-                }
-                binding.lnHomeOrderSchedule.setOnClickListener {
-                    onClickSchedule()
                 }
                 binding.btnHomeOrderConfirmAdmin.setOnClickListener {
                     setOnClickBtnConfirm()
@@ -112,8 +111,7 @@ class HomeOrderFragment : Fragment() {
     }
 
     private fun onClickAdmin() {
-        val bundle = bundleOf("ticket" to ticket)
-        Log.d("checkdb", "clickNext: " + ticket + " " + schedule)
+        val bundle = bundleOf("route" to route, "schedule" to schedule, "admin" to admin)
         val navController = activity?.findNavController(R.id.framelayout)
         navController?.navigate(
             R.id.action_homeOrderFragment_to_homeOrderDefaultAdminFragment,
@@ -284,9 +282,15 @@ class HomeOrderFragment : Fragment() {
             .addOnSuccessListener { document ->
                 if (document != null) {
                     schedule = document.toObject<Schedule>()!!
-                    binding.tvHomeOrderTimeAdmin.text = schedule.dateRoute.pickedHour.toString() +
-                            ":"+ schedule.dateRoute.pickedMinute.toString() +
-                            " | " + formatDate.format(schedule.date)
+                    binding.tvHomeOrderTimeAdmin.text = formatDate.format(schedule.date)
+                    binding.tvHomeOrderNameDepartureTime.text = schedule.dateRoute.pickedHour.toString() +
+                            ":" + schedule.dateRoute.pickedMinute.toString()
+                    binding.tvHomeOrderNameEndTime.text = route?.totalTime?.let {
+                        schedule.dateRoute.addMinutes(
+                            it.toInt()
+                        )
+                    }
+                    getVihicle()
 
                 }
             }
@@ -303,6 +307,7 @@ class HomeOrderFragment : Fragment() {
                     binding.tvHomeOrderPriceAdmin.text = route.price +"đ"
                     binding.tvHomeOrderDepartureAdmin.text = route.departureLocation
                     binding.tvHomeOrderDestinationAdmin.text = route.destination
+                    binding.tvHomeOrderNameDistance.text = route.distance+"Km"
 
                 }
             }
@@ -310,35 +315,18 @@ class HomeOrderFragment : Fragment() {
             }
 
     }
+    private fun getVihicle() {
+        db.collection("admins").document(ticket.adminId).collection("vehicles").document(schedule.vehicleId)
+            .get()
+            .addOnSuccessListener { document ->
+                vehicle = document.toObject(Vehicle::class.java)!!
+                if(vehicle!=null){
+                    binding.tvHomeOrderType.text = vehicle?.type + " " + vehicle.seats.toString() + " chỗ"
+                    binding.tvHomeOrderNameBlank.text = schedule.customerIds.size.toString() + "/" + vehicle.seats.toString()
+                }
 
-    private fun onClickSchedule() {
-        val dialog: Dialog = Dialog(requireActivity())
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.layout_dialog_schedule);
-        dialog.show();
-
-        val cancle: TextView
-        val list: ListView
-
-        cancle = dialog.findViewById(R.id.tvLayoutDialogScheduleCancel)
-        list = dialog.findViewById(R.id.lwLayoutDialogSchedule)
-
-        val locationAdapter =
-            RouteDefaultBuyTicketStep1.LocationAdapter(requireActivity(), route.location)
-        list.adapter = locationAdapter
-
-        cancle.setOnClickListener {
-            dialog.dismiss()
-        }
-
-
-        dialog.getWindow()
-            ?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        dialog.getWindow()?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
-        dialog.getWindow()?.getAttributes()?.windowAnimations = R.style.DialogAnimation
-        dialog.getWindow()?.setGravity(Gravity.BOTTOM);
+            }
     }
-
 
     private fun onClickHomeOrderBack() {
         val navController = activity?.findNavController(R.id.framelayout)

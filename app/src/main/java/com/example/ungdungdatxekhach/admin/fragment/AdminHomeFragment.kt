@@ -32,6 +32,8 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.toObject
 import com.google.firebase.ktx.Firebase
 import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
 
 class AdminHomeFragment : Fragment() {
     private lateinit var binding: AdminFragmentHomeBinding
@@ -57,8 +59,8 @@ class AdminHomeFragment : Fragment() {
         listItem = ArrayList()
         listRoute = ArrayList()
         listSchedule = ArrayList()
-        getListItem()
         getListRoute()
+        getListItem()
 
         binding.rcvAdminHome.layoutManager = LinearLayoutManager(requireActivity())
         adapter = ItemTicketOrderAdapter(
@@ -66,14 +68,19 @@ class AdminHomeFragment : Fragment() {
             requireActivity(),
             object : ItemTicketOrderAdapter.IClickListener {
                 override fun onClick(ticket: Ticket) {
-                    Log.d("checkticket", "onClick: " + ticket)
-                    setShowDialog(ticket)
+                    val listSelectRoute: ArrayList<Route> = ArrayList()
+                    for (route in listRoute) {
+                        if (route.location.any { it.district == ticket.departure.district } && route.location.any { it.district == ticket.destination.district }) {
+                            listSelectRoute.add(route)
+                        }
+                    }
+                    setShowDialog(ticket, listSelectRoute)
                 }
             })
         binding.rcvAdminHome.adapter = adapter
     }
 
-    private fun setShowDialog(ticket: Ticket) {
+    private fun setShowDialog(ticket: Ticket, listSelectRoute: ArrayList<Route>) {
         val dialog: Dialog = Dialog(requireActivity())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.layout_dialog_admin_order);
@@ -87,7 +94,7 @@ class AdminHomeFragment : Fragment() {
         val adapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_spinner_item,
-            listRoute.map { it.departureLocation + " - " + it.destination }
+            listSelectRoute.map { it.departureLocation + " - " + it.destination }
         )
         val formatDate = SimpleDateFormat("dd/MM/yyyy")
 
@@ -101,16 +108,21 @@ class AdminHomeFragment : Fragment() {
                 id: Long
             ) {
                 listSchedule.clear()
-                selectedRoute = listRoute[position]
+                selectedRoute = listSelectRoute[position]
                 db.collection("routes").document(selectedRoute!!.id).collection("schedules")
+                    .whereEqualTo("date", ticket.dateDeparture)
                     .get()
                     .addOnSuccessListener { documents ->
                         for (document in documents) {
                             val schedule = document.toObject<Schedule>()
                             schedule.id = document.id
-                            Log.d("checkdb", "onItemSelected: " + document.id)
                             if (schedule != null) {
-                                listSchedule.add(schedule)
+                                if (schedule.date == Date()) {
+                                    if (schedule.dateRoute.pickedHour >= ticket.timeRoute.pickedHour && schedule.dateRoute.pickedMinute >= ticket.timeRoute.pickedMinute)
+                                        listSchedule.add(schedule)
+                                } else {
+                                    listSchedule.add(schedule)
+                                }
                             }
                         }
                         val adapterSchedule = ArrayAdapter(
@@ -152,13 +164,14 @@ class AdminHomeFragment : Fragment() {
             ticket.adminId = id
             ticket.routeId = selectedRoute!!.id
             ticket.scheduleId = selectedSchedule!!.id
-            ticket.totalPrice = (selectedRoute!!.price.toString().toInt()* ticket.count).toString()
+            ticket.totalPrice = (selectedRoute!!.price.toString().toInt() * ticket.count).toString()
             ticket.status = Constants.STATUS_WAIT_CUSTOMER
             db.collection("tickets").document(ticket.id)
                 .update("status", Constants.STATUS_WAIT_CUSTOMER)
                 .addOnCompleteListener { document -> }
                 .addOnFailureListener { exception -> }
-            db.collection("users").document(ticket.customerId).collection("tickets").document(ticket.id)
+            db.collection("users").document(ticket.customerId).collection("tickets")
+                .document(ticket.id)
                 .set(ticket)
                 .addOnCompleteListener { document ->
                     val bundle = bundleOf(
@@ -191,12 +204,12 @@ class AdminHomeFragment : Fragment() {
 
     private fun getListRoute() {
         db.collection("routes")
+            .whereEqualTo("idAdmin", id)
             .get()
             .addOnSuccessListener { documents ->
 
                 for (document in documents) {
                     val route = document.toObject<Route>()
-
                     route.id = document.id
                     if (route != null) {
                         listRoute.add(route)
@@ -208,15 +221,26 @@ class AdminHomeFragment : Fragment() {
     }
 
     private fun getListItem() {
+        val calendar = Calendar.getInstance()
+        val hour = calendar.get(Calendar.HOUR_OF_DAY)
+        val minute = calendar.get(Calendar.MINUTE)
         db.collection("tickets")
             .whereEqualTo("status", Constants.STATUS_SEARCH_ADMIN)
             .get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
                     val ticket = document.toObject<Ticket>()
-                    if (ticket != null) {
+                    if (ticket != null && isAfterOrEqualToday(ticket.dateDeparture) && ticket.timeRoute.pickedHour >= hour
+                        && ticket.timeRoute.pickedMinute >= minute
+                    ) {
                         ticket.id = document.id
-                        listItem.add(ticket)
+                        for (route in listRoute) {
+                            if (route.location.any { it.district == ticket.departure.district }
+                                && route.location.any { it.district == ticket.destination.district }) {
+                                listItem.add(ticket)
+                                break
+                            }
+                        }
                     }
                 }
                 adapter.notifyDataSetChanged()
@@ -225,5 +249,20 @@ class AdminHomeFragment : Fragment() {
             }
     }
 
+    fun isAfterOrEqualToday(date: Date): Boolean {
+        val today = Calendar.getInstance().apply { time = Date() }
+        val targetDate = Calendar.getInstance().apply { time = date }
+
+        return !targetDate.before(today) || isSameDay(date, Date())
+    }
+
+    fun isSameDay(date1: Date, date2: Date): Boolean {
+        val cal1 = Calendar.getInstance().apply { time = date1 }
+        val cal2 = Calendar.getInstance().apply { time = date2 }
+
+        return cal1[Calendar.YEAR] == cal2[Calendar.YEAR] &&
+                cal1[Calendar.MONTH] == cal2[Calendar.MONTH] &&
+                cal1[Calendar.DAY_OF_MONTH] == cal2[Calendar.DAY_OF_MONTH]
+    }
 
 }

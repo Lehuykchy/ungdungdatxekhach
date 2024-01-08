@@ -1,5 +1,6 @@
 package com.example.ungdungdatxekhach.modelshare
 
+import com.example.ungdungdatxekhach.admin.Constants
 import com.example.ungdungdatxekhach.user.model.Ticket
 import java.io.Serializable
 import java.util.Date
@@ -13,8 +14,9 @@ data class Schedule(
     var dateRoute: TimeRoute,
     var vehicleId: String,
     var date : Date,
+    var status : String
 ) : Serializable {
-    constructor() : this("", "", ArrayList(), "", "", TimeRoute(), "", Date())
+    constructor() : this("", "", ArrayList(), "", "", TimeRoute(), "", Date(), "")
     constructor(
         routeId: String,
         dateRoute: TimeRoute,
@@ -30,6 +32,7 @@ data class Schedule(
         destinationLocation,
         dateRoute,
         vehicleId,
-        date
+        date,
+        Constants.STATUS_NO_START
     )
 }
