@@ -291,22 +291,21 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="80dp"
             android:padding="10dp">
 
-            <androidx.appcompat.widget.AppCompatButton
+            <Button
                 android:id="@+id/btnBuyTicketStep2Confirm"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="60dp"
                 android:layout_alignParentRight="true"
-                android:background="@drawable/radius10"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
                 android:text="Tiếp tục"
                 android:textSize="18dp"
                 android:textColor="@color/white"
                 android:textStyle="bold"
-                app:backgroundTint="#00cba9" />
+                android:backgroundTint="#00cba9" />
         </RelativeLayout>
 
     </LinearLayout>

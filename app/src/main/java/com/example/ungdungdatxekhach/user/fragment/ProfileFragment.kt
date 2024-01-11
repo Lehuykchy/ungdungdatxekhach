@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +17,9 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import com.bumptech.glide.Glide
 import com.example.ungdungdatxekhach.R
+import com.example.ungdungdatxekhach.admin.Constants
 import com.example.ungdungdatxekhach.databinding.FragmentProfileBinding
 import com.example.ungdungdatxekhach.modelshare.activity.LoginActivity
 import com.example.ungdungdatxekhach.user.model.User
@@ -24,12 +27,15 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.toObject
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 
 class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
     val db = com.google.firebase.ktx.Firebase.firestore
     private lateinit var user: User
     private lateinit var phone: String
+    private lateinit var storageReference: StorageReference
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
@@ -51,6 +57,17 @@ class ProfileFragment : Fragment() {
         db.collection("users").document(phone).get().addOnSuccessListener { document ->
             if (document != null) {
                 user = document.toObject<User>()!!
+                val storagePath = "images/" + user.imageId //
+                val storage = FirebaseStorage.getInstance()
+                val storageRef = storage.reference.child(storagePath)
+                storageRef.downloadUrl.addOnSuccessListener { uri ->
+                    val downloadUrl = uri.toString()
+                    Glide.with(this)
+                        .load(downloadUrl)
+                        .into(binding.imgProfile)
+                }.addOnFailureListener { exception ->
+                    Log.e("Firebase Storage", "Error getting download URL: ${exception.message}")
+                }
             }
         }.addOnFailureListener { exception ->
         }

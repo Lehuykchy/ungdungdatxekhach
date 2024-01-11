@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_navigation_home_to_routeDefaultBuyTicketStep1"
             app:destination="@id/routeDefaultBuyTicketStep1" />
+        <action
+            android:id="@+id/action_navigation_home_to_profileEditFragment"
+            app:destination="@id/profileEditFragment" />
     </fragment>
 
     <fragment

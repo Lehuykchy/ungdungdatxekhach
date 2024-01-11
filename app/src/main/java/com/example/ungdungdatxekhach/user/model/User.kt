@@ -12,17 +12,28 @@ data class User(
     var email: String? = null,
     var password: String? = null,
     var date: Date,
-    var location: Location
+    var location: Location,
+    var imageId: String,
 ) : Serializable {
-    constructor() : this("", "", "", "", "", Date(), Location())
+    constructor() : this("", "", "", "", "", Date(), Location(),"")
     constructor(
         name: String,
         phone: String,
         email: String,
         password: String,
         date: Date,
-        location: Location
-    ) : this("", name, phone, email, password, date, location)
+        location: Location,
+    ) : this("", name, phone, email, password, date, location,"")
+
+    constructor(
+        name: String,
+        phone: String,
+        email: String,
+        password: String,
+        date: Date,
+        location: Location,
+        imageId: String,
+    ) : this("", name, phone, email, password, date, location,imageId)
 
     constructor(
         name: String,
@@ -30,7 +41,7 @@ data class User(
         email: String,
         date: Date,
         location: Location
-    ) : this(null, name, phone, email, null, date, location)
+    ) : this(null, name, phone, email, null, date, location,"")
 
     var hashedPassword: String? = password?.let { hashPassword(it) }
         private set

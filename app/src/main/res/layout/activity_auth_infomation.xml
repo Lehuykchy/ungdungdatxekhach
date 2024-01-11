@@ -232,7 +232,7 @@
                 android:layout_marginTop="20dp"
                 android:backgroundTint="#00cba9"
                 android:text="Tiếp tục"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="18dp" />
         </LinearLayout>
     </ScrollView>

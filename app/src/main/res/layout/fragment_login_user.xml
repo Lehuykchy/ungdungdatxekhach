@@ -88,16 +88,16 @@
         <Button
             android:id="@+id/btnLogin"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:backgroundTint="#E6E3E3"
             android:minHeight="55dp"
             android:text="Đăng nhập"
             android:textColor="#858484"
             android:textSize="16dp"
             android:textStyle="bold"
-            android:layout_marginTop="30dp"/>
+            android:layout_marginTop="30dp"
+            android:backgroundTint="#E6E3E3" />
 
     </LinearLayout>
 
@@ -149,7 +149,7 @@
         <Button
             android:id="@+id/btnLoginVertifyOTP"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:backgroundTint="#E6E3E3"

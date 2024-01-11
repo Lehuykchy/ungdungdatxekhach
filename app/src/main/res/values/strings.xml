@@ -3,7 +3,6 @@
 
     <string-array name="VehiceType">
         <item>Xe khách</item>
-        <item>Xe con</item>
         <item>Xe giường nằm</item>
     </string-array>
 

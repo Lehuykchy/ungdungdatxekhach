@@ -226,7 +226,8 @@ class OrdersDefaultFragment : Fragment() {
                     .update("status", Constants.STATUS_PAID)
                     .addOnSuccessListener { document ->
                         Toast.makeText(requireActivity(), "Quý khách dã thanh toán thành công!", Toast.LENGTH_SHORT).show()
-                        binding.btnOrderDefaultConfirm.visibility= View.GONE
+                        binding.rltFootterPaymentEd.visibility= View.GONE
+                        binding.btnOrderDefaultEvaluate.visibility = View.VISIBLE
                         dialog.dismiss()
                     }.addOnFailureListener { exception ->
                     }

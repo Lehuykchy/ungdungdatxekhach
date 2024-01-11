@@ -13,4 +13,5 @@ object Constants {
     const val STATUS_SUCCESS= "Đã đến nơi"
     const val STATUS_NO_START= "Chưa bắt đầu"
     const val STATUS_EVALUATE = "Đã đánh giá"
+    const val URL = "gs://ungdungdatxe-30fd9.appspot.com/images/"
 }

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/dialog_bg"
+    android:backgroundTint="@color/white">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sắp xếp nhanh"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_centerHorizontal="true"
+            android:paddingTop="5dp"/>
+
+        <ImageView
+            android:id="@+id/imgSortClose"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:src="@drawable/multiply"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"/>
+
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#a5a5a5"/>
+
+    <TextView
+        android:id="@+id/tvSortIncrease"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="Giá vé tăng dần"
+        android:textSize="20dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="15dp"
+        android:layout_marginTop="15dp"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#a5a5a5"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"/>
+    <TextView
+        android:id="@+id/tvSortReduce"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="Giá vé giảm dần"
+        android:textSize="20dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="15dp"
+        android:layout_marginTop="15dp"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#a5a5a5"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"/>
+    <TextView
+        android:id="@+id/tvSortTime"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="thời gian xuất phát"
+        android:textSize="20dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="15dp"
+        android:layout_marginTop="15dp"/>
+</LinearLayout>

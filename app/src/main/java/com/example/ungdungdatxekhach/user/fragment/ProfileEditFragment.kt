@@ -1,5 +1,6 @@
 package com.example.ungdungdatxekhach.user.fragment
 
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.Intent
@@ -25,7 +26,9 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import com.bumptech.glide.Glide
 import com.example.ungdungdatxekhach.R
+import com.example.ungdungdatxekhach.admin.Constants
 import com.example.ungdungdatxekhach.databinding.FragmentProfileEditBinding
 import com.example.ungdungdatxekhach.modelshare.City
 import com.example.ungdungdatxekhach.modelshare.Location
@@ -36,6 +39,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.toObject
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.io.File
@@ -48,6 +53,7 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import java.util.UUID
 import javax.annotation.Nullable
 
 
@@ -61,6 +67,9 @@ class ProfileEditFragment : Fragment() {
     private lateinit var user: User
     private lateinit var location: Location
     private lateinit var cityList: List<City>
+    private val PICK_IMAGE_REQUEST = 1
+    private lateinit var storageReference: StorageReference
+    private lateinit var uri : Uri
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -89,6 +98,17 @@ class ProfileEditFragment : Fragment() {
                 .addOnSuccessListener { document ->
                     if (document != null) {
                         user = document.toObject<User>()!!
+                        val storagePath = "images/" + user.imageId //
+                        val storage = FirebaseStorage.getInstance()
+                        val storageRef = storage.reference.child(storagePath)
+                        storageRef.downloadUrl.addOnSuccessListener { uri ->
+                            val downloadUrl = uri.toString()
+                            Glide.with(this)
+                                .load(downloadUrl)
+                                .into(binding.imgEditcontact)
+                        }.addOnFailureListener { exception ->
+                            Log.e("Firebase Storage", "Error getting download URL: ${exception.message}")
+                        }
                         location = user.location
                         binding.edtProfileEditName.setText(user.name)
                         binding.edtProfileEditEmail.setText(user.email)
@@ -113,9 +133,34 @@ class ProfileEditFragment : Fragment() {
         binding.tvProfileEditLocation.setOnClickListener {
             onClickTvLocation()
         }
+        binding.tvEditcontactaddimg.setOnClickListener {
+            onClickImageView()
+        }
+        binding.imgEditcontact.setOnClickListener {
+            onClickImageView()
+        }
 
 
     }
+
+
+    private fun onClickImageView() {
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        startActivityForResult(intent, PICK_IMAGE_REQUEST)
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
+            uri  = data.data!!
+
+            Glide.with(this).load(uri).into(binding.imgEditcontact)
+
+        }
+    }
+
 
     private fun onClickTvLocation() {
         val dialog: Dialog = Dialog(requireActivity())
@@ -240,12 +285,15 @@ class ProfileEditFragment : Fragment() {
     }
 
     private fun updateUser(newUser: User) {
+        val imageName = UUID.randomUUID().toString()
+        storageReference = FirebaseStorage.getInstance().getReference("images/$imageName")
         val dataToUpdate = mapOf(
             "name" to newUser.name,
             "phone" to newUser.phone,
             "email" to newUser.email,
             "date" to newUser.date,
-            "location" to newUser.location
+            "location" to newUser.location,
+            "imageId" to imageName
         )
         dbUpdate.collection("users").document(phone)
             .update(dataToUpdate)
@@ -253,6 +301,15 @@ class ProfileEditFragment : Fragment() {
                 Toast.makeText(requireActivity(), "Cập nhật thông tin thành công!", Toast.LENGTH_SHORT).show()
             }
             .addOnFailureListener { e ->
+            }
+        storageReference.putFile(uri)
+            .addOnSuccessListener {
+                storageReference.downloadUrl.addOnSuccessListener { uri ->
+                    val imageUrl = uri.toString()
+                }
+            }
+            .addOnFailureListener { e ->
+                // Xử lý khi tải lên thất bại
             }
     }
 

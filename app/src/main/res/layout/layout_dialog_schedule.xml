@@ -25,7 +25,8 @@
             android:layout_alignParentRight="true"
             android:text="Hủy"
             android:textColor="#FF5252"
-            android:textSize="20dp"/>
+            android:textSize="20dp"
+            android:paddingRight="15dp"/>
     </RelativeLayout>
 
     <ListView

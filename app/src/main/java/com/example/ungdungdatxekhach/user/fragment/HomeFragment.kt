@@ -27,17 +27,20 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.example.ungdungdatxekhach.R
 import com.example.ungdungdatxekhach.admin.Constants
 import com.example.ungdungdatxekhach.admin.adapter.ItemPopularRouteAdminAdapter
 import com.example.ungdungdatxekhach.admin.adapter.ItemScheduleAdapter
 import com.example.ungdungdatxekhach.admin.model.Admin
+import com.example.ungdungdatxekhach.admin.model.Vehicle
 import com.example.ungdungdatxekhach.modelshare.Route
 import com.example.ungdungdatxekhach.databinding.FragmentHomeBinding
 import com.example.ungdungdatxekhach.modelshare.City
 import com.example.ungdungdatxekhach.modelshare.Location
 import com.example.ungdungdatxekhach.modelshare.Schedule
 import com.example.ungdungdatxekhach.modelshare.TimeRoute
+import com.example.ungdungdatxekhach.modelshare.adapter.Filter
 import com.example.ungdungdatxekhach.user.Utils
 import com.example.ungdungdatxekhach.user.model.Ticket
 import com.example.ungdungdatxekhach.user.model.User
@@ -47,8 +50,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.toObject
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -58,7 +64,8 @@ import kotlin.math.log
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
-//    private lateinit var adapter: ItemScheduleAdapter
+
+    //    private lateinit var adapter: ItemScheduleAdapter
     private lateinit var listItem: ArrayList<Schedule>
     private lateinit var listScheduleSearch: ArrayList<Schedule>
     private val db = Firebase.firestore
@@ -70,42 +77,25 @@ class HomeFragment : Fragment() {
     private val COUNTDOWN_TIME = TimeUnit.SECONDS.toMillis(15)
     private var customer = User()
     private var ticket = Ticket()
+    private val formatDate = SimpleDateFormat("dd/MM/yyyy")
+    private lateinit var listFilter: ArrayList<Filter>
+    private lateinit var user: User
+    private lateinit var storageReference: StorageReference
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
+        val bottomNavigationView =
+            activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        bottomNavigationView?.visibility = View.VISIBLE
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        listItem = ArrayList()
-//        getListItem()
-
-//        binding.rcvItemSchedule.layoutManager = LinearLayoutManager(activity)
-//        adapter = ItemScheduleAdapter(
-//            listItem,
-//            requireActivity(),
-//            object : ItemScheduleAdapter.IClickListener {
-//                override fun clickDelete(id: Int) {
-//                }
-//
-//                override fun onClick(position: Int, route: Route, admin: Admin) {
-//                    val bundle = bundleOf("route" to route, "schedule" to listItem.get(position), "admin" to admin)
-//                    val navController = activity?.findNavController(R.id.framelayout)
-//                    val bottomNavigationView =
-//                        activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-//                    bottomNavigationView?.visibility = View.GONE
-//                    navController?.navigate(
-//                        R.id.action_navigation_home_to_routeDefaultBuyTicketStep1, bundle
-//                    )
-//                }
-//
-//            })
-//        binding.rcvItemSchedule.adapter = adapter
-//        binding.rcvItemSchedule.isNestedScrollingEnabled = false
-
+        getCustomer()
+        binding.tvHomeSelectDepartureDate.text = formatDate.format(Date())
         binding.lnHomeSelectDeparture.setOnClickListener {
             setLocation { selectedLocation ->
                 locationDeparture = selectedLocation
@@ -123,89 +113,79 @@ class HomeFragment : Fragment() {
         }
         binding.btnHomeSearch.setOnClickListener {
             if (ischeck()) {
-                listScheduleSearch = ArrayList()
+                listFilter = ArrayList()
                 val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
                 val dateSearch =
                     dateFormat.parse(binding.tvHomeSelectDepartureDate.text.toString()) ?: Date()
+                val bundle = bundleOf(
+                    "locationDeparture" to locationDeparture,
+                    "locationDestination" to locationDestination,
+                    "dateSearch" to dateSearch
+                )
 
-                val routesTask = db.collection("routes").get()
+                val navController = activity?.findNavController(R.id.framelayout)
+                val bottomNavigationView =
+                    activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+                bottomNavigationView?.visibility = View.GONE
+                navController?.navigate(
+                    R.id.action_navigation_home_to_homeFragmentSearch,
+                    bundle
+                )
 
-                routesTask.addOnSuccessListener { documentSnapshots ->
-                    val scheduleTasks = mutableListOf<Task<Void>>()
-
-                    for (document in documentSnapshots) {
-                        val route = document.toObject(Route::class.java)
-                        if (route.location.any { it.district == locationDeparture.district } && route.location.any { it.district == locationDestination.district }) {
-
-                            val scheduleTask = db.collection("routes").document(document.id)
-                                .collection("schedules").get()
-                                .addOnSuccessListener { scheduleDocumentSnapshots ->
-                                    for (scheduleDocument in scheduleDocumentSnapshots) {
-                                        val schedule =
-                                            scheduleDocument.toObject(Schedule::class.java)
-                                        schedule.id = scheduleDocument.id
-                                        if (dateSearch == schedule.date) {
-                                            Log.d(
-                                                "checklistSchedule",
-                                                "datasearch $dateSearch - $schedule"
-                                            )
-                                            listScheduleSearch.add(schedule)
-                                        }
-                                    }
-                                }
-
-                            scheduleTasks.add(scheduleTask.continueWith {
-                                null
-                            })
-                        }
-                    }
-
-                    Tasks.whenAll(scheduleTasks).addOnSuccessListener {
-                        val bundle = Bundle().apply {
-                            putSerializable("listSchedule", ArrayList(listScheduleSearch))
-                        }
-
-                        val navController = activity?.findNavController(R.id.framelayout)
-                        val bottomNavigationView =
-                            activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-                        bottomNavigationView?.visibility = View.GONE
-                        navController?.navigate(
-                            R.id.action_navigation_home_to_homeFragmentSearch, bundle
-                        )
-                    }
-                }
             }
         }
 
+
+
         binding.btnHomeCreate.setOnClickListener {
-            onClickBtnCreate()
+            if (ischeck()) {
+                onClickBtnCreate()
+            }
+        }
+
+        binding.cardviewHomeContact.setOnClickListener {
+            val navController = activity?.findNavController(R.id.framelayout)
+            val bottomNavigationView =
+                activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+            bottomNavigationView?.visibility = View.GONE
+            navController?.navigate(R.id.action_navigation_home_to_profileEditFragment)
         }
 
 
     }
 
-//    private fun getListItem() {
-//        val checkRoute = db.collection("routes")
-//        checkRoute.get()
-//            .addOnSuccessListener { documetnSnapsot ->
-//                for(document in documetnSnapsot){
-//                    var route = document.toObject<Route>()
-//                    if(route != null){
-//                       checkRoute.document(document.id).collection("schedules")
-//                           .get()
-//                           .addOnSuccessListener { documents ->
-//                               for (documentSchedule in documents){
-//                                   var schedule = documentSchedule.toObject<Schedule>()
-//                                   if(schedule != null){
-//                                       schedule.id = documentSchedule.id
-//                                       adapter.addSchedule(schedule)
-//                                   }
-//                               }
-//                           }
-//                    }
-//                }
-//            }
-//    }
+    private fun getCustomer() {
+        val i = requireActivity().intent
+        var phone = i.getStringExtra("phone").toString()
+        try {
+            db.collection("users").document(phone)
+                .get()
+                .addOnSuccessListener { document ->
+                    if (document != null) {
+                        user = document.toObject<User>()!!
+                        val storagePath = "images/" + user.imageId //
+                        val storage = FirebaseStorage.getInstance()
+                        val storageRef = storage.reference.child(storagePath)
+                        storageRef.downloadUrl.addOnSuccessListener { uri ->
+                            val downloadUrl = uri.toString()
+                            Glide.with(this)
+                                .load(downloadUrl)
+                                .into(binding.imgEditcontact)
+                        }.addOnFailureListener { exception ->
+                            Log.e(
+                                "Firebase Storage",
+                                "Error getting download URL: ${exception.message}"
+                            )
+                        }
+                    }
+                }
+                .addOnFailureListener { exception ->
+                }
+        } catch (e: ParseException) {
+            e.printStackTrace()
+        }
+    }
+
 
     private fun onClickBtnCreate() {
         val dialog: Dialog = Dialog(requireActivity())
@@ -256,6 +236,10 @@ class HomeFragment : Fragment() {
             val hour = calendar.get(Calendar.HOUR_OF_DAY)
             val minute = calendar.get(Calendar.MINUTE)
 
+            if(tvDialogRuntimeTimeCountTicket.text.toString().toInt()==0){
+                Toast.makeText(requireActivity(), "Hãy chọn số vé", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 val time = timePickerDialogRuntime.hour.toString()
                     .toInt() * 60 + timePickerDialogRuntime.minute.toString()
@@ -265,9 +249,9 @@ class HomeFragment : Fragment() {
                         timePickerDialogRuntime.hour.toString().toInt(),
                         timePickerDialogRuntime.minute.toString().toInt()
                     )
-                val formatDate = SimpleDateFormat("dd/MM/yyyy")
 
-                if(formatDate.format(Date()).equals(binding.tvHomeSelectDepartureDate.text)) {
+
+                if (formatDate.format(Date()).equals(binding.tvHomeSelectDepartureDate.text)) {
                     if (time >= 15) {
                         lnConfirm.visibility = View.VISIBLE
                         lnDialogRuntimeTime.visibility = View.GONE
@@ -304,7 +288,7 @@ class HomeFragment : Fragment() {
                             Toast.LENGTH_SHORT
                         ).show()
                     }
-                }else{
+                } else {
 
                     lnConfirm.visibility = View.VISIBLE
                     lnDialogRuntimeTime.visibility = View.GONE
@@ -440,7 +424,7 @@ class HomeFragment : Fragment() {
                 binding.tvHomeSelectDepartureDate.text = selectedDate
             }, year, month, day)
         }
-        datePickerDialog.datePicker.minDate = currentDate.timeInMillis
+//        datePickerDialog.datePicker.minDate = currentDate.timeInMillis
         datePickerDialog!!.show()
     }
 

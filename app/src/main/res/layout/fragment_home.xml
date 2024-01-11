@@ -9,12 +9,11 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:elevation="30dp"
-        android:gravity="center_vertical|right"
-        android:background="@drawable/wave_background">
+        android:elevation="100dp"
+        android:gravity="center_vertical|right">
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/cardviewEditcontact"
+            android:id="@+id/cardviewHomeContact"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_centerInParent="true"
@@ -36,12 +35,12 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#a5a5a5" />
+        android:layout_height="2dp"
+        android:background="#D5D2D2" />
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="205dp"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
         android:src="@drawable/busiconhome" />
@@ -100,17 +99,28 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/tv1"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:paddingBottom="5dp"
-                    android:text="Điểm khởi hành"
-                    android:textColor="#251C50"
-                    android:textSize="18dp"
-                    android:textStyle="bold" />
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingBottom="5dp"
+                        android:text="Điểm khởi hành"
+                        android:textColor="#251C50"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/dropdown" />
+                </RelativeLayout>
 
                 <TextView
                     android:id="@+id/tvHomeSelectDeparture"
@@ -135,14 +145,26 @@
                 android:layout_marginTop="145dp"
                 android:orientation="vertical">
 
-                <TextView
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:text="Điểm đến"
-                    android:textColor="#211945"
-                    android:textSize="18dp"
-                    android:textStyle="bold" />
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:text="Điểm đến"
+                        android:textColor="#211945"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/dropdown" />
+                </RelativeLayout>
 
                 <TextView
                     android:id="@+id/tvHomeSelectDestination"
@@ -169,14 +191,26 @@
                 android:layout_alignParentBottom="true"
                 android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:text="Ngày xuất phát"
-                    android:textColor="#211945"
-                    android:textSize="18dp"
-                    android:textStyle="bold" />
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:text="Ngày xuất phát"
+                        android:textColor="#211945"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/dropdown" />
+                </RelativeLayout>
 
                 <TextView
                     android:id="@+id/tvHomeSelectDepartureDate"
@@ -206,30 +240,27 @@
         android:layout_height="match_parent"
         android:gravity="bottom"
         android:orientation="horizontal"
-        android:padding="10dp"
-        android:layout_marginBottom="10dp">
+        android:padding="10dp">
 
-        <androidx.appcompat.widget.AppCompatButton
+        <Button
             android:id="@+id/btnHomeSearch"
             android:layout_width="0dp"
             android:layout_height="60dp"
+            android:layout_marginRight="10dp"
             android:layout_weight="1"
-            android:background="@drawable/radius10"
             android:backgroundTint="#00cba9"
             android:text="Tìm chuyến"
             android:textColor="@color/white"
             android:textSize="18dp"
-            android:textStyle="bold"
-            android:layout_marginRight="20dp"/>
+            android:textStyle="bold" />
 
-        <androidx.appcompat.widget.AppCompatButton
+        <Button
             android:id="@+id/btnHomeCreate"
             android:layout_width="0dp"
             android:layout_height="60dp"
             android:layout_weight="1"
-            android:background="@drawable/radius10"
             android:backgroundTint="#00cba9"
-            android:text="Đặt chuyến đi"
+            android:text="Đặt chuyến"
             android:textColor="@color/white"
             android:textSize="18dp"
             android:textStyle="bold" />

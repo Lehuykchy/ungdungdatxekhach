@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ungdungdatxekhach.modelshare.Location
 import com.example.ungdungdatxekhach.R
 import com.example.ungdungdatxekhach.admin.model.Admin
+import com.example.ungdungdatxekhach.admin.model.Vehicle
 import com.example.ungdungdatxekhach.databinding.FragmentRouteDefaultBuyticketStep1Binding
 import com.example.ungdungdatxekhach.modelshare.Evaluate
 import com.example.ungdungdatxekhach.modelshare.Route
@@ -43,11 +44,13 @@ class RouteDefaultBuyTicketStep1 : Fragment() {
     private lateinit var route: Route
     private lateinit var schedule: Schedule
     private lateinit var admin: Admin
+    private lateinit var vehicle: Vehicle
     private lateinit var adapter: ItemEvaluateAdapter
     private lateinit var listItem: ArrayList<Evaluate>
     private lateinit var phone: String
     private val dateFormat = SimpleDateFormat("dd/MM/yyyy")
     private val db = Firebase.firestore
+    private var count = 0
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -66,8 +69,14 @@ class RouteDefaultBuyTicketStep1 : Fragment() {
         route = receivedBundle.getSerializable("route") as Route
         schedule = receivedBundle.getSerializable("schedule") as Schedule
         admin = receivedBundle.getSerializable("admin") as Admin
-
+        vehicle = receivedBundle.getSerializable("vehicle") as Vehicle
         listItem = ArrayList()
+        count = vehicle.seats
+        for (ticket in schedule.customerIds) {
+            count -= ticket.count
+        }
+        binding.tvBuyTicketStep1Blank.text = count.toString() +
+                "/" + vehicle.seats.toString() + " chỗ trống"
 
         setInfo()
 
@@ -96,12 +105,15 @@ class RouteDefaultBuyTicketStep1 : Fragment() {
                 binding.tvBuyTicketStep1Evaluate.backgroundTintList = colorClick
             }
             binding.rcvBuyTicketStep1Evaluate.layoutManager = LinearLayoutManager(requireActivity())
-            adapter = ItemEvaluateAdapter(listItem, requireActivity(), object : ItemEvaluateAdapter.IClickListener{
-                override fun onClick(position: Int) {
+            adapter = ItemEvaluateAdapter(
+                listItem,
+                requireActivity(),
+                object : ItemEvaluateAdapter.IClickListener {
+                    override fun onClick(position: Int) {
 
-                }
+                    }
 
-            })
+                })
             binding.rcvBuyTicketStep1Evaluate.adapter = adapter
             binding.rcvBuyTicketStep1Evaluate.isNestedScrollingEnabled = false
 
@@ -110,16 +122,22 @@ class RouteDefaultBuyTicketStep1 : Fragment() {
 
         binding.btnBuyTicketStep1Confirm.setOnClickListener {
             if (ischeck()) {
-                val bundle = bundleOf("route" to route, "schedule" to schedule,
-                    "mount" to binding.tvBuyTicketStep1CountTicket.text.toString().toInt())
+                val bundle = bundleOf(
+                    "route" to route, "schedule" to schedule,
+                    "mount" to binding.tvBuyTicketStep1CountTicket.text.toString().toInt()
+                )
                 val navController = activity?.findNavController(R.id.framelayout)
-                navController?.navigate(R.id.action_routeDefaultBuyTicketStep1_to_routeDefaultBuyTicketStep2, bundle)
+                navController?.navigate(
+                    R.id.action_routeDefaultBuyTicketStep1_to_routeDefaultBuyTicketStep2,
+                    bundle
+                )
             }
         }
 
         binding.imgBuyTicketStep1BackUser.setOnClickListener {
             val navController = activity?.findNavController(R.id.framelayout)
-            val bottomNavigationView = activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+            val bottomNavigationView =
+                activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
             bottomNavigationView?.visibility = View.VISIBLE
             navController?.popBackStack()
         }
@@ -134,9 +152,9 @@ class RouteDefaultBuyTicketStep1 : Fragment() {
             .whereEqualTo("adminId", route.idAdmin)
             .get()
             .addOnSuccessListener { documentSnapshot ->
-                for(document in documentSnapshot){
+                for (document in documentSnapshot) {
                     var evaluate = document.toObject<Evaluate>()
-                    if(evaluate!=null){
+                    if (evaluate != null) {
                         listItem.add(evaluate)
                     }
                 }
@@ -146,10 +164,10 @@ class RouteDefaultBuyTicketStep1 : Fragment() {
     }
 
     private fun setInfo() {
-        binding.tvBuyTicketStep1DepartureTime.text = schedule.dateRoute.pickedHour.toString() + ":"+
-                schedule.dateRoute.pickedMinute.toString() + " | " + dateFormat.format(schedule.date)
+        binding.tvBuyTicketStep1DepartureTime.text =
+            schedule.dateRoute.toFormattString() + " | " + dateFormat.format(schedule.date)
         binding.tvBuyTicketStep1Schedule.text = route.departureLocation + " - " + route.destination
-        binding.tvBuyTicketStep1Distance.text = route.distance +" Km"
+        binding.tvBuyTicketStep1Distance.text = route.distance + " Km"
         binding.tvBuyTicketStep1Price.text = route.price + " đ"
         binding.tvBuyTicketStep1AdminName.text = admin.name
         binding.tvBuyTicketStep1AdminPhone.text = admin.phone
@@ -203,9 +221,13 @@ class RouteDefaultBuyTicketStep1 : Fragment() {
 
         binding.imgBuyTicketStep1AddTicket.setOnClickListener {
             val i: Int = binding.tvBuyTicketStep1CountTicket.text.toString().toInt() + 1
-            binding.tvBuyTicketStep1CountTicket.setText(i.toString())
-            binding.tvBuyTicketStep1CountSeat.setText(i.toString() + " vé")
-            binding.tvBuyTicketStep1TotalMoney.setText((i * route.price.toInt()).toString() + " đ")
+            if(i>count){
+                Toast.makeText(requireActivity(), "Số vé không đủ!",Toast.LENGTH_SHORT).show()
+            }else {
+                binding.tvBuyTicketStep1CountTicket.setText(i.toString())
+                binding.tvBuyTicketStep1CountSeat.setText(i.toString() + " vé")
+                binding.tvBuyTicketStep1TotalMoney.setText((i * route.price.toInt()).toString() + " đ")
+            }
         }
     }
 

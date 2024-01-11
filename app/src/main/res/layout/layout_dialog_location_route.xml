@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/dialog_bg"
-    android:backgroundTint="@color/white">
+    android:backgroundTint="@color/white"
+    android:padding="10dp">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -99,7 +100,7 @@
         android:layout_height="wrap_content"
         android:minHeight="48dp"
         android:hint="Nhập địa điểm khác"
-        android:paddingLeft="5dp"/>
+        android:paddingLeft="15dp"/>
 
 
     <Button
