@@ -62,7 +62,7 @@ class HomeOrderFragment : Fragment() {
         if (receivedBundle != null) {
             ticket = receivedBundle.getSerializable("ticket") as Ticket
             binding.tvHomeOrderTime.text =
-                ticket.timeRoute.pickedHour.toString() + ":" + ticket.timeRoute.pickedMinute.toString() +
+                ticket.timeRoute.toFormattString() +
                         " | " + formatDate.format(ticket.dateDeparture)
             binding.tvHomeOrderDepartureOther.text = ticket.departure.other
             binding.tvHomeOrderDestinationOther.text = ticket.destination.other
@@ -198,6 +198,7 @@ class HomeOrderFragment : Fragment() {
                 .update(dataToUpdate)
                 .addOnCompleteListener { document ->
                     Toast.makeText(requireActivity(), "Từ chối nhà xe thành công!", Toast.LENGTH_SHORT).show()
+                    onClickHomeOrderBack()
                 }
                 .addOnFailureListener { }
             db.collection("tickets").document(ticket.id)
@@ -205,7 +206,7 @@ class HomeOrderFragment : Fragment() {
                 .addOnCompleteListener { document ->
                 }
                 .addOnFailureListener { }
-            onClickHomeOrderBack()
+
             dialog.dismiss()
         }
 
@@ -304,7 +305,7 @@ class HomeOrderFragment : Fragment() {
             .addOnSuccessListener { document ->
                 if (document != null) {
                     route = document.toObject<Route>()!!
-                    binding.tvHomeOrderPriceAdmin.text = route.price +"đ"
+                    binding.tvHomeOrderPriceAdmin.text = Constants.formatCurrency(route.price.toDouble())
                     binding.tvHomeOrderDepartureAdmin.text = route.departureLocation
                     binding.tvHomeOrderDestinationAdmin.text = route.destination
                     binding.tvHomeOrderNameDistance.text = route.distance+"Km"
@@ -331,10 +332,10 @@ class HomeOrderFragment : Fragment() {
     private fun onClickHomeOrderBack() {
         val navController = activity?.findNavController(R.id.framelayout)
         navController?.popBackStack()
-        val bottomNavigationView =
-            activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-        bottomNavigationView?.visibility = View.VISIBLE
     }
+
+
+
 
 
 }

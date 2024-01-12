@@ -37,312 +37,496 @@
             android:textStyle="bold" />
     </RelativeLayout>
 
-
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/rltabc"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/radius10"
-        android:orientation="vertical"
-        android:padding="10dp">
-
+        android:layout_below="@id/rltabc">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:padding="2dp"
-                    android:src="@drawable/clock" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:hint="Thời gian xuất phát"
-                    android:paddingLeft="3dp"
-                    android:textSize="16dp" />
-
-                <TextView
-                    android:id="@+id/tvHomeOrderDefaultDepartureTime"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:hint="AA:BB | dd/MM/yyyy"
-                    android:paddingLeft="3dp"
-                    android:textColor="@color/black"
-                    android:textSize="16dp" />
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/baseline_location_on_24" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:hint="Lộ trình"
-                    android:paddingLeft="3dp"
-                    android:textSize="16dp" />
-
-                <TextView
-                    android:id="@+id/tvHomeOrderDefaultSchedule"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:hint="My dinh - Na Hang"
-                    android:paddingLeft="3dp"
-                    android:textColor="@color/black"
-                    android:textSize="16dp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tvHomeOrderDefaultDistance"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:hint="200Km"
-                    android:textSize="17dp" />
-
-                <TextView
-                    android:id="@+id/tvHomeOrderDefaultPrice"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="bottom|end"
-                    android:hint="200000 đ"
-                    android:textColor="@color/black"
-                    android:textSize="20dp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tvHomeOrderDefaultInfoBus"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/radius10"
-                android:backgroundTint="#00cba9"
-                android:gravity="center"
-                android:padding="5dp"
-                android:text="Nhà xe"
-                android:textColor="@color/white"
-                android:textSize="16dp" />
-
-            <TextView
-                android:id="@+id/tvHomeOrderDefaultEvaluate"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/radius10"
-                android:backgroundTint="#D2E4E1"
-                android:gravity="center"
-                android:padding="5dp"
-                android:text="Đánh giá"
-                android:textColor="@color/black"
-                android:textSize="16dp" />
-
-            <TextView
-                android:id="@+id/lnHomeOrderDefaultSchedule"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_weight="2"
-                android:backgroundTint="#D2E4E1"
-                android:gravity="center"
-                android:padding="5dp"
-                android:text="Chi tiết chuyến đi"
-                android:textColor="@color/black"
-                android:textSize="16dp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.8dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="5dp"
             android:layout_marginBottom="20dp"
-            android:background="#a5a5a5" />
-
-        <LinearLayout
-            android:id="@+id/lnInfoAdmin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:background="@color/white"
+            android:background="@drawable/radius10"
             android:orientation="vertical"
-            android:visibility="visible">
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#D8D7D7"
-                app:cardCornerRadius="10dp"
-                android:layout_marginBottom="10dp">
-
-                <ImageView
-                    android:id="@+id/imgHomeOrderDefaultAdmin"
-                    android:layout_width="wrap_content"
-                    android:layout_height="180dp"
-                    android:src="@drawable/baseline_image_24"
-                    android:layout_gravity="center"
-                    android:scaleType="centerCrop"/>
-            </androidx.cardview.widget.CardView>
-
-            <TextView
-                android:id="@+id/tvHomeOrderDefaultAdminName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Nhà xe Lê Huy"
-                android:textColor="@color/black"
-                android:textSize="20dp"
-                android:textStyle="bold" />
+            android:padding="10dp">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Số điện thoại"
-                    android:textColor="@color/black"
-                    android:textSize="16dp" />
-
-                <TextView
-                    android:id="@+id/tvHomeOrderDefaultAdminPhone"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="right"
-                    android:hint="0966554xxx"
-                    android:textColor="@color/black"
-                    android:textSize="16dp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Email"
-                    android:textColor="@color/black"
-                    android:textSize="16dp" />
-
-                <TextView
-                    android:id="@+id/tvHomeOrderDefaultAdminEmail"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="right"
-                    android:hint="example@gmail.com"
-                    android:textColor="@color/black"
-                    android:textSize="16dp" />
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/tvHomeOrderDefaultAdminInfomation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="30dp"
-                android:text="Thông tin chi tiết"
-                android:textColor="@color/black"
-                android:textSize="16dp" />
+                android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:text="Đánh giá"
-                android:textColor="@color/black"
-                android:textSize="20dp"
-                android:textStyle="bold" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:padding="2dp"
+                        android:src="@drawable/clock" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:hint="Thời gian xuất phát"
+                        android:paddingLeft="3dp"
+                        android:textSize="16dp" />
+
+                    <TextView
+                        android:id="@+id/tvHomeOrderDefaultDepartureTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:hint="AA:BB | dd/MM/yyyy"
+                        android:paddingLeft="3dp"
+                        android:textColor="@color/black"
+                        android:textSize="16dp" />
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/baseline_location_on_24" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:hint="Lộ trình"
+                        android:paddingLeft="3dp"
+                        android:textSize="16dp" />
+
+                    <TextView
+                        android:id="@+id/tvHomeOrderDefaultSchedule"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:hint="My dinh - Na Hang"
+                        android:paddingLeft="3dp"
+                        android:textColor="@color/black"
+                        android:textSize="16dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvHomeOrderDefaultDistance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:hint="200Km"
+                        android:textSize="17dp" />
+
+                    <TextView
+                        android:id="@+id/tvHomeOrderDefaultPrice"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="bottom|end"
+                        android:hint="200000 đ"
+                        android:textColor="@color/black"
+                        android:textSize="20dp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
+                android:layout_marginBottom="30dp"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/tvHomeOrderDefaultAdminEvaluate"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/tvHomeOrderDefaultInfoBus"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="4.8/5.0"
-                    android:textColor="@color/black"
-                    android:textSize="22dp" />
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/radius10"
+                    android:backgroundTint="#00cba9"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="Nhà xe"
+                    android:textColor="@color/white"
+                    android:textSize="16dp" />
 
-                <ImageView
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:layout_marginLeft="15dp"
-                    android:src="@drawable/star" />
+                <TextView
+                    android:id="@+id/tvHomeOrderDefaultEvaluate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/radius10"
+                    android:backgroundTint="#D2E4E1"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="Đánh giá"
+                    android:textColor="@color/black"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:id="@+id/lnHomeOrderDefaultSchedule"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="2"
+                    android:backgroundTint="#D2E4E1"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="Chi tiết chuyến đi"
+                    android:textColor="@color/black"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.8dp"
+                android:layout_marginBottom="20dp"
+                android:background="#a5a5a5" />
+
+            <LinearLayout
+                android:id="@+id/lnInfoAdmin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#D8D7D7"
+                    app:cardCornerRadius="10dp"
+                    android:layout_marginBottom="10dp">
+
+                    <ImageView
+                        android:id="@+id/imgHomeOrderDefaultAdmin"
+                        android:layout_width="match_parent"
+                        android:layout_height="180dp"
+                        android:src="@drawable/baseline_image_24"
+                        android:layout_gravity="center"
+                        android:scaleType="fitXY"/>
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:id="@+id/tvHomeOrderDefaultAdminName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Nhà xe Lê Huy"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Số điện thoại"
+                        android:textColor="@color/black"
+                        android:textSize="16dp" />
+
+                    <TextView
+                        android:id="@+id/tvHomeOrderDefaultAdminPhone"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:hint="0966554xxx"
+                        android:textColor="@color/black"
+                        android:textSize="16dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Email"
+                        android:textColor="@color/black"
+                        android:textSize="16dp" />
+
+                    <TextView
+                        android:id="@+id/tvHomeOrderDefaultAdminEmail"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:hint="example@gmail.com"
+                        android:textColor="@color/black"
+                        android:textSize="16dp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvHomeOrderDefaultAdminInfomation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="30dp"
+                    android:text="Thông tin chi tiết"
+                    android:textColor="@color/black"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:text="Đánh giá"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvHomeOrderDefaultAdminEvaluate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="4.8/5.0"
+                        android:textColor="@color/black"
+                        android:textSize="22dp" />
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#a5a5a5"
+                    android:layout_marginTop="5dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+                        <TextView
+                            android:layout_width="80dp"
+                            android:layout_height="wrap_content"
+                            android:text="Xời, tuyệt vời"
+                            android:textSize="14dp" />
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:src="@drawable/star"
+                            android:layout_marginLeft="15dp"/>
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:src="@drawable/star"
+                            android:layout_marginLeft="15dp"/>
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:src="@drawable/star"
+                            android:layout_marginLeft="15dp"/>
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:src="@drawable/star"
+                            android:layout_marginLeft="15dp"/>
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="20dp"
+                            android:layout_marginLeft="15dp"
+                            android:src="@drawable/star" />
+
+                        <TextView
+                            android:id="@+id/tvHomeOrderDefaultAdminStar5"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center|right"
+                            android:text="0"
+                            android:textSize="16dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+                        <TextView
+                            android:layout_width="80dp"
+                            android:layout_height="wrap_content"
+                            android:text="Rất tốt"
+                            android:textSize="14dp" />
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:src="@drawable/star"
+                            android:layout_marginLeft="15dp"/>
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:src="@drawable/star"
+                            android:layout_marginLeft="15dp"/>
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:src="@drawable/star"
+                            android:layout_marginLeft="15dp"/>
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:src="@drawable/star"
+                            android:layout_marginLeft="15dp"/>
+                        <TextView
+                            android:id="@+id/tvHomeOrderDefaultAdminStar4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center|right"
+                            android:text="0"
+                            android:textSize="16dp" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+                        <TextView
+                            android:layout_width="80dp"
+                            android:layout_height="wrap_content"
+                            android:text="Tạm hài lòng"
+                            android:textSize="14dp" />
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:src="@drawable/star"
+                            android:layout_marginLeft="15dp"/>
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:src="@drawable/star"
+                            android:layout_marginLeft="15dp"/>
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:src="@drawable/star"
+                            android:layout_marginLeft="15dp"/>
+                        <TextView
+                            android:id="@+id/tvHomeOrderDefaultAdminStar3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center|right"
+                            android:text="0"
+                            android:textSize="16dp" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+                        <TextView
+                            android:layout_width="80dp"
+                            android:layout_height="wrap_content"
+                            android:text="Khá thất vọng"
+                            android:textSize="14dp" />
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:src="@drawable/star"
+                            android:layout_marginLeft="15dp"/>
+
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:src="@drawable/star"
+                            android:layout_marginLeft="15dp"/>
+                        <TextView
+                            android:id="@+id/tvHomeOrderDefaultAdminStar2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center|right"
+                            android:text="0"
+                            android:textSize="16dp" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+                        <TextView
+                            android:layout_width="80dp"
+                            android:layout_height="wrap_content"
+                            android:text="Rất tệ"
+                            android:textSize="14dp" />
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:src="@drawable/star"
+                            android:layout_marginLeft="15dp"/>
+                        <TextView
+                            android:id="@+id/tvHomeOrderDefaultAdminStar1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center|right"
+                            android:text="0"
+                            android:textSize="16dp" />
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lnInfoEvaluate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Đánh giá từ đối tác"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rcvHomeOrderDefaultEvaluate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+
             </LinearLayout>
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/lnInfoEvaluate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:background="@color/white"
-            android:orientation="vertical"
-            android:visibility="gone">
+    </ScrollView>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Đánh giá từ đối tác"
-                android:textColor="@color/black"
-                android:textSize="20dp"
-                android:textStyle="bold" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rcvHomeOrderDefaultEvaluate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-
-        </LinearLayout>
-
-    </LinearLayout>
 
 </RelativeLayout>

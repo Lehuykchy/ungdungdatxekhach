@@ -28,10 +28,10 @@ class LoginActivity : AppCompatActivity(){
                 tab, position ->
             when (position) {
                 0 -> {
-                    tab.text = "Đăng nhập user"
+                    tab.text = "Người dùng"
                 }
                 1 -> {
-                    tab.text = "Đăng nhập admin"
+                    tab.text = "Nhà xe"
                 }
             }
         }

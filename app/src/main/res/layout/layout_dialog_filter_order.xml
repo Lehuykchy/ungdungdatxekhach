@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/dialog_bg"
+    android:backgroundTint="#E9EAF1">
+    <RelativeLayout
+        android:id="@+id/rltHeader"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bộ lọc"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:paddingTop="5dp"/>
+
+        <ImageView
+            android:id="@+id/imgFilterClose"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:src="@drawable/multiply"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"/>
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/lnabc"
+        android:layout_below="@id/rltHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="15dp"
+        android:padding="15dp"
+        android:background="@drawable/radius10">
+
+        <RelativeLayout
+            android:id="@+id/rltWaitPaid"
+            android:layout_width="match_parent"
+            android:layout_height="45dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chờ thanh toán"
+                android:textSize="18dp"
+                android:layout_centerVertical="true"
+                android:textColor="@color/black" />
+            <CheckBox
+                android:id="@+id/cbWaitPaid"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:enabled="false" />
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.8dp"
+            android:background="#a5a5a5"/>
+
+        <RelativeLayout
+            android:id="@+id/rltPaid"
+            android:layout_width="match_parent"
+            android:layout_height="45dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Đã thanh toán"
+                android:textSize="18dp"
+                android:textColor="@color/black"
+                android:layout_centerVertical="true"/>
+            <CheckBox
+                android:id="@+id/cbPaid"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:enabled="false"/>
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.8dp"
+            android:background="#a5a5a5"/>
+
+        <RelativeLayout
+            android:id="@+id/rltTimeOut"
+            android:layout_width="match_parent"
+            android:layout_height="45dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Đã hết hạn"
+                android:textSize="18dp"
+                android:textColor="@color/black"
+                android:layout_centerVertical="true"/>
+            <CheckBox
+                android:id="@+id/cbTimeOut"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:enabled="false"/>
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.8dp"
+            android:background="#a5a5a5"/>
+
+        <RelativeLayout
+            android:id="@+id/rltSuccess"
+            android:layout_width="match_parent"
+            android:layout_height="45dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Thành công"
+                android:textSize="18dp"
+                android:textColor="@color/black"
+                android:layout_centerVertical="true"/>
+            <CheckBox
+                android:id="@+id/cbSuccess"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:enabled="false"/>
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.8dp"
+            android:background="#a5a5a5"/>
+
+        <RelativeLayout
+            android:id="@+id/rltEvaluate"
+            android:layout_width="match_parent"
+            android:layout_height="45dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Đã đánh giá"
+                android:textSize="18dp"
+                android:textColor="@color/black"
+                android:layout_centerVertical="true"/>
+            <CheckBox
+                android:id="@+id/cbEvaluate"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:enabled="false"/>
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.8dp"
+            android:background="#a5a5a5"/>
+
+        <RelativeLayout
+            android:id="@+id/rltSearchBus"
+            android:layout_width="match_parent"
+            android:layout_height="45dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Đang tìm nhà xe"
+                android:textSize="18dp"
+                android:textColor="@color/black"
+                android:layout_centerVertical="true"/>
+            <CheckBox
+                android:id="@+id/cbSearchBus"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:enabled="false"/>
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.8dp"
+            android:background="#a5a5a5"/>
+
+        <RelativeLayout
+            android:id="@+id/rltDestroy"
+            android:layout_width="match_parent"
+            android:layout_height="45dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Đã hủy"
+                android:textSize="18dp"
+                android:textColor="@color/black"
+                android:layout_centerVertical="true"/>
+            <CheckBox
+                android:id="@+id/cbDestroy"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:enabled="false"/>
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lnFooter"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:padding="15dp"
+        android:layout_below="@id/lnabc">
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnOrderDelete"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/radius10_border"
+            android:layout_marginRight="20dp"
+            android:text="Xóa bộ lọc"
+            android:textColor="@color/black"
+            android:textSize="17dp"
+            android:textStyle="bold" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnOrderConfirm"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/radius10"
+            android:text="Áp dụng"
+            android:textColor="@color/white"
+            android:textSize="17dp"
+            android:textStyle="bold"
+            android:backgroundTint="#00cba9" />
+    </LinearLayout>
+
+</RelativeLayout>

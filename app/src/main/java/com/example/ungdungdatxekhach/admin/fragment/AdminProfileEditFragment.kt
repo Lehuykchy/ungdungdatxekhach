@@ -1,9 +1,14 @@
 package com.example.ungdungdatxekhach.admin.fragment
 
+import android.app.Activity
 import android.app.Dialog
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +22,7 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import com.bumptech.glide.Glide
 import com.example.ungdungdatxekhach.R
 import com.example.ungdungdatxekhach.admin.model.Admin
 import com.example.ungdungdatxekhach.databinding.AdminFragmentProfileEditBinding
@@ -27,8 +33,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import java.util.UUID
 
 class AdminProfileEditFragment : Fragment() {
     private lateinit var binding: AdminFragmentProfileEditBinding
@@ -38,6 +47,9 @@ class AdminProfileEditFragment : Fragment() {
     val currentAdmin = firebaseAuth.currentUser
     private var location = Location()
     private lateinit var cityList: List<City>
+    private val PICK_IMAGE_REQUEST = 1
+    private lateinit var uri : Uri
+    private lateinit var storageReference: StorageReference
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -61,6 +73,27 @@ class AdminProfileEditFragment : Fragment() {
         }
         binding.imgProfileFamilyBack.setOnClickListener {
             onClickBack()
+        }
+        binding.tvEditcontactaddimg.setOnClickListener {
+            onClickSetImage()
+        }
+        binding.imgEditcontact.setOnClickListener {
+            onClickSetImage()
+        }
+    }
+
+    private fun onClickSetImage() {
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        startActivityForResult(intent, PICK_IMAGE_REQUEST)
+    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
+            uri  = data.data!!
+
+            Glide.with(this).load(uri).into(binding.imgEditcontact)
+
         }
     }
 
@@ -168,17 +201,37 @@ class AdminProfileEditFragment : Fragment() {
     }
 
     private fun setOnClickUpdate() {
-        admin = Admin(binding.edtAdminProfileEditEmail.text.toString(),
+        val imageName = UUID.randomUUID().toString()
+        storageReference = FirebaseStorage.getInstance().getReference("images/$imageName")
+//        val dataToUpdate = mapOf(
+//            "name" to binding.edtAdminProfileEditName.text.toString(),
+//            "phone" to binding.edtAdminProfileEditPhone.text.toString(),
+//            "email" to  binding.edtAdminProfileEditEmail.text.toString(),
+//            "location" to location,
+//            "imageBackgroundId" to imageName
+//        )
+        admin = Admin(binding.edtAdminProfileEditName.text.toString(),
         binding.edtAdminProfileEditPhone.text.toString(),
         binding.edtAdminProfileEditEmail.text.toString(),
         location,
-        "")
+        binding.edtAdminProfileEditDescription.text.toString(),
+            imageName
+        )
         db.collection("admins").document(currentAdmin!!.uid)
             .set(admin)
             .addOnSuccessListener {
                 Toast.makeText(requireActivity(), "Cập nhật thông tin thành công!", Toast.LENGTH_SHORT).show()
             }
             .addOnFailureListener { e ->
+            }
+        storageReference.putFile(uri)
+            .addOnSuccessListener {
+                storageReference.downloadUrl.addOnSuccessListener { uri ->
+                    val imageUrl = uri.toString()
+                }
+            }
+            .addOnFailureListener { e ->
+                // Xử lý khi tải lên thất bại
             }
 
 
@@ -190,6 +243,18 @@ class AdminProfileEditFragment : Fragment() {
             .addOnSuccessListener { document ->
                 admin = document.toObject(Admin::class.java)!!
                 if (admin != null) {
+                    val storagePath = "images/" + admin.imageBackGroundId//
+                    val storage = FirebaseStorage.getInstance()
+                    val storageRef = storage.reference.child(storagePath)
+                    storageRef.downloadUrl.addOnSuccessListener { uri ->
+                        val downloadUrl = uri.toString()
+                        Glide.with(this)
+                            .load(downloadUrl)
+                            .error(R.drawable.profile)
+                            .into(binding.imgEditcontact)
+                    }.addOnFailureListener { exception ->
+                        Log.e("Firebase Storage", "Error getting download URL: ${exception.message}")
+                    }
                     binding.edtAdminProfileEditName.setText(admin.name)
                     binding.edtAdminProfileEditPhone.setText(admin.phone)
                     binding.edtAdminProfileEditEmail.setText(admin.email)

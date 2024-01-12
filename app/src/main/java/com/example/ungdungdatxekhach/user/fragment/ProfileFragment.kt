@@ -23,6 +23,7 @@ import com.example.ungdungdatxekhach.admin.Constants
 import com.example.ungdungdatxekhach.databinding.FragmentProfileBinding
 import com.example.ungdungdatxekhach.modelshare.activity.LoginActivity
 import com.example.ungdungdatxekhach.user.model.User
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.ktx.firestore
@@ -40,6 +41,9 @@ class ProfileFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         binding = FragmentProfileBinding.inflate(inflater, container, false)
+        val bottomNavigationView =
+            activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        bottomNavigationView?.visibility = View.VISIBLE
         return binding.root
     }
 
@@ -57,6 +61,8 @@ class ProfileFragment : Fragment() {
         db.collection("users").document(phone).get().addOnSuccessListener { document ->
             if (document != null) {
                 user = document.toObject<User>()!!
+                binding.tvNameProfile.text = user.name
+                binding.tvPhoneProfile.text = "0"+user.phone
                 val storagePath = "images/" + user.imageId //
                 val storage = FirebaseStorage.getInstance()
                 val storageRef = storage.reference.child(storagePath)

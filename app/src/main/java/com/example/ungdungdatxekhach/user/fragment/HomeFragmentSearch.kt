@@ -26,6 +26,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ungdungdatxekhach.R
+import com.example.ungdungdatxekhach.admin.Constants
 import com.example.ungdungdatxekhach.admin.adapter.ItemRouteScheduleAdapter
 import com.example.ungdungdatxekhach.admin.adapter.ItemScheduleAdapter
 import com.example.ungdungdatxekhach.admin.model.Admin
@@ -38,12 +39,19 @@ import com.example.ungdungdatxekhach.modelshare.Schedule
 import com.example.ungdungdatxekhach.modelshare.TimeRoute
 import com.example.ungdungdatxekhach.modelshare.adapter.Filter
 import com.example.ungdungdatxekhach.modelshare.adapter.ItemBusCheckboxAdapter
+import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.slider.RangeSlider
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.toObject
 import com.google.firebase.ktx.Firebase
+import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
+import java.util.Locale
+import java.time.LocalDateTime
+import java.time.temporal.ChronoUnit
 
 class HomeFragmentSearch : Fragment() {
     private lateinit var binding: FragmentHomeSearchBinding
@@ -62,6 +70,7 @@ class HomeFragmentSearch : Fragment() {
     private var isFilterCoach = false
     private var filterMaxPrice = 1000000
     private var filterMinPrice = 0
+    val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
 
 
     override fun onCreateView(
@@ -83,15 +92,15 @@ class HomeFragmentSearch : Fragment() {
             dateSearch = receivedBundle?.getSerializable("dateSearch") as Date
             locationDeparture = receivedBundle?.getSerializable("locationDeparture") as Location
             locationDestination = receivedBundle?.getSerializable("locationDestination") as Location
+            Log.d("checkdb", "onViewCreated: " + dateSearch)
 
             listCheckboxBus = ArrayList()
             listScheduleFilter = ArrayList()
             listScheduleFilterOld = ArrayList()
             getListFilter()
 
-            binding.lnNoData.visibility = View.GONE
-            binding.homeSearchData.visibility = View.VISIBLE
-            binding.lnHomeSearchFilSort.visibility = View.VISIBLE
+            binding.lnNoData.visibility = View.VISIBLE
+            binding.lnHomeSearchFilSort.visibility = View.GONE
 
             binding.rcvHomeSearch.layoutManager = LinearLayoutManager(activity)
             adapter = ItemScheduleAdapter(
@@ -101,7 +110,12 @@ class HomeFragmentSearch : Fragment() {
                     override fun clickDelete(id: Int) {
                     }
 
-                    override fun onClick(schedule: Schedule, route: Route, admin: Admin, vehicle: Vehicle) {
+                    override fun onClick(
+                        schedule: Schedule,
+                        route: Route,
+                        admin: Admin,
+                        vehicle: Vehicle
+                    ) {
                         val bundle = bundleOf(
                             "route" to route,
                             "schedule" to schedule,
@@ -153,6 +167,10 @@ class HomeFragmentSearch : Fragment() {
     }
 
     private fun getListFilter() {
+        val currentTime = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            LocalDateTime.now()
+        } else {
+        }
         db.collection("routes").get().addOnSuccessListener { documentSnapshots ->
             for (document in documentSnapshots) {
                 val route = document.toObject(Route::class.java)
@@ -168,8 +186,14 @@ class HomeFragmentSearch : Fragment() {
                                 val schedule =
                                     scheduleDocument.toObject(Schedule::class.java)
                                 schedule.id = scheduleDocument.id
-
-                                if (dateSearch.equals(schedule.date)) {
+                                if (dateFormat.format(dateSearch) > dateFormat.format(Date()) && dateFormat.format(dateSearch).equals(dateFormat.format(schedule.date))) {
+                                    Log.d(
+                                        "checktime",
+                                        "getListFilterhomesau: " + combineDateAndTime(
+                                            schedule.date,
+                                            schedule.dateRoute
+                                        )+ "/" + dateFormat.format(dateSearch) + dateFormat.format(Date())
+                                    )
                                     db.collection("admins").document(route.idAdmin)
                                         .get()
                                         .addOnSuccessListener { documentAdmin ->
@@ -198,9 +222,59 @@ class HomeFragmentSearch : Fragment() {
                                                     Log.d("checklist", "getListFilter: " + filter)
                                                     adapter.notifyDataSetChanged()
                                                     getListCheckBox()
+                                                    binding.lnNoData.visibility = View.GONE
+                                                    binding.lnHomeSearchFilSort.visibility =
+                                                        View.VISIBLE
                                                 }
 
                                         }
+                                } else if (dateFormat.format(dateSearch) == dateFormat.format(Date()) && combineDateAndTime(
+                                        schedule.date,
+                                        schedule.dateRoute
+                                    ).after(Date(Date().time ))
+                                ) {
+                                    Log.d(
+                                        "checktime",
+                                        "getListFilter: " + combineDateAndTime(
+                                            schedule.date,
+                                            schedule.dateRoute
+                                        )
+                                    )
+                                    db.collection("admins").document(route.idAdmin)
+                                        .get()
+                                        .addOnSuccessListener { documentAdmin ->
+                                            val admin = documentAdmin.toObject<Admin>()
+                                            admin?.id = documentAdmin.id
+
+                                            db.collection("admins")
+                                                .document(route.idAdmin)
+                                                .collection("vehicles")
+                                                .document(schedule.vehicleId)
+                                                .get()
+                                                .addOnSuccessListener { documentVehicle ->
+                                                    val vehicle =
+                                                        documentVehicle.toObject(
+                                                            Vehicle::class.java
+                                                        )!!
+                                                    vehicle.id = documentVehicle.id
+                                                    val filter = Filter(
+                                                        schedule,
+                                                        admin!!,
+                                                        route,
+                                                        vehicle
+                                                    )
+                                                    listScheduleFilter.add(filter)
+                                                    listScheduleFilterOld.add(filter)
+                                                    Log.d("checklist", "getListFilter: " + filter)
+                                                    adapter.notifyDataSetChanged()
+                                                    getListCheckBox()
+                                                    binding.lnNoData.visibility = View.GONE
+                                                    binding.lnHomeSearchFilSort.visibility =
+                                                        View.VISIBLE
+                                                }
+
+                                        }
+
 
                                 }
                             }
@@ -210,6 +284,8 @@ class HomeFragmentSearch : Fragment() {
 
 
         }
+
+
     }
 
     private fun onClickSearchBack() {
@@ -244,21 +320,26 @@ class HomeFragmentSearch : Fragment() {
         tvFilterEndTime.text = timeEndFilter.toFormattString()
         cbFilterCoach.isChecked = isFilterCoach
         cbFilterSleepCar.isChecked = isFilterSleepCar
-        tvFilterMinPrice.text = filterMinPrice.toInt().toString()+" đ"
-        tvFilterMaxPrice.text = filterMaxPrice.toInt().toString()+" đ"
+        tvFilterMinPrice.text = Constants.formatCurrency(filterMinPrice.toDouble())
+        tvFilterMaxPrice.text = Constants.formatCurrency(filterMaxPrice.toDouble())
 
-        var initialRangeSliderValues: FloatArray = floatArrayOf(filterMinPrice.toFloat(), filterMaxPrice.toFloat())
-        rangeSliderFilterPrice.values = initialRangeSliderValues.toList().toTypedArray().toMutableList()
+        var initialRangeSliderValues: FloatArray =
+            floatArrayOf(filterMinPrice.toFloat(), filterMaxPrice.toFloat())
+        rangeSliderFilterPrice.values =
+            initialRangeSliderValues.toList().toTypedArray().toMutableList()
 
         rcvFilterBus.layoutManager = LinearLayoutManager(requireActivity())
-        adapterCheckBoxBus = ItemBusCheckboxAdapter(listCheckboxBus, requireActivity(), object : ItemBusCheckboxAdapter.IClickListener{
-            override fun onClick(position: Int, ischecked: Boolean) {
-                listCheckboxBus.get(position).ischeck = ischecked
-                adapterCheckBoxBus.notifyDataSetChanged()
-                Log.d("checkfilterdata", "onClickFilterCheckbox: " + listCheckboxBus)
-            }
+        adapterCheckBoxBus = ItemBusCheckboxAdapter(
+            listCheckboxBus,
+            requireActivity(),
+            object : ItemBusCheckboxAdapter.IClickListener {
+                override fun onClick(position: Int, ischecked: Boolean) {
+                    listCheckboxBus.get(position).ischeck = ischecked
+                    adapterCheckBoxBus.notifyDataSetChanged()
+                    Log.d("checkfilterdata", "onClickFilterCheckbox: " + listCheckboxBus)
+                }
 
-        })
+            })
         rcvFilterBus.adapter = adapterCheckBoxBus
 
         lnFilterStart.setOnClickListener {
@@ -299,12 +380,12 @@ class HomeFragmentSearch : Fragment() {
         }
 
         imgFilterClose.setOnClickListener {
-           dialog.dismiss()
+            dialog.dismiss()
         }
 
 
         btnFilterConfirm.setOnClickListener {
-            var araylist  = ArrayList<Filter>()
+            var araylist = ArrayList<Filter>()
             araylist.addAll(listScheduleFilterOld)
             var filterTime = araylist.filter { filter ->
                 val scheduleTime = filter.schedule.dateRoute.toFormattedString()
@@ -335,7 +416,7 @@ class HomeFragmentSearch : Fragment() {
                             filterList.add(filter)
                         }
                     }
-                }else if(cbFilterSleepCar.isChecked){
+                } else if (cbFilterSleepCar.isChecked) {
                     for (filter in filterPrice) {
                         if (filter.vehicle.type.equals("Xe giường nằm")) {
                             filterList.add(filter)
@@ -353,9 +434,9 @@ class HomeFragmentSearch : Fragment() {
                     count++
                 }
             }
-            if(count==0){
+            if (count == 0) {
                 adapter.setData(filterList)
-            }else{
+            } else {
                 var filterBus = ArrayList<Filter>()
                 for (checkboxBus in listCheckboxBus) {
                     if (checkboxBus.ischeck) {
@@ -382,12 +463,14 @@ class HomeFragmentSearch : Fragment() {
             tvFilterEndTime.text = timeEndFilter.toFormattString()
             cbFilterCoach.isChecked = isFilterCoach
             cbFilterSleepCar.isChecked = isFilterSleepCar
-            tvFilterMinPrice.text = filterMinPrice.toInt().toString()+" đ"
-            tvFilterMaxPrice.text = filterMaxPrice.toInt().toString()+" đ"
+            tvFilterMinPrice.text = Constants.formatCurrency(filterMinPrice.toDouble())
+            tvFilterMaxPrice.text = Constants.formatCurrency(filterMaxPrice.toDouble())
 
-            var initialRangeSliderValues: FloatArray = floatArrayOf(filterMinPrice.toFloat(), filterMaxPrice.toFloat())
-            rangeSliderFilterPrice.values = initialRangeSliderValues.toList().toTypedArray().toMutableList()
-            for(listCheck in listCheckboxBus){
+            var initialRangeSliderValues: FloatArray =
+                floatArrayOf(filterMinPrice.toFloat(), filterMaxPrice.toFloat())
+            rangeSliderFilterPrice.values =
+                initialRangeSliderValues.toList().toTypedArray().toMutableList()
+            for (listCheck in listCheckboxBus) {
                 listCheck.ischeck = false
                 adapterCheckBoxBus.notifyDataSetChanged()
             }
@@ -489,11 +572,15 @@ class HomeFragmentSearch : Fragment() {
 
     }
 
-    fun compareTime(time1: TimeRoute, time2: TimeRoute): Int {
-        if (time1.pickedHour != time2.pickedHour) {
-            return time1.pickedHour - time2.pickedHour
+
+    fun combineDateAndTime(date: Date, timeRoute: TimeRoute): Date {
+        val combinedCalendar = Calendar.getInstance().apply {
+            time = date
+            set(Calendar.HOUR_OF_DAY, timeRoute.pickedHour)
+            set(Calendar.MINUTE, timeRoute.pickedMinute)
         }
-        return time1.pickedMinute - time2.pickedMinute
+
+        return combinedCalendar.time
     }
 
 

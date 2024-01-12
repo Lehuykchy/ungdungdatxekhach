@@ -127,7 +127,7 @@ class ProfileEditFragment : Fragment() {
         } catch (e: ParseException) {
             e.printStackTrace()
         }
-        binding.edtProfileEditPhone.setText(phone)
+        binding.edtProfileEditPhone.text = "0"+phone
         binding.tvProfileEditDate.setOnClickListener { onClickDatePicker() }
         setUpdateUser()
         binding.tvProfileEditLocation.setOnClickListener {
@@ -289,7 +289,6 @@ class ProfileEditFragment : Fragment() {
         storageReference = FirebaseStorage.getInstance().getReference("images/$imageName")
         val dataToUpdate = mapOf(
             "name" to newUser.name,
-            "phone" to newUser.phone,
             "email" to newUser.email,
             "date" to newUser.date,
             "location" to newUser.location,
@@ -331,9 +330,6 @@ class ProfileEditFragment : Fragment() {
     private fun onClickProfileEditBack() {
         val navController = activity?.findNavController(R.id.framelayout)
         navController?.popBackStack()
-        val bottomNavigationView =
-            activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-        bottomNavigationView?.visibility = View.VISIBLE
     }
 
     private fun ischeck(): Boolean {
@@ -342,15 +338,11 @@ class ProfileEditFragment : Fragment() {
             return false
         }
         if (binding.edtProfileEditEmail.text.isEmpty()) {
-            binding.edtProfileEditEmail.error = "Hãy nhập tên"
-            return false
-        }
-        if (binding.edtProfileEditPhone.text.isEmpty()) {
-            binding.edtProfileEditPhone.error = "Hãy nhập tên"
+            binding.edtProfileEditEmail.error = "Hãy nhập Email"
             return false
         }
         if (binding.tvProfileEditDate.text.isEmpty()) {
-            binding.tvProfileEditDate.error = "Hãy nhập tên"
+            binding.tvProfileEditDate.error = "Hãy nhập ngày sinh"
             return false
         }
         return true

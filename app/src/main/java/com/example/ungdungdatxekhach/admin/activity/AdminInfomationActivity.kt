@@ -40,6 +40,8 @@ class AdminInfomationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = AdminFragmentProfileEditBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.cardviewEditcontact.visibility = View.GONE
+        binding.tvEditcontactaddimg.visibility = View.GONE
 
         binding.tvAdminProfileEditLocation.setOnClickListener {
             onClickLocation()
@@ -57,11 +59,12 @@ class AdminInfomationActivity : AppCompatActivity() {
     }
 
     private fun setOnClickUpdate() {
-        admin = Admin(binding.edtAdminProfileEditEmail.text.toString(),
+        admin = Admin(binding.edtAdminProfileEditName.text.toString(),
             binding.edtAdminProfileEditPhone.text.toString(),
             binding.edtAdminProfileEditEmail.text.toString(),
             location,
-            "")
+            binding.edtAdminProfileEditDescription.text.toString(),
+        "")
         db.collection("admins").document(currentAdmin!!.uid)
             .set(admin)
             .addOnSuccessListener {

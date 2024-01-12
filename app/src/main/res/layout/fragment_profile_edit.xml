@@ -126,7 +126,7 @@
                 android:paddingLeft="5dp"
                 android:textStyle="bold" />
 
-            <EditText
+            <TextView
                 android:id="@+id/edtProfileEditPhone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -135,7 +135,13 @@
                 android:enabled="true"
                 android:inputType="phone"
                 android:textSize="17dp"
-                android:textColor="@color/black"/>
+                android:gravity="center_vertical"
+                android:paddingLeft="5dp"
+                android:textColor="@color/black" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.8dp"
+                android:background="@color/black"/>
 
             <TextView
                 android:layout_width="match_parent"

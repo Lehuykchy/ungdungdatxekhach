@@ -26,6 +26,7 @@ import com.example.ungdungdatxekhach.databinding.FragmentOrderDefaultBinding
 import com.example.ungdungdatxekhach.modelshare.Evaluate
 import com.example.ungdungdatxekhach.modelshare.Route
 import com.example.ungdungdatxekhach.modelshare.Schedule
+import com.example.ungdungdatxekhach.modelshare.TimeRoute
 import com.example.ungdungdatxekhach.modelshare.activity.LoginActivity
 import com.example.ungdungdatxekhach.user.model.Ticket
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -34,6 +35,11 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.toObject
 import com.google.firebase.ktx.Firebase
 import java.text.SimpleDateFormat
+import java.time.Duration
+import java.time.Instant
+import java.time.LocalTime
+import java.time.temporal.Temporal
+import java.util.Calendar
 import java.util.Date
 
 class OrdersDefaultFragment : Fragment() {
@@ -61,39 +67,86 @@ class OrdersDefaultFragment : Fragment() {
         schedule = receivedBundle.getSerializable("schedule") as Schedule
         ticket = receivedBundle.getSerializable("ticket") as Ticket
         Log.d("checkdb", "clickNext: " + ticket + " " + schedule)
-
-        if(ticket.status.equals(Constants.STATUS_PAID)){
+        if (ticket.status.equals(Constants.STATUS_WAIT_PAID)) {
+            binding.tvOrderDefaultStatus.text = "Chờ thanh toán"
+            binding.tvOrderDefaultStatus.setTextColor(Color.BLUE)
+            binding.rltFootterPaymentEd.visibility = View.VISIBLE
+            binding.btnOrderDefaultEvaluate.visibility = View.GONE
+            binding.rltFootterDestroy.visibility = View.GONE
+        } else if (ticket.status.equals(Constants.STATUS_PAID)) {
+            var currentTime = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                Instant.now()
+            } else {
+            }
+            var specificTime = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                combineDateAndTime(schedule.date, schedule.dateRoute).toInstant()
+            } else {
+            }
+            // Tính hiệu giữa thời gian hiện tại và thời điểm cụ thể
+            val duration = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                Duration.between(specificTime as Temporal?, currentTime as Temporal?)
+            } else {
+                TODO("VERSION.SDK_INT < O")
+            }
+            binding.tvDestroy.text = "Còn ${- duration.toHours()}:${ (-(duration?.toMinutes() ?: 0) % 60).toString()} nữa là xuất phát"
             binding.tvOrderDefaultStatus.text = "Đã thanh toán"
             binding.tvOrderDefaultStatus.setTextColor(Color.BLUE)
             binding.rltFootterPaymentEd.visibility = View.GONE
-            binding.btnOrderDefaultEvaluate.visibility = View.VISIBLE
-        }else if(ticket.status.equals(Constants.STATUS_DESTROY)){
+            binding.btnOrderDefaultEvaluate.visibility = View.GONE
+            binding.rltFootterDestroy.visibility = View.VISIBLE
+            binding.btnOrderDefaultDestroy.setOnClickListener{
+                setClickBtnDestroy()
+            }
+//            if( -duration.toHours().toInt()*60-duration?.toMinutes().toString().toInt()>=120){
+//                binding.btnOrderDefaultDestroy.setOnClickListener{
+//                    setClickBtnDestroy()
+//                }
+//            }else{
+//                binding.btnOrderDefaultDestroy.isEnabled = false
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                    binding.btnOrderDefaultDestroy.backgroundTintList =
+//                        ColorStateList.valueOf(android.graphics.Color.parseColor("#a5a5a5"))
+//                }
+//            }
+
+        } else if (ticket.status.equals(Constants.STATUS_TIMEOUT)) {      //hết hạn
+            binding.tvOrderDefaultStatus.text = "Đã hết hạn"
+            binding.tvOrderDefaultStatus.setTextColor(Color.RED)
+            binding.rltFootterPaymentEd.visibility = View.GONE
+            binding.btnOrderDefaultEvaluate.visibility = View.GONE
+            binding.rltFootterDestroy.visibility = View.GONE
+        } else if (ticket.status.equals(Constants.STATUS_DESTROY)) {        //hủy vé
             binding.tvOrderDefaultStatus.text = "Đã hủy vé"
             binding.tvOrderDefaultStatus.setTextColor(Color.RED)
             binding.rltFootterPaymentEd.visibility = View.GONE
-            binding.btnOrderDefaultEvaluate.visibility = View.VISIBLE
-            binding.btnOrderDefaultEvaluate.text = "Đặt lại vé"
-        }else if(ticket.status.equals(Constants.STATUS_WAIT_PAID)){
-            binding.tvOrderDefaultStatus.text = "Chờ thanh toán"
-            binding.rltFootterPaymentEd.visibility = View.VISIBLE
             binding.btnOrderDefaultEvaluate.visibility = View.GONE
-        }else if(ticket.status.equals(Constants.STATUS_SUCCESS)) {
-            binding.tvOrderDefaultStatus.text = "Đã thanh toán"
+            binding.rltFootterDestroy.visibility = View.GONE
+        }else if (ticket.status.equals(Constants.STATUS_SUCCESS)) {         //thành công
+            binding.tvOrderDefaultStatus.text = "Thành công"
             binding.tvOrderDefaultStatus.setTextColor(Color.BLUE)
             binding.rltFootterPaymentEd.visibility = View.GONE
+            binding.rltFootterDestroy.visibility = View.GONE
             binding.btnOrderDefaultEvaluate.visibility = View.VISIBLE
             binding.imgOrderDefaultTypeSuccess.visibility = View.VISIBLE
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                binding.btnOrderDefaultEvaluate.backgroundTintList = ColorStateList.valueOf(android.graphics.Color.parseColor("#00cba9"))
+                binding.btnOrderDefaultEvaluate.backgroundTintList =
+                    ColorStateList.valueOf(android.graphics.Color.parseColor("#00cba9"))
                 binding.btnOrderDefaultEvaluate.text = "Đánh giá"
                 binding.btnOrderDefaultEvaluate.isEnabled = true
             }
-        } else if(ticket.status.equals(Constants.STATUS_EVALUATE)) {
-            binding.tvOrderDefaultStatus.text = "Đã thanh toán"
+        } else if (ticket.status.equals(Constants.STATUS_EVALUATE)) {        // đã đánh giá
+            binding.tvOrderDefaultStatus.text = "Thành công"
             binding.tvOrderDefaultStatus.setTextColor(Color.BLUE)
             binding.rltFootterPaymentEd.visibility = View.GONE
             binding.btnOrderDefaultEvaluate.visibility = View.VISIBLE
-            binding.btnOrderDefaultEvaluate.text = "Đã đánh giá"
+            binding.rltFootterDestroy.visibility = View.GONE
+            binding.imgOrderDefaultTypeSuccess.visibility = View.VISIBLE
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                binding.btnOrderDefaultEvaluate.backgroundTintList =
+                    ColorStateList.valueOf(android.graphics.Color.parseColor("#00cba9"))
+                binding.btnOrderDefaultEvaluate.text = "Đánh giá"
+                binding.btnOrderDefaultEvaluate.isEnabled = true
+            }
         }
 
         binding.btnOrderDefaultEvaluate.setOnClickListener {
@@ -101,9 +154,8 @@ class OrdersDefaultFragment : Fragment() {
         }
 
         val dateFormat = SimpleDateFormat("dd/MM/yyyy")
-        binding.tvOrderDefaultDepartureDate.text =dateFormat.format(schedule.date).toString()
-        binding.tvOrderDefaultTotalMoney.text =
-            ticket.totalPrice.toString() + " đ"
+        binding.tvOrderDefaultDepartureDate.text = schedule.dateRoute.toFormattString()+" | "+dateFormat.format(schedule.date).toString()
+        binding.tvOrderDefaultTotalMoney.text = Constants.formatCurrency(ticket.totalPrice.toDouble())
         binding.tvOrderDefaultDepartureLocation.text = schedule.departureLocation
         binding.tvOrderDefaultDestinationLocation.text = schedule.destinationLocation
         binding.tvOrderDefaultDepartureMyLocation.text = ticket.departure.other
@@ -112,7 +164,7 @@ class OrdersDefaultFragment : Fragment() {
         binding.tvOrderDefaultEmail.text = ticket.email
         binding.tvOrderDefaultPhone.text = ticket.phone
         binding.tvOrderDefaultMountTicket.text = ticket.count.toString() + " vé"
-        binding.tvOrderDefaultTotalMoneyMain.text = ticket.totalPrice +"đ"
+        binding.tvOrderDefaultTotalMoneyMain.text =  Constants.formatCurrency(ticket.totalPrice.toDouble())
 
         binding.imgOrderDefaultBack.setOnClickListener {
             onClickBack()
@@ -125,11 +177,80 @@ class OrdersDefaultFragment : Fragment() {
         }
     }
 
+    private fun setClickBtnDestroy() {
+        val dialog: Dialog = Dialog(requireActivity())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.layout_bottom_sheet);
+        dialog.show();
+
+        val ok: TextView
+        val cancle: TextView
+        val choosetxt: TextView
+
+        choosetxt = dialog.findViewById(R.id.tvBottomSheetChoosetxt)
+        ok = dialog.findViewById(R.id.tvBottomSheetOk)
+        cancle = dialog.findViewById(R.id.tvBottomSheetCancle)
+
+        choosetxt.text = "Bạn có muốn hủy vé này không?"
+
+        ok.setOnClickListener {
+            val intent = requireActivity().intent
+            if (intent.getStringExtra("phone") != null) {
+                db.collection("users").document(intent.getStringExtra("phone").toString())
+                    .collection("tickets").document(ticket.id)
+                    .update("status", Constants.STATUS_DESTROY)
+                    .addOnSuccessListener { document ->
+                        Toast.makeText(
+                            requireActivity(),
+                            "Quý khách dã hủy vé thành công!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        binding.rltFootterPaymentEd.visibility = View.GONE
+                        binding.btnOrderDefaultEvaluate.visibility = View.GONE
+                        binding.rltFootterDestroy.visibility = View.GONE
+                        dialog.dismiss()
+                    }.addOnFailureListener { exception ->
+                    }
+                db.collection("routes").document(ticket.routeId).collection("schedules")
+                    .document(ticket.scheduleId)
+                    .get()
+                    .addOnSuccessListener { documentSnapshot ->
+                        if (documentSnapshot.exists()) {
+                            val newschedule = documentSnapshot.toObject(Schedule::class.java)
+
+                            if (newschedule != null) {
+                                for(ticket in newschedule.customerIds){
+                                    if(ticket.id == ticket.id){
+                                        newschedule.customerIds.remove(ticket)
+                                    }
+                                }
+
+                                db.collection("routes").document(ticket.routeId)
+                                    .collection("schedules").document(ticket.scheduleId)
+                                    .update("customerIds", newschedule.customerIds)
+                                    .addOnSuccessListener {
+                                    }
+                                    .addOnFailureListener { e ->
+                                    }
+                            }
+                        }
+                    }
+            }
+        }
+
+        cancle.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.getWindow()
+            ?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow()?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow()?.getAttributes()?.windowAnimations = R.style.DialogAnimation
+        dialog.getWindow()?.setGravity(Gravity.BOTTOM);
+    }
+
     private fun onClickBack() {
         val navController = activity?.findNavController(R.id.framelayout)
-        val bottomNavigationView =
-            activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-        bottomNavigationView?.visibility = View.VISIBLE
         navController?.popBackStack()
     }
 
@@ -145,29 +266,35 @@ class OrdersDefaultFragment : Fragment() {
         val edtComment = dialog.findViewById<EditText>(R.id.edtCommentEvaluate)
 
         confirm.setOnClickListener {
-            if(ratingBarEvaluate.rating.toInt()<=0){
+            if (ratingBarEvaluate.rating.toInt() <= 0) {
                 Toast.makeText(
                     requireActivity(),
                     "Hãy chọn mức độ đánh giá!",
                     Toast.LENGTH_SHORT
                 ).show()
-            }else {
+            } else {
                 val intent = requireActivity().intent
                 if (intent.getStringExtra("phone") != null) {
                     var evaluate = Evaluate(
-                        ticket.customerId, ticket.adminId, ticket.id, ticket.scheduleId,
-                        ratingBarEvaluate.rating.toInt(), edtComment?.text.toString()!!, Date(), ticket.name
+                        ticket.customerId,
+                        ticket.adminId,
+                        ticket.id,
+                        ticket.scheduleId,
+                        ratingBarEvaluate.rating.toInt(),
+                        edtComment?.text.toString()!!,
+                        Date(),
+                        ticket.name
                     )
-                    if(evaluate.comment.isEmpty()){
-                        if(evaluate.evaluate == 1){
+                    if (evaluate.comment.isEmpty()) {
+                        if (evaluate.evaluate == 1) {
                             evaluate.comment = "Rất tệ"
-                        }else if(evaluate.evaluate == 2){
+                        } else if (evaluate.evaluate == 2) {
                             evaluate.comment = "Khá thất vọng"
-                        }else if(evaluate.evaluate == 3){
+                        } else if (evaluate.evaluate == 3) {
                             evaluate.comment = "Tạm hài lòng"
-                        }else if(evaluate.evaluate == 4){
+                        } else if (evaluate.evaluate == 4) {
                             evaluate.comment = "Rất tốt"
-                        }else{
+                        } else {
                             evaluate.comment = "Xời, tuyệt vời"
                         }
                     }
@@ -217,21 +344,28 @@ class OrdersDefaultFragment : Fragment() {
         ok = dialog.findViewById(R.id.tvBottomSheetOk)
         cancle = dialog.findViewById(R.id.tvBottomSheetCancle)
 
-        choosetxt.text = "Bạn có muốn thanh toán ${ticket.totalPrice.toString()} đ không?"
+        choosetxt.text = "Bạn có muốn thanh toán ${ Constants.formatCurrency(ticket.totalPrice.toDouble())} không?"
 
         ok.setOnClickListener {
             val intent = requireActivity().intent
             if (intent.getStringExtra("phone") != null) {
-                db.collection("users").document(intent.getStringExtra("phone").toString()).collection("tickets").document(ticket.id)
+                db.collection("users").document(intent.getStringExtra("phone").toString())
+                    .collection("tickets").document(ticket.id)
                     .update("status", Constants.STATUS_PAID)
                     .addOnSuccessListener { document ->
-                        Toast.makeText(requireActivity(), "Quý khách dã thanh toán thành công!", Toast.LENGTH_SHORT).show()
-                        binding.rltFootterPaymentEd.visibility= View.GONE
-                        binding.btnOrderDefaultEvaluate.visibility = View.VISIBLE
+                        Toast.makeText(
+                            requireActivity(),
+                            "Quý khách dã thanh toán thành công!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        binding.rltFootterPaymentEd.visibility = View.GONE
+                        binding.btnOrderDefaultEvaluate.visibility = View.GONE
+                        binding.rltFootterDestroy.visibility = View.VISIBLE
                         dialog.dismiss()
                     }.addOnFailureListener { exception ->
                     }
-                db.collection("routes").document(ticket.routeId).collection("schedules").document(ticket.scheduleId)
+                db.collection("routes").document(ticket.routeId).collection("schedules")
+                    .document(ticket.scheduleId)
                     .get()
                     .addOnSuccessListener { documentSnapshot ->
                         if (documentSnapshot.exists()) {
@@ -278,4 +412,14 @@ class OrdersDefaultFragment : Fragment() {
             }.addOnFailureListener { exception ->
             }
     }
+    fun combineDateAndTime(date: Date, timeRoute: TimeRoute): Date {
+        val combinedCalendar = Calendar.getInstance().apply {
+            time = date
+            set(Calendar.HOUR_OF_DAY, timeRoute.pickedHour)
+            set(Calendar.MINUTE, timeRoute.pickedMinute)
+        }
+
+        return combinedCalendar.time
+    }
+
 }

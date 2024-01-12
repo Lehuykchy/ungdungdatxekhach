@@ -92,7 +92,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center_vertical"
-                            android:text="Ngày khởi hành"
+                            android:text="Khởi hành"
                             android:textColor="@color/black"
                             android:textSize="15dp" />
 
@@ -100,13 +100,14 @@
                             android:id="@+id/tvOrderDefaultDepartureDate"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_weight="1.8"
                             android:gravity="right|center_vertical"
                             android:hint="aa/bb/cccc"
                             android:textColor="@color/black"
                             android:textSize="15dp"
                             android:textStyle="bold" />
                     </LinearLayout>
+
 
                     <TextView
                         android:id="@+id/tvOrderDefaultStatus"
@@ -484,8 +485,49 @@
             android:textSize="17dp"
             android:textStyle="bold"
             app:backgroundTint="#a5a5a5"
-            android:visibility="visible"
+            android:visibility="gone"
             android:enabled="false"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/rltFootterDestroy">
+
+            <TextView
+                android:id="@+id/tvDestroy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Còn hh/MM là xuất phát"
+                android:textColor="#05600C"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/tvInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="(Dưới 2 giờ không thể hủy vé)"
+                android:textColor="#FF0000"
+                android:textSize="15dp"
+                android:layout_below="@id/tvDestroy" />
+
+
+            <Button
+                android:id="@+id/btnOrderDefaultDestroy"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="20dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:text="Hủy vé"
+                android:textColor="@color/white"
+                android:textSize="17dp"
+                android:textStyle="bold"
+                android:layout_below="@id/tvDestroy"
+                app:backgroundTint="#00cba9"
+                android:visibility="visible"
+                android:enabled="false"/>
+        </RelativeLayout>
+
 
     </RelativeLayout>
 

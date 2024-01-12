@@ -19,6 +19,7 @@ import com.example.ungdungdatxekhach.modelshare.Schedule
 import com.example.ungdungdatxekhach.user.model.Ticket
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.toObject
 import com.google.firebase.ktx.Firebase
 import java.util.Calendar
 
@@ -26,7 +27,7 @@ class AdminRouteDefaultTicketFragment : Fragment() {
     lateinit var binding: AdminFragmentRoutesDefaultTicketBinding
     private var schedule = Schedule()
     private lateinit var listTicket: ArrayList<Ticket>
-    private lateinit var adapter : ItemTicketManagerAdapter
+    private lateinit var adapter: ItemTicketManagerAdapter
     private val db = Firebase.firestore
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,53 +42,77 @@ class AdminRouteDefaultTicketFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val receivedBundle = arguments
         if (receivedBundle == null) {
-           return
+            return
         }
         schedule = receivedBundle.getSerializable("schedule") as Schedule
-        val currentTime = Calendar.getInstance()
-        val currentHour = currentTime.get(Calendar.HOUR_OF_DAY)
-        val currentMinute = currentTime.get(Calendar.MINUTE)
-        var time = schedule.dateRoute.pickedHour*60 + schedule.dateRoute.pickedMinute -
-                currentHour*60-currentMinute
-        if(time <= 15  && schedule.status.equals(Constants.STATUS_NO_START)){
+//        val currentTime = Calendar.getInstance()
+//        val currentHour = currentTime.get(Calendar.HOUR_OF_DAY)
+//        val currentMinute = currentTime.get(Calendar.MINUTE)
+//        var time = schedule.dateRoute.pickedHour*60 + schedule.dateRoute.pickedMinute -
+//                currentHour*60-currentMinute
+        if (schedule.status.equals(Constants.STATUS_NO_START)) {
             Log.d("checkstatus", "chưa bắt đầu ")
             binding.btnOrderDefaultConfirm.isEnabled = true
             binding.btnOrderDefaultConfirm.text = "Bắt đầu xuất phát"
             ColorStateList.valueOf(android.graphics.Color.parseColor("#00cba9"))
-        }else {
-            if (schedule.status.equals(Constants.STATUS_FINISH)) {
-                Log.d("checkstatus", "đã kết thúc ")
-                binding.btnOrderDefaultConfirm.isEnabled = false
-                binding.btnOrderDefaultConfirm.text = "Chuyến đi kết thúc"
-            } else {
-                Log.d(
-                    "checkstatus",
-                    "chưa xuất phát được " + time + "-" + schedule.dateRoute.pickedHour * 60 + schedule.dateRoute.pickedMinute + "-" + currentHour * 60 + currentMinute
-                )
-                binding.btnOrderDefaultConfirm.isEnabled = false
-                binding.btnOrderDefaultConfirm.text = "Bắt đầu xuất phát"
-                setColor(ColorStateList.valueOf(android.graphics.Color.parseColor("#a5a5a5")))
-            }
+        } else if (schedule.status.equals(Constants.STATUS_FINISH)) {
+            Log.d("checkstatus", "đã kết thúc ")
+            binding.btnOrderDefaultConfirm.isEnabled = false
+            binding.btnOrderDefaultConfirm.text = "Chuyến đi kết thúc"
+            setColor(ColorStateList.valueOf(android.graphics.Color.parseColor("#a5a5a5")))
         }
+
         listTicket = ArrayList()
         listTicket = schedule.customerIds
 
         binding.rcvRouteDefaultTicket.layoutManager = LinearLayoutManager(requireActivity())
-        adapter = ItemTicketManagerAdapter(listTicket, requireActivity(), object: ItemTicketManagerAdapter.IClickListener{
-            override fun onClick(ticket: Ticket) {
+        adapter = ItemTicketManagerAdapter(
+            listTicket,
+            requireActivity(),
+            object : ItemTicketManagerAdapter.IClickListener {
+                override fun onClick(ticket: Ticket) {
 
-            }
+                }
 
-        })
+            })
         binding.rcvRouteDefaultTicket.adapter = adapter
 
         binding.imgRouteDefaultTicketBack.setOnClickListener {
             val navController = activity?.findNavController(R.id.framelayoutAdmin)
             navController?.popBackStack()
         }
+        binding.btnOrderDefaultConfirm.setOnClickListener {
+            setOnClickConfirm()
+        }
     }
 
-    fun setColor( color : ColorStateList){
+    private fun setOnClickConfirm() {
+        db.collection("routes").document(schedule.routeId).collection("schedules").document(schedule.id)
+            .get()
+            .addOnSuccessListener { document ->
+                var scheduleNew = document.toObject<Schedule>()
+                scheduleNew?.id = document.id
+                for(ticket in scheduleNew?.customerIds!!){
+                    db.collection("users").document(ticket.customerId).collection("tickets").document(ticket.id)
+                        .update("status", Constants.STATUS_SUCCESS)
+                        .addOnSuccessListener {
+
+                        }
+                        .addOnSuccessListener {
+
+                        }
+                }
+            }
+        db.collection("routes").document(schedule.routeId).collection("schedules").document(schedule.id)
+            .update("status", Constants.STATUS_FINISH)
+            .addOnSuccessListener {
+                binding.btnOrderDefaultConfirm.isEnabled = false
+                binding.btnOrderDefaultConfirm.text = "Chuyến đi kết thúc"
+                setColor(ColorStateList.valueOf(android.graphics.Color.parseColor("#a5a5a5")))
+            }
+    }
+
+    fun setColor(color: ColorStateList) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             binding.btnOrderDefaultConfirm.backgroundTintList = color
         }

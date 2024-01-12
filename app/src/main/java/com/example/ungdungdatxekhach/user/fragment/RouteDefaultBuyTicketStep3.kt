@@ -66,7 +66,7 @@ class RouteDefaultBuyTicketStep3 : Fragment() {
             setVehicle()
             binding.tvBuyTicketStep3DepartureDate.text = dateFormat.format(schedule.date).toString()
             binding.tvBuyTicketStep3TotalMoney.text =
-                (ticket.count * route.price.toString().toInt()).toString() + " đ"
+                Constants.formatCurrency(ticket.count * route.price.toString().toInt().toDouble())
             binding.tvBuyTicketStep3DepartureLocation.text = route.departureLocation
             binding.tvBuyTicketStep3DestinationLocation.text = route.destination
             binding.tvBuyTicketStep3DepartureMyLocation.text = ticket.departure.other
@@ -76,7 +76,7 @@ class RouteDefaultBuyTicketStep3 : Fragment() {
             binding.tvBuyTicketStep3Phone.text = ticket.phone
             binding.tvBuyTicketStep3MountTicket.text = ticket.count.toString() + " vé"
             binding.tvBuyTicketStep3TotalMoneyMain.text =
-                (ticket.count * route.price.toString().toInt()).toString() + " đ"
+                Constants.formatCurrency(ticket.count * route.price.toString().toInt().toDouble())
             binding.btnBuyTicketStep3Confirm.setOnClickListener {
                 setOnClickBtnConfirm()
             }
@@ -90,9 +90,6 @@ class RouteDefaultBuyTicketStep3 : Fragment() {
 
     private fun setOnBackHome() {
         val navController = activity?.findNavController(R.id.framelayout)
-        val bottomNavigationView =
-            activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-        bottomNavigationView?.visibility = View.VISIBLE
         navController?.navigate(R.id.action_routeDefaultBuyTicketStep3_to_navigation_home)
     }
 
@@ -133,7 +130,7 @@ class RouteDefaultBuyTicketStep3 : Fragment() {
         ok = dialog.findViewById(R.id.tvBottomSheetOk)
         cancle = dialog.findViewById(R.id.tvBottomSheetCancle)
 
-        choosetxt.text = "Bạn có muốn thanh toán ${ticket.totalPrice.toString()} đ không?"
+        choosetxt.text = "Bạn có muốn thanh toán ${Constants.formatCurrency(ticket.totalPrice.toDouble())} không?"
 
         ok.setOnClickListener {
             dialog.dismiss()
@@ -225,7 +222,7 @@ class RouteDefaultBuyTicketStep3 : Fragment() {
                 binding.tvBuyTicketStep3Status.setTextColor(Color.RED)
                 db.collection("users").document(ticket.customerId).collection("tickets")
                     .document(ticket.id)
-                    .update("status", Constants.STATUS_DESTROY)
+                    .update("status", Constants.STATUS_TIMEOUT)
                     .addOnSuccessListener { document ->
                     }.addOnFailureListener { exception ->
                     }

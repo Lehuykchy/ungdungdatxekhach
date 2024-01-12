@@ -60,8 +60,7 @@
         android:id="@+id/homeSearchData"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/rltHeader"
-        android:visibility="gone">
+        android:layout_below="@id/rltHeader">
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rcvHomeSearch"
             android:layout_width="match_parent"

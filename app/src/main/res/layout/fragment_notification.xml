@@ -13,6 +13,24 @@
         android:textColor="@color/white"
         android:gravity="center"
         android:background="#00cba9"/>
+    <LinearLayout
+        android:id="@+id/lnNoData"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_below="@id/tvHeader"
+        android:orientation="vertical">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/nodata"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Không có vé xe"
+            android:textSize="20dp"
+            android:layout_marginTop="20dp"/>
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcvNotification"

@@ -11,6 +11,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.ungdungdatxekhach.R
+import com.example.ungdungdatxekhach.admin.Constants
 import com.example.ungdungdatxekhach.databinding.FragmentRouteDefaultBuyticketStep1Binding
 import com.example.ungdungdatxekhach.databinding.FragmentRouteDefaultBuyticketStep2Binding
 import com.example.ungdungdatxekhach.modelshare.Location
@@ -81,7 +82,7 @@ class RouteDefaultBuyTicketStep2 : Fragment() {
         }
 
         binding.tvBuyTicketStep2TotalMoney.text =
-            (count * route.price.toInt()).toString() + " đ"
+            Constants.formatCurrency((count * route.price.toDouble()))
         binding.btnBuyTicketStep2Confirm.setOnClickListener {
             if (ischeck()) {
                 ticket.customerId = phone

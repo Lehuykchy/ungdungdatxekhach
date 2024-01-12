@@ -424,7 +424,7 @@ class HomeFragment : Fragment() {
                 binding.tvHomeSelectDepartureDate.text = selectedDate
             }, year, month, day)
         }
-//        datePickerDialog.datePicker.minDate = currentDate.timeInMillis
+        datePickerDialog.datePicker.minDate = currentDate.timeInMillis
         datePickerDialog!!.show()
     }
 

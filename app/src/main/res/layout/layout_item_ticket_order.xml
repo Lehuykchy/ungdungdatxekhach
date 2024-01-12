@@ -5,7 +5,7 @@
     android:background="@drawable/custom_ticket_order"
     android:orientation="vertical"
     android:layout_gravity="center_horizontal"
-    android:layout_marginBottom="10dp"
+    android:layout_marginTop="10dp"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
     android:id="@+id/lnItemTicketOrder">
@@ -30,13 +30,16 @@
             android:id="@+id/tvItemTicketOrderStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Chờ Thanh toán"
+            android:hint="status"
             android:textColor="@color/white"
             android:textSize="16dp"
             android:textStyle="bold"
             android:layout_alignParentRight="true"
             android:background="@drawable/radius_5"
-            android:padding="3dp"/>
+            android:paddingTop="3dp"
+            android:paddingLeft="3dp"
+            android:paddingBottom="3dp"
+            android:paddingRight="10dp"/>
     </RelativeLayout>
 
     <RelativeLayout

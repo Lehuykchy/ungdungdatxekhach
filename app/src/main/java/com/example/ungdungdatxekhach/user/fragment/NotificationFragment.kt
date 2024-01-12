@@ -93,6 +93,11 @@ class NotificationFragment : Fragment() {
                     }
                 }
                 adapter.notifyDataSetChanged()
+                if(listItem.size>0){
+                    binding.lnNoData.visibility=View.GONE
+                }else{
+                    binding.lnNoData.visibility=View.VISIBLE
+                }
             }
     }
 }

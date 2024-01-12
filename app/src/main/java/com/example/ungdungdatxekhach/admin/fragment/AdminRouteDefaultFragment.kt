@@ -108,8 +108,9 @@ class AdminRouteDefaultFragment : Fragment() {
     }
 
     private fun getscheduleList() {
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         db.collection("routes").document(route.id).collection("schedules")
-
+//            .whereEqualTo("date", dateFormat.format(binding.tvRouteDefaultDate.text.toString()))
             .get()
             .addOnSuccessListener { result ->
                 for (document in result) {

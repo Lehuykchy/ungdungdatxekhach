@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -21,8 +22,10 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.example.ungdungdatxekhach.modelshare.Location
 import com.example.ungdungdatxekhach.R
+import com.example.ungdungdatxekhach.admin.Constants
 import com.example.ungdungdatxekhach.admin.model.Admin
 import com.example.ungdungdatxekhach.admin.model.Vehicle
 import com.example.ungdungdatxekhach.databinding.FragmentRouteDefaultBuyticketStep1Binding
@@ -35,6 +38,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.toObject
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -77,8 +82,10 @@ class RouteDefaultBuyTicketStep1 : Fragment() {
         }
         binding.tvBuyTicketStep1Blank.text = count.toString() +
                 "/" + vehicle.seats.toString() + " chỗ trống"
-
+        getListEvaluate()
         setInfo()
+        setImage()
+
 
         val colorClick = ColorStateList.valueOf(android.graphics.Color.parseColor("#00cba9"))
         val colorDilableClick = ColorStateList.valueOf(android.graphics.Color.parseColor("#D2E4E1"))
@@ -92,10 +99,8 @@ class RouteDefaultBuyTicketStep1 : Fragment() {
                 binding.tvBuyTicketStep1InfoBus.backgroundTintList = colorClick
                 binding.tvBuyTicketStep1Evaluate.backgroundTintList = colorDilableClick
             }
-            setInfo()
         }
         binding.tvBuyTicketStep1Evaluate.setOnClickListener {
-            getListEvaluate()
             binding.tvBuyTicketStep1InfoBus.setTextColor(Color.BLACK)
             binding.lnInfoAdmin.visibility = View.GONE
             binding.lnInfoEvaluate.visibility = View.VISIBLE
@@ -146,8 +151,24 @@ class RouteDefaultBuyTicketStep1 : Fragment() {
         }
     }
 
+    private fun setImage() {
+        val storagePath = "images/" + admin.imageBackGroundId //
+        val storage = FirebaseStorage.getInstance()
+        val storageRef = storage.reference.child(storagePath)
+        Log.d("Firebase Storage", "setImage: " + storageRef)
+        storageRef.downloadUrl.addOnSuccessListener { uri ->
+            val downloadUrl = uri.toString()
+            Glide.with(this)
+                .load(downloadUrl)
+                .error(R.drawable.baseline_image_24)
+                .into(binding.imgBuyTicketStep1Admin)
+        }.addOnFailureListener { exception ->
+            Log.e("Firebase Storage", "Error getting download URL: ${exception.message}")
+        }
+    }
+
     private fun getListEvaluate() {
-        listItem.clear()
+        val decimalFormat = DecimalFormat("#.#")
         db.collection("evaluates")
             .whereEqualTo("adminId", route.idAdmin)
             .get()
@@ -158,7 +179,26 @@ class RouteDefaultBuyTicketStep1 : Fragment() {
                         listItem.add(evaluate)
                     }
                 }
-                adapter.notifyDataSetChanged()
+
+                if (listItem.size > 0) {
+                    val oneStar = listItem.filter { evaluate -> evaluate.evaluate == 1 }.size
+                    val trueStar = listItem.filter { evaluate -> evaluate.evaluate == 2 }.size
+                    val threeStar = listItem.filter { evaluate -> evaluate.evaluate == 3 }.size
+                    val fourStar = listItem.filter { evaluate -> evaluate.evaluate == 4 }.size
+                    val fiveStar = listItem.filter { evaluate -> evaluate.evaluate == 5 }.size
+
+                    binding.tvBuyTicketStep1Star1.text = oneStar.toString()
+                    binding.tvBuyTicketStep1Star2.text = trueStar.toString()
+                    binding.tvBuyTicketStep1Star3.text = threeStar.toString()
+                    binding.tvBuyTicketStep1Star4.text = fourStar.toString()
+                    binding.tvBuyTicketStep1Star5.text = fiveStar.toString()
+                    binding.tvBuyTicketStep1AdminEvaluate.text = decimalFormat.format(
+                        5 * (1 * oneStar + 2 * trueStar + 3 * threeStar + 4 * fourStar + fiveStar * 5) / (5 * listItem.size).toDouble()
+                    ).toString() + "/5.0"
+                } else {
+                    binding.tvBuyTicketStep1AdminEvaluate.text = "5.0/5.0"
+                }
+
             }
 
     }
@@ -168,7 +208,7 @@ class RouteDefaultBuyTicketStep1 : Fragment() {
             schedule.dateRoute.toFormattString() + " | " + dateFormat.format(schedule.date)
         binding.tvBuyTicketStep1Schedule.text = route.departureLocation + " - " + route.destination
         binding.tvBuyTicketStep1Distance.text = route.distance + " Km"
-        binding.tvBuyTicketStep1Price.text = route.price + " đ"
+        binding.tvBuyTicketStep1Price.text = Constants.formatCurrency(route.price.toDouble())
         binding.tvBuyTicketStep1AdminName.text = admin.name
         binding.tvBuyTicketStep1AdminPhone.text = admin.phone
         binding.tvBuyTicketStep1AdminEmail.text = admin.email
@@ -215,18 +255,18 @@ class RouteDefaultBuyTicketStep1 : Fragment() {
                 val i: Int = binding.tvBuyTicketStep1CountTicket.text.toString().toInt() - 1
                 binding.tvBuyTicketStep1CountTicket.setText(i.toString())
                 binding.tvBuyTicketStep1CountSeat.setText(i.toString())
-                binding.tvBuyTicketStep1TotalMoney.setText((i * route.price.toInt()).toString() + " đ")
+                binding.tvBuyTicketStep1TotalMoney.setText(Constants.formatCurrency((i * route.price.toDouble())))
             }
         }
 
         binding.imgBuyTicketStep1AddTicket.setOnClickListener {
             val i: Int = binding.tvBuyTicketStep1CountTicket.text.toString().toInt() + 1
-            if(i>count){
-                Toast.makeText(requireActivity(), "Số vé không đủ!",Toast.LENGTH_SHORT).show()
-            }else {
+            if (i > count) {
+                Toast.makeText(requireActivity(), "Số vé không đủ!", Toast.LENGTH_SHORT).show()
+            } else {
                 binding.tvBuyTicketStep1CountTicket.setText(i.toString())
                 binding.tvBuyTicketStep1CountSeat.setText(i.toString() + " vé")
-                binding.tvBuyTicketStep1TotalMoney.setText((i * route.price.toInt()).toString() + " đ")
+                binding.tvBuyTicketStep1TotalMoney.setText(Constants.formatCurrency((i * route.price.toDouble())))
             }
         }
     }

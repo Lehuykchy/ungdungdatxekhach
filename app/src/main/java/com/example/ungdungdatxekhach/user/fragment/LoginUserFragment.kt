@@ -31,7 +31,7 @@ class LoginUserFragment : Fragment() {
     private lateinit var binding: FragmentLoginUserBinding
     private var mAuth: FirebaseAuth? = null
     private var verifiId: String? = null
-    private var phone: String? = null
+    private var phone: String = ""
     val db = Firebase.firestore
 
 
@@ -59,7 +59,7 @@ class LoginUserFragment : Fragment() {
 
     private fun setBtnLoginVertifyOTP() {
         binding.btnLoginVertifyOTP.setOnClickListener {
-            if (TextUtils.isEmpty(binding.edtOTP.getText().toString())) {
+            if (TextUtils.isEmpty(phone) ){
                 Toast.makeText(activity, "Please enter OTP", Toast.LENGTH_SHORT).show();
             } else {
                 verifyCode(binding.edtOTP.getText().toString());
@@ -83,9 +83,11 @@ class LoginUserFragment : Fragment() {
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     val i: Intent = Intent(requireContext(), AuthInfomationActivity::class.java)
-                    i.putExtra("phone", binding.edtPhone.text.toString())
+                    i.putExtra("phone", phone)
                     requireContext().startActivity(i)
                 } else {
+                    Toast.makeText(requireActivity(), "Mã otp không hợp lệ vui lòng nhập lại!",Toast.LENGTH_SHORT).show()
+                    binding.edtOTP.setText("")
                     Log.d("otp", task.exception!!.message.toString())
                 }
             }
@@ -126,18 +128,22 @@ class LoginUserFragment : Fragment() {
 
     private fun setBtnLogin() {
         binding.btnLogin.setOnClickListener {
-            val docRef = db.collection("users").document(binding.edtPhone.text.toString())
+            if (phone?.startsWith("0") == true) {
+                phone = phone!!.substring(1)
+            }
+            Log.d("checkphone", "setBtnLogin: "+phone)
+            val docRef = db.collection("users").document(phone!!)
             docRef.get()
                 .addOnSuccessListener { document ->
                     if (document.exists()) {
                         val i: Intent = Intent(requireContext(), PasswordActivity::class.java)
-                        i.putExtra("phone", binding.edtPhone.text.toString())
+                        i.putExtra("phone", phone!!)
                         requireContext().startActivity(i)
                     } else {
                         binding.lnLogin.visibility = View.GONE
                         binding.lnLoginVertifyOTP.visibility = View.VISIBLE
-                        phone = binding.edtPhone.text.toString()
-                        sendVerificationCode("+84" + binding.edtPhone.text.toString()!!);
+                        sendVerificationCode("+84" + phone!!);
+                        Log.d("otp", "+84" + phone!!)
 //                        val i: Intent = Intent(requireContext(), AuthInfomationActivity::class.java)
 //                        i.putExtra("phone", binding.edtPhone.text.toString())
 //                        requireContext().startActivity(i)
@@ -168,7 +174,7 @@ class LoginUserFragment : Fragment() {
                 }
 
                 override fun onVerificationFailed(e: FirebaseException) {
-                    Log.w("otp", "onVerificationFailed", e)
+                    Log.d("otp", "onVerificationFailed", e)
                 }
 
                 override fun onCodeSent(
@@ -195,6 +201,7 @@ class LoginUserFragment : Fragment() {
                     binding.btnLogin.isEnabled = true
                     binding.btnLogin.setTextColor(Color.parseColor("#FFFFFF"))
                     phone = binding.edtPhone.text.toString()
+                    Log.d("checkphone", "onTextChanged: "+phone)
                 } else {
                     binding.btnLogin.setBackgroundColor(Color.parseColor("#858484"))
                     binding.btnLogin.isEnabled = false
