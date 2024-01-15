@@ -524,8 +524,7 @@
                 android:textStyle="bold"
                 android:layout_below="@id/tvDestroy"
                 app:backgroundTint="#00cba9"
-                android:visibility="visible"
-                android:enabled="false"/>
+                android:visibility="visible" />
         </RelativeLayout>
 
 

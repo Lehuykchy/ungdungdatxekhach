@@ -56,7 +56,7 @@ class RoutesFragment : Fragment() {
         val user = Firebase.auth.currentUser
         var id: String = ""
         db.collection("routes")
-//            .whereEqualTo("adminId", user?.uid)
+            .whereEqualTo("idAdmin", user?.uid)
             .get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {

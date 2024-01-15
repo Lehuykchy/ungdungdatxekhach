@@ -167,14 +167,12 @@ class HomeFragmentSearch : Fragment() {
     }
 
     private fun getListFilter() {
-        val currentTime = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            LocalDateTime.now()
-        } else {
-        }
         db.collection("routes").get().addOnSuccessListener { documentSnapshots ->
             for (document in documentSnapshots) {
                 val route = document.toObject(Route::class.java)
                 route.id = document.id
+
+                Log.d("checkdb", "getListFilterOne: " + route)
 
                 if (route.location.any { it.district == locationDeparture.district } &&
                     route.location.any { it.district == locationDestination.district }
@@ -186,10 +184,10 @@ class HomeFragmentSearch : Fragment() {
                                 val schedule =
                                     scheduleDocument.toObject(Schedule::class.java)
                                 schedule.id = scheduleDocument.id
-                                if (dateFormat.format(dateSearch) > dateFormat.format(Date()) && dateFormat.format(dateSearch).equals(dateFormat.format(schedule.date))) {
+                                if (dateFormat.format(dateSearch) > dateFormat.format(Date())) {
                                     Log.d(
-                                        "checktime",
-                                        "getListFilterhomesau: " + combineDateAndTime(
+                                        "checkdb",
+                                        "getListFilterOne: " + combineDateAndTime(
                                             schedule.date,
                                             schedule.dateRoute
                                         )+ "/" + dateFormat.format(dateSearch) + dateFormat.format(Date())
@@ -199,6 +197,7 @@ class HomeFragmentSearch : Fragment() {
                                         .addOnSuccessListener { documentAdmin ->
                                             val admin = documentAdmin.toObject<Admin>()
                                             admin?.id = documentAdmin.id
+                                            Log.d("checkdb", "getListFilterOne: " + admin)
 
                                             db.collection("admins")
                                                 .document(route.idAdmin)
@@ -217,6 +216,7 @@ class HomeFragmentSearch : Fragment() {
                                                         route,
                                                         vehicle
                                                     )
+                                                    Log.d("checkdb", "getListFilter: " + vehicle)
                                                     listScheduleFilter.add(filter)
                                                     listScheduleFilterOld.add(filter)
                                                     Log.d("checklist", "getListFilter: " + filter)
@@ -233,19 +233,13 @@ class HomeFragmentSearch : Fragment() {
                                         schedule.dateRoute
                                     ).after(Date(Date().time ))
                                 ) {
-                                    Log.d(
-                                        "checktime",
-                                        "getListFilter: " + combineDateAndTime(
-                                            schedule.date,
-                                            schedule.dateRoute
-                                        )
-                                    )
+                                    Log.d("checkdb", "getListFilter: " + schedule)
                                     db.collection("admins").document(route.idAdmin)
                                         .get()
                                         .addOnSuccessListener { documentAdmin ->
                                             val admin = documentAdmin.toObject<Admin>()
                                             admin?.id = documentAdmin.id
-
+                                            Log.d("checkdb", "getListFilter: " + admin)
                                             db.collection("admins")
                                                 .document(route.idAdmin)
                                                 .collection("vehicles")
@@ -257,6 +251,7 @@ class HomeFragmentSearch : Fragment() {
                                                             Vehicle::class.java
                                                         )!!
                                                     vehicle.id = documentVehicle.id
+                                                    Log.d("checkdb", "getListFilter: " + vehicle)
                                                     val filter = Filter(
                                                         schedule,
                                                         admin!!,
@@ -265,9 +260,8 @@ class HomeFragmentSearch : Fragment() {
                                                     )
                                                     listScheduleFilter.add(filter)
                                                     listScheduleFilterOld.add(filter)
-                                                    Log.d("checklist", "getListFilter: " + filter)
-                                                    adapter.notifyDataSetChanged()
                                                     getListCheckBox()
+                                                    adapter.notifyDataSetChanged()
                                                     binding.lnNoData.visibility = View.GONE
                                                     binding.lnHomeSearchFilSort.visibility =
                                                         View.VISIBLE

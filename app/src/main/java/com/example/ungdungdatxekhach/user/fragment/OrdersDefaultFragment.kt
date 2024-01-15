@@ -88,26 +88,27 @@ class OrdersDefaultFragment : Fragment() {
             } else {
                 TODO("VERSION.SDK_INT < O")
             }
-            binding.tvDestroy.text = "Còn ${- duration.toHours()}:${ (-(duration?.toMinutes() ?: 0) % 60).toString()} nữa là xuất phát"
+            binding.tvDestroy.text = "Còn ${ duration.toHours()}:${ ((duration?.toMinutes() ?: 0) % 60).toString()} nữa là xuất phát"
             binding.tvOrderDefaultStatus.text = "Đã thanh toán"
             binding.tvOrderDefaultStatus.setTextColor(Color.BLUE)
             binding.rltFootterPaymentEd.visibility = View.GONE
             binding.btnOrderDefaultEvaluate.visibility = View.GONE
             binding.rltFootterDestroy.visibility = View.VISIBLE
-            binding.btnOrderDefaultDestroy.setOnClickListener{
-                setClickBtnDestroy()
-            }
-//            if( -duration.toHours().toInt()*60-duration?.toMinutes().toString().toInt()>=120){
-//                binding.btnOrderDefaultDestroy.setOnClickListener{
-//                    setClickBtnDestroy()
-//                }
-//            }else{
-//                binding.btnOrderDefaultDestroy.isEnabled = false
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//                    binding.btnOrderDefaultDestroy.backgroundTintList =
-//                        ColorStateList.valueOf(android.graphics.Color.parseColor("#a5a5a5"))
-//                }
+//            binding.btnOrderDefaultDestroy.setOnClickListener{
+//                setClickBtnDestroy()
 //            }
+            Log.d("checkorder", "onViewCreated: "+duration.toHours()+" "+((duration?.toMinutes() ?: 0) % 60).toString() +" "+(duration.toHours().toInt()*60 + (duration?.toMinutes() ?: 0) % 60).toString())
+            if( (duration.toHours().toInt()*60 + (duration?.toMinutes() ?: 0) % 60)>=120){
+                binding.btnOrderDefaultDestroy.setOnClickListener{
+                    setClickBtnDestroy()
+                }
+            }else{
+                binding.btnOrderDefaultDestroy.isEnabled = false
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    binding.btnOrderDefaultDestroy.backgroundTintList =
+                        ColorStateList.valueOf(android.graphics.Color.parseColor("#a5a5a5"))
+                }
+            }
 
         } else if (ticket.status.equals(Constants.STATUS_TIMEOUT)) {      //hết hạn
             binding.tvOrderDefaultStatus.text = "Đã hết hạn"
