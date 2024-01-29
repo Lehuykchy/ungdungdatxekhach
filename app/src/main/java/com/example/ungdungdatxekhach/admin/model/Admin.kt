@@ -15,6 +15,7 @@ data class Admin(
     var description: String,
     var imageBackGroundId: String,
 
+
 ) : Serializable {
     constructor() : this("","", "", "", Location(), "", "")
     constructor(name: String, phone: String, email: String) : this("", name, phone, email, Location(), "", "")

@@ -8,6 +8,7 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ungdungdatxekhach.R
+import com.example.ungdungdatxekhach.admin.Constants
 import com.example.ungdungdatxekhach.modelshare.Route
 
 
@@ -68,7 +69,7 @@ class ItemPopularRouteAdminAdapter :
         holder.tvItemRouteName.text =
             route.departureLocation.toString() + " - " + route.destination.toString()
         holder.tvItemRouteDistance.text = route.distance.toString() + "km"
-        holder.tvItemRoutePrice.text = route.price.toString() + " đ"
+        holder.tvItemRoutePrice.text = Constants.formatCurrency(route.price.toString().toDouble())
         holder.tvItemRouteTime.text = hour.toString() + " giờ " + minuteRemain + " phút"
         holder.lnItem.setOnClickListener {
             onClickListener.onCLick(position)

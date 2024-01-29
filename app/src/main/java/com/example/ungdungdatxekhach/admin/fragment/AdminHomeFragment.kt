@@ -161,34 +161,40 @@ class AdminHomeFragment : Fragment() {
         }
 
         ok.setOnClickListener {
-            ticket.adminId = id
-            ticket.routeId = selectedRoute!!.id
-            ticket.scheduleId = selectedSchedule!!.id
-            ticket.totalPrice = (selectedRoute!!.price.toString().toInt() * ticket.count).toString()
-            ticket.status = Constants.STATUS_WAIT_CUSTOMER
-            db.collection("tickets").document(ticket.id)
-                .update("status", Constants.STATUS_WAIT_CUSTOMER)
-                .addOnCompleteListener { document -> }
-                .addOnFailureListener { exception -> }
-            db.collection("users").document(ticket.customerId).collection("tickets")
-                .document(ticket.id)
-                .set(ticket)
-                .addOnCompleteListener { document ->
-                    val bundle = bundleOf(
-                        "selectedRoute" to selectedRoute,
-                        "selectedSchedule" to selectedSchedule,
-                        "ticket" to ticket,
-                    )
-                    val navController = activity?.findNavController(R.id.framelayoutAdmin)
-                    val bottomNavigationView =
-                        activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationViewAdmin)
-                    bottomNavigationView?.visibility = View.GONE
-                    navController?.navigate(
-                        R.id.action_navigation_home_admin_to_adminHomeOrderDefaultFragment, bundle
-                    )
-                    dialog.dismiss()
-                }
-                .addOnFailureListener { }
+            if(!spinnerDialogSchedule.selectedItem.toString().isEmpty()) {
+                ticket.adminId = id
+                ticket.routeId = selectedRoute!!.id
+                ticket.scheduleId = selectedSchedule!!.id
+                ticket.totalPrice =
+                    (selectedRoute!!.price.toString().toInt() * ticket.count).toString()
+                ticket.status = Constants.STATUS_WAIT_CUSTOMER
+                db.collection("tickets").document(ticket.id)
+                    .update("status", Constants.STATUS_WAIT_CUSTOMER)
+                    .addOnCompleteListener { document -> }
+                    .addOnFailureListener { exception -> }
+                db.collection("users").document(ticket.customerId).collection("tickets")
+                    .document(ticket.id)
+                    .set(ticket)
+                    .addOnCompleteListener { document ->
+                        val bundle = bundleOf(
+                            "selectedRoute" to selectedRoute,
+                            "selectedSchedule" to selectedSchedule,
+                            "ticket" to ticket,
+                        )
+                        val navController = activity?.findNavController(R.id.framelayoutAdmin)
+                        val bottomNavigationView =
+                            activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationViewAdmin)
+                        bottomNavigationView?.visibility = View.GONE
+                        navController?.navigate(
+                            R.id.action_navigation_home_admin_to_adminHomeOrderDefaultFragment,
+                            bundle
+                        )
+                        dialog.dismiss()
+                    }
+                    .addOnFailureListener { }
+            }else{
+                Toast.makeText(requireActivity(), "Nhà xe chưa có vé xe phug hợp!", Toast.LENGTH_SHORT).show()
+            }
         }
 
         cancle.setOnClickListener {

@@ -72,7 +72,7 @@ class ItemTicketOrderAdapter : RecyclerView.Adapter<ItemTicketOrderAdapter.ItemV
             return
         }
         val formatDate = SimpleDateFormat("dd/MM/yyyy")
-        holder.tvItemAdminTicketOrderTime.text= ticket.timeRoute.pickedHour.toString()+ ":"+ticket.timeRoute.pickedMinute.toString()
+        holder.tvItemAdminTicketOrderTime.text= ticket.timeRoute.toFormattString()
         holder.tvItemAdminTicketOrderCountTicket.text = "x "+ ticket.count.toString() +" vé"
         holder.tvItemAdminTicketOrderDate.text = formatDate.format(ticket.dateDeparture)
         holder.tvItemAdminTicketOrderName.text = ticket.name

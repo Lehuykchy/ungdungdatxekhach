@@ -59,7 +59,6 @@
         android:background="@drawable/radius10_border"
         android:maxLength="20"
         android:hint="Nhập biển số xe"
-        android:inputType="textCapCharacters|number"
         android:paddingLeft="10dp"
         android:textSize="18dp"
         android:layout_marginBottom="10dp"/>

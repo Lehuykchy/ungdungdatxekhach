@@ -170,36 +170,46 @@ class AdminRouteDefaultFragment : Fragment() {
         spinnerSelectBus.adapter = adapterSpinner
 
         tvSave.setOnClickListener {
-            var timeRoute = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                TimeRoute(datePicker.hour.toString().toInt(), datePicker.minute.toString().toInt())
-            } else {
-            }
+            if(!spinnerSelectBus.selectedItem.toString().isEmpty()) {
+                var timeRoute = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    TimeRoute(
+                        datePicker.hour.toString().toInt(),
+                        datePicker.minute.toString().toInt()
+                    )
+                } else{
+                    Toast.makeText(requireActivity(), "Nhà xe chưa có phương tiện hãy thêm phương tiện ở phần trang cá nhân", Toast.LENGTH_SHORT).show()
+                }
 
-            val dateString = binding.tvRouteDefaultDate.text.toString()
-            val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-            try {
-                val parsedDate: Date = dateFormat.parse(dateString)
+                val dateString = binding.tvRouteDefaultDate.text.toString()
+                val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                try {
+                    val parsedDate: Date = dateFormat.parse(dateString)
 
-                var schedule = Schedule(
-                    route.id,
-                    timeRoute as TimeRoute,
-                    route.departureLocation,
-                    route.destination,
-                    vehicleList.get(spinnerSelectBus.selectedItemPosition).id,
-                    parsedDate
-                )
-                adapter.addSchedule(schedule)
-                db.collection("routes").document(route.id).collection("schedules")
-                    .add(schedule)
-                    .addOnSuccessListener { documentReference ->
-                        Toast.makeText(requireActivity(), "Thêm vé xe thành công", Toast.LENGTH_SHORT)
-                            .show()
-                    }
-                    .addOnFailureListener { e ->
-                    }
-                dialog.dismiss()
-            } catch (e: ParseException) {
-                e.printStackTrace()
+                    var schedule = Schedule(
+                        route.id,
+                        timeRoute as TimeRoute,
+                        route.departureLocation,
+                        route.destination,
+                        vehicleList.get(spinnerSelectBus.selectedItemPosition).id,
+                        parsedDate
+                    )
+                    adapter.addSchedule(schedule)
+                    db.collection("routes").document(route.id).collection("schedules")
+                        .add(schedule)
+                        .addOnSuccessListener { documentReference ->
+                            Toast.makeText(
+                                requireActivity(),
+                                "Thêm vé xe thành công",
+                                Toast.LENGTH_SHORT
+                            )
+                                .show()
+                        }
+                        .addOnFailureListener { e ->
+                        }
+                    dialog.dismiss()
+                } catch (e: ParseException) {
+                    e.printStackTrace()
+                }
             }
 
 

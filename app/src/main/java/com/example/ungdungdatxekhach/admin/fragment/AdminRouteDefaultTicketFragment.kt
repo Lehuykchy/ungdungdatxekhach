@@ -1,12 +1,18 @@
 package com.example.ungdungdatxekhach.admin.fragment
 
+import android.app.Dialog
 import android.content.res.ColorStateList
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -87,29 +93,52 @@ class AdminRouteDefaultTicketFragment : Fragment() {
     }
 
     private fun setOnClickConfirm() {
-        db.collection("routes").document(schedule.routeId).collection("schedules").document(schedule.id)
-            .get()
-            .addOnSuccessListener { document ->
-                var scheduleNew = document.toObject<Schedule>()
-                scheduleNew?.id = document.id
-                for(ticket in scheduleNew?.customerIds!!){
-                    db.collection("users").document(ticket.customerId).collection("tickets").document(ticket.id)
-                        .update("status", Constants.STATUS_SUCCESS)
-                        .addOnSuccessListener {
+        val dialog: Dialog = Dialog(requireActivity())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.layout_bottom_sheet);
+        dialog.show();
 
-                        }
-                        .addOnSuccessListener {
+        val ok: TextView
+        val cancle: TextView
+        val choosetxt: TextView
+        choosetxt = dialog.findViewById(R.id.tvBottomSheetChoosetxt)
+        ok = dialog.findViewById(R.id.tvBottomSheetOk)
+        cancle = dialog.findViewById(R.id.tvBottomSheetCancle)
 
-                        }
+        choosetxt.text = "Chuyến xe đã kết thúc"
+        ok.setOnClickListener {
+            db.collection("routes").document(schedule.routeId).collection("schedules").document(schedule.id)
+                .get()
+                .addOnSuccessListener { document ->
+                    var scheduleNew = document.toObject<Schedule>()
+                    scheduleNew?.id = document.id
+                    for(ticket in scheduleNew?.customerIds!!){
+                        db.collection("users").document(ticket.customerId).collection("tickets").document(ticket.id)
+                            .update("status", Constants.STATUS_SUCCESS)
+                            .addOnSuccessListener {
+                                binding.btnOrderDefaultConfirm.isEnabled = false
+                                binding.btnOrderDefaultConfirm.text = "Chuyến đi kết thúc"
+                                setColor(ColorStateList.valueOf(android.graphics.Color.parseColor("#a5a5a5")))
+                                dialog.dismiss()
+                            }
+                    }
                 }
-            }
-        db.collection("routes").document(schedule.routeId).collection("schedules").document(schedule.id)
-            .update("status", Constants.STATUS_FINISH)
-            .addOnSuccessListener {
-                binding.btnOrderDefaultConfirm.isEnabled = false
-                binding.btnOrderDefaultConfirm.text = "Chuyến đi kết thúc"
-                setColor(ColorStateList.valueOf(android.graphics.Color.parseColor("#a5a5a5")))
-            }
+            db.collection("routes").document(schedule.routeId).collection("schedules").document(schedule.id)
+                .update("status", Constants.STATUS_FINISH)
+                .addOnSuccessListener {
+                    binding.btnOrderDefaultConfirm.isEnabled = false
+                    binding.btnOrderDefaultConfirm.text = "Chuyến đi kết thúc"
+                    setColor(ColorStateList.valueOf(android.graphics.Color.parseColor("#a5a5a5")))
+                }
+        }
+        cancle.setOnClickListener {
+            dialog.dismiss()
+        }
+        dialog.getWindow()
+            ?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow()?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow()?.getAttributes()?.windowAnimations = R.style.DialogAnimation
+        dialog.getWindow()?.setGravity(Gravity.BOTTOM);
     }
 
     fun setColor(color: ColorStateList) {

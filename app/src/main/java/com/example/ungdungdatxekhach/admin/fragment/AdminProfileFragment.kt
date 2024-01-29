@@ -38,6 +38,9 @@ class AdminProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = AdminFragmentProfileBinding.inflate(inflater, container, false)
+        val bottomNavigationView =
+            activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationViewAdmin)
+        bottomNavigationView?.visibility = View.VISIBLE
         return binding.root
     }
 

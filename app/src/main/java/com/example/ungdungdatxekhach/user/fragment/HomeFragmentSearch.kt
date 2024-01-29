@@ -369,8 +369,8 @@ class HomeFragmentSearch : Fragment() {
             filterMinPrice = rangeSliderFilterPrice.values[0].toInt()
             filterMaxPrice = rangeSliderFilterPrice.values[1].toInt()
 
-            tvFilterMinPrice.text = selectedMinValue.toString()
-            tvFilterMaxPrice.text = selectedMaxValue.toString()
+            tvFilterMinPrice.text = Constants.formatCurrency(selectedMinValue.toString().toDouble())
+            tvFilterMaxPrice.text = Constants.formatCurrency(selectedMaxValue.toString().toDouble())
         }
 
         imgFilterClose.setOnClickListener {

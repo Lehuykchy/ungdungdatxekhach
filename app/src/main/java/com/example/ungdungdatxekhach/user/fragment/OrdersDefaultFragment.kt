@@ -98,7 +98,7 @@ class OrdersDefaultFragment : Fragment() {
 //                setClickBtnDestroy()
 //            }
             Log.d("checkorder", "onViewCreated: "+duration.toHours()+" "+((duration?.toMinutes() ?: 0) % 60).toString() +" "+(duration.toHours().toInt()*60 + (duration?.toMinutes() ?: 0) % 60).toString())
-            if( (duration.toHours().toInt()*60 + (duration?.toMinutes() ?: 0) % 60)>=120){
+            if( (duration.toHours().toInt()*60 + (duration?.toMinutes() ?: 0) % 60)>=120 && combineDateAndTime(schedule.date, schedule.dateRoute)>Date()){
                 binding.btnOrderDefaultDestroy.setOnClickListener{
                     setClickBtnDestroy()
                 }

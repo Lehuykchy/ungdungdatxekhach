@@ -121,7 +121,7 @@ class ItemScheduleAdapter : RecyclerView.Adapter<ItemScheduleAdapter.ItemViewHol
                     val fourStar = listEvaluate.filter { evaluate -> evaluate.evaluate == 4 }.size
                     val fiveStar = listEvaluate.filter { evaluate -> evaluate.evaluate == 5 }.size
                     holder.tvScheduleEvaluate.text = decimalFormat.format(
-                        5 * (1 * oneStar + 2 * trueStar + 3 * threeStar + 4 * fourStar + fiveStar * 5) / (5 * listEvaluate.size).toDouble()
+                        5 * (1 * oneStar + 2 * trueStar + 3 * threeStar + 4 * fourStar + fiveStar * 5).toDouble() / (5 * listEvaluate.size).toDouble()
                     ).toString() + "/5.0"
                 } else {
                     holder.tvScheduleEvaluate.text = "5.0/5.0"

@@ -93,8 +93,6 @@ class AdminProfileVehiceManagerFragment : Fragment() {
     private fun onClickProfileBusManagerBack() {
         val navController = activity?.findNavController(R.id.framelayoutAdmin)
         navController?.popBackStack()
-        val bottomNavigationView = activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationViewAdmin)
-        bottomNavigationView?.visibility = View.VISIBLE
     }
 
     private fun onClickProfileBusManagerAdd() {

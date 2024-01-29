@@ -90,7 +90,7 @@ class ItemLocationRouteAdapter : RecyclerView.Adapter<ItemLocationRouteAdapter.I
             ok.setOnClickListener {
                 holder.tvItemlocationRoute.text=""
                 listItem.removeAt(position)
-                notifyItemRemoved(position)
+                notifyDataSetChanged()
                 dialog.dismiss()
                 clickContactListener.clickLn(position)
             }

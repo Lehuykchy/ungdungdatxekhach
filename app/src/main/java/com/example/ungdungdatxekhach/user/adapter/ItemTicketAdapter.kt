@@ -165,8 +165,7 @@ class ItemTicketAdapter : RecyclerView.Adapter<ItemTicketAdapter.ItemViewHolder>
                         schedule = document.toObject<Schedule>()!!
                         if (schedule != null) {
                             holder.tvItemTicketOrderTime.text =
-                                schedule.dateRoute.pickedHour.toString() +
-                                        ":" + schedule.dateRoute.pickedMinute.toString()
+                                schedule.dateRoute.toFormattString()
                             holder.tvItemTicketOrderDate.text = dateFormat.format(schedule.date)
                             holder.tvItemTicketOrderRoute.text =
                                 schedule.departureLocation.toString() + " - " + schedule.destinationLocation.toString()

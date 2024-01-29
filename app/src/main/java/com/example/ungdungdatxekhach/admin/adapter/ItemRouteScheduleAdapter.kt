@@ -8,12 +8,15 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ungdungdatxekhach.R
+import com.example.ungdungdatxekhach.admin.Constants
 import com.example.ungdungdatxekhach.admin.model.Vehicle
+import com.example.ungdungdatxekhach.modelshare.Evaluate
 import com.example.ungdungdatxekhach.modelshare.Route
 import com.example.ungdungdatxekhach.modelshare.Schedule
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.toObject
 import com.google.firebase.ktx.Firebase
+import java.text.DecimalFormat
 
 class ItemRouteScheduleAdapter : RecyclerView.Adapter<ItemRouteScheduleAdapter.ItemViewHolder> {
     private lateinit var listItem: ArrayList<Schedule>
@@ -79,6 +82,10 @@ class ItemRouteScheduleAdapter : RecyclerView.Adapter<ItemRouteScheduleAdapter.I
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         var schedule = listItem.get(position)
         route = Route()
+        var count= 0
+        for(ticket in schedule.customerIds){
+            count+=ticket.count
+        }
         db.collection("routes").document(schedule.routeId)
             .get()
             .addOnSuccessListener { document ->
@@ -86,7 +93,7 @@ class ItemRouteScheduleAdapter : RecyclerView.Adapter<ItemRouteScheduleAdapter.I
                 route.id = document.id
                 holder.tvRouteScheduleDepartureLocation.text = route?.departureLocation
                 holder.tvRouteScheduleEndLocation.text = route?.destination
-                holder.tvRouteSchedulePrice.text = route?.price
+                holder.tvRouteSchedulePrice.text = Constants.formatCurrency(route?.price.toString().toDouble())
                 holder.tvRouteScheduleEndTime.text = route?.totalTime?.let {
                     schedule.dateRoute.addMinutes(
                         it.toInt()
@@ -101,7 +108,7 @@ class ItemRouteScheduleAdapter : RecyclerView.Adapter<ItemRouteScheduleAdapter.I
                             if (vehicle != null) {
                                 holder.tvRouteScheduleType.text =
                                     vehicle.type + " " + vehicle.seats.toString() + " chỗ"
-                                holder.tvRouteScheduleBlank.text = schedule.customerIds.size.toString() +
+                                holder.tvRouteScheduleBlank.text = count.toString() +
                                         "/" + vehicle.seats.toString() + " chỗ trống"
                             }
                             holder.itemRouteSchedule.setOnClickListener {
@@ -115,8 +122,8 @@ class ItemRouteScheduleAdapter : RecyclerView.Adapter<ItemRouteScheduleAdapter.I
             .addOnFailureListener { exception ->
             }
 
-        holder.tvRouteScheduleDepartureTime.text = schedule.dateRoute.pickedHour.toString() +
-                ":" + schedule.dateRoute.pickedMinute.toString()
+        holder.tvRouteScheduleDepartureTime.text = schedule.dateRoute.toFormattString()
+
 
     }
 
