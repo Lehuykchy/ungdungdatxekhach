@@ -161,7 +161,7 @@ class AdminHomeFragment : Fragment() {
         }
 
         ok.setOnClickListener {
-            if(!spinnerDialogSchedule.selectedItem.toString().isEmpty()) {
+            if (selectedRoute != null && selectedSchedule != null && spinnerDialogSchedule != null && spinnerDialogRoute != null) {
                 ticket.adminId = id
                 ticket.routeId = selectedRoute!!.id
                 ticket.scheduleId = selectedSchedule!!.id

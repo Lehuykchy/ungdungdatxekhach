@@ -198,7 +198,7 @@ class AdminRouteDefaultFragment : Fragment() {
         spinnerSelectBus.adapter = adapterSpinner
 
         tvSave.setOnClickListener {
-            if(!spinnerSelectBus.selectedItem.toString().isEmpty()) {
+            if(spinnerSelectBus!= null && vehicleList!= null) {
                 var timeRoute = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     TimeRoute(
                         datePicker.hour.toString().toInt(),
