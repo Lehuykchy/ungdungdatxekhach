@@ -365,24 +365,28 @@ class HomeFragment : Fragment() {
                     timeRoute,
                     date
                 )
-                val bundle = bundleOf(
-                    "locationDeparture" to locationDeparture,
-                    "locationDestination" to locationDestination,
-                    "timeRoute" to timeRoute,
-                    "date" to date,
-                    "customer" to customer,
-                    "ticket" to ticket
-                )
+
                 db.collection("tickets")
                     .add(ticket)
                     .addOnSuccessListener { documentReference ->
+                        ticket.id = documentReference.id
                         db.collection("users").document(phone).collection("tickets")
                             .document(documentReference.id)
                             .set(ticket)
                             .addOnSuccessListener { documentReference ->
+
                             }
                             .addOnFailureListener { e ->
                             }
+
+                        val bundle = bundleOf(
+                            "locationDeparture" to locationDeparture,
+                            "locationDestination" to locationDestination,
+                            "timeRoute" to timeRoute,
+                            "date" to date,
+                            "customer" to customer,
+                            "ticket" to ticket
+                        )
                         val navController = activity?.findNavController(R.id.framelayout)
                         val bottomNavigationView =
                             activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)

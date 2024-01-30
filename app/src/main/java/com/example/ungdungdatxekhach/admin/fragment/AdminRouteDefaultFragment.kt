@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -108,21 +109,48 @@ class AdminRouteDefaultFragment : Fragment() {
     }
 
     private fun getscheduleList() {
+        scheduleList.clear()
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        db.collection("routes").document(route.id).collection("schedules")
-//            .whereEqualTo("date", dateFormat.format(binding.tvRouteDefaultDate.text.toString()))
-            .get()
-            .addOnSuccessListener { result ->
-                for (document in result) {
-                    val schedule = document.toObject<Schedule>()
-                    if (schedule != null) {
-                        schedule.id = document.id
-                        adapter.addSchedule(schedule)
+//        db.collection("routes").document(route.id).collection("schedules")
+////            .whereEqualTo("date", dateFormat.format(binding.tvRouteDefaultDate.text.toString()))
+//            .get()
+//            .addOnSuccessListener { result ->
+//                for (document in result) {
+//                    val schedule = document.toObject<Schedule>()
+//                    if (schedule != null) {
+//                        schedule.id = document.id
+//                        adapter.addSchedule(schedule)
+//                    }
+//                }
+//            }
+//            .addOnFailureListener { exception ->
+//            }
+//
+        val dateString = binding.tvRouteDefaultDate.text.toString()
+
+        try {
+            val date = dateFormat.parse(dateString)
+            Log.d("checktime", "getscheduleList: " + date + " " + dateFormat.format(date))
+            db.collection("routes").document(route.id).collection("schedules")
+                .whereEqualTo("date", date)
+                .get()
+                .addOnSuccessListener { result ->
+                    for (document in result) {
+                        val schedule = document.toObject<Schedule>()
+                        if (schedule != null) {
+                            scheduleList.add(schedule)
+                        }
                     }
+                    adapter.notifyDataSetChanged()
                 }
-            }
-            .addOnFailureListener { exception ->
-            }
+                .addOnFailureListener { exception ->
+                    // ...
+                }
+        } catch (e: ParseException) {
+            // Xử lý lỗi định dạng ngày tháng không hợp lệ
+            e.printStackTrace()
+        }
+
     }
 
     private fun onClickBack() {
@@ -236,6 +264,7 @@ class AdminRouteDefaultFragment : Fragment() {
             DatePickerDialog(it, { _, year, month, dayOfMonth ->
                 val selectedDate = "$dayOfMonth/${month + 1}/$year"
                 binding.tvRouteDefaultDate.text = selectedDate
+                getscheduleList()
             }, year, month, day)
         }
         datePickerDialog!!.show()

@@ -184,10 +184,13 @@ class HomeFragmentSearch : Fragment() {
                                 val schedule =
                                     scheduleDocument.toObject(Schedule::class.java)
                                 schedule.id = scheduleDocument.id
-                                if (dateFormat.format(dateSearch) > dateFormat.format(Date())) {
+                                if (dateFormat.format(dateSearch).equals(dateFormat.format(combineDateAndTime(
+                                        schedule.date,
+                                        schedule.dateRoute
+                                    )))) {
                                     Log.d(
                                         "checkdb",
-                                        "getListFilterOne: " + combineDateAndTime(
+                                        "getListFilterOnePro: " + combineDateAndTime(
                                             schedule.date,
                                             schedule.dateRoute
                                         )+ "/" + dateFormat.format(dateSearch) + dateFormat.format(Date())

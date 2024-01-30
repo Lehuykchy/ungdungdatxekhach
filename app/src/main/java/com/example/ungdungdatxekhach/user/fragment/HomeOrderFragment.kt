@@ -136,15 +136,8 @@ class HomeOrderFragment : Fragment() {
         choosetxt.text = "Bạn có muốn hủy chuyến đi này không?"
 
         ok.setOnClickListener {
-            val dataToUpdate = mapOf(
-                "adminId" to "",
-                "routeId" to "",
-                "scheduleId" to "",
-                "totalPrice" to "",
-                "status" to Constants.STATUS_DESTROY
-            )
             db.collection("users").document(ticket.customerId).collection("tickets").document(ticket.id)
-                .update(dataToUpdate)
+                .delete()
                 .addOnCompleteListener {
 
                 }
