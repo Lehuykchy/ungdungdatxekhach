@@ -266,7 +266,7 @@
                     android:id="@+id/tvBuyTicketStep1AdminName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Nhà xe Lê Huy"
+                    android:hint="Nhà xe Ngoc Anh"
                     android:textColor="@color/black"
                     android:textSize="20dp"
                     android:textStyle="bold" />

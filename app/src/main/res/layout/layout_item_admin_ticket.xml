@@ -47,7 +47,7 @@
         android:layout_below="@id/lnMount"
         android:layout_marginLeft="10dp"
         android:gravity="center_vertical"
-        android:hint="Lê Quang Huy"
+        android:hint="Ngoc Anh"
         android:padding="5dp"
         android:textColor="@color/black"
         android:textSize="20dp"

@@ -21,6 +21,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.ungdungdatxekhach.R
 import com.example.ungdungdatxekhach.admin.Constants
+import com.example.ungdungdatxekhach.admin.model.Admin
 import com.example.ungdungdatxekhach.admin.model.Vehicle
 import com.example.ungdungdatxekhach.databinding.FragmentOrderDefaultBinding
 import com.example.ungdungdatxekhach.modelshare.Evaluate
@@ -88,7 +89,7 @@ class OrdersDefaultFragment : Fragment() {
             } else {
                 TODO("VERSION.SDK_INT < O")
             }
-            binding.tvDestroy.text = "Còn ${ duration.toHours()}:${ ((duration?.toMinutes() ?: 0) % 60).toString()} nữa là xuất phát"
+            binding.tvDestroy.text = "Còn ${ -duration.toHours()}:${ (-(duration?.toMinutes() ?: 0) % 60).toString()} nữa là xuất phát"
             binding.tvOrderDefaultStatus.text = "Đã thanh toán"
             binding.tvOrderDefaultStatus.setTextColor(Color.BLUE)
             binding.rltFootterPaymentEd.visibility = View.GONE
@@ -167,6 +168,8 @@ class OrdersDefaultFragment : Fragment() {
         binding.tvOrderDefaultMountTicket.text = ticket.count.toString() + " vé"
         binding.tvOrderDefaultTotalMoneyMain.text =  Constants.formatCurrency(ticket.totalPrice.toDouble())
 
+        setTvAdminName()
+
         binding.imgOrderDefaultBack.setOnClickListener {
             onClickBack()
         }
@@ -176,6 +179,15 @@ class OrdersDefaultFragment : Fragment() {
         binding.btnOrderDefaultConfirm.setOnClickListener {
             setOnClickBtnConfirm()
         }
+    }
+
+    private fun setTvAdminName() {
+        db.collection("admins").document(ticket.adminId)
+            .get()
+            .addOnSuccessListener { document ->
+                var admin =  document.toObject<Admin>()
+                binding.tvAdminName.text = admin?.name
+            }
     }
 
     private fun setClickBtnDestroy() {

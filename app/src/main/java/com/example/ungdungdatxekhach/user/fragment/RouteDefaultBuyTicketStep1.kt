@@ -129,7 +129,8 @@ class RouteDefaultBuyTicketStep1 : Fragment() {
             if (ischeck()) {
                 val bundle = bundleOf(
                     "route" to route, "schedule" to schedule,
-                    "mount" to binding.tvBuyTicketStep1CountTicket.text.toString().toInt()
+                    "mount" to binding.tvBuyTicketStep1CountTicket.text.toString().toInt(),
+                    "admin" to admin
                 )
                 val navController = activity?.findNavController(R.id.framelayout)
                 navController?.navigate(

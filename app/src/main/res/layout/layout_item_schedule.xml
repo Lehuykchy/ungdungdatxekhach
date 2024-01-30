@@ -106,7 +106,7 @@
                 android:id="@+id/tvScheduleBusName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Nhà xe Le Huy"
+                android:hint="Nhà xe Ngoc Anh"
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 android:textSize="17dp"/>

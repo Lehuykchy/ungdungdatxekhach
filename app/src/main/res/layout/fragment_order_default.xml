@@ -75,9 +75,10 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tvAdminName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Nhà xe Lê Huy"
+                        android:hint="Nhà xe Ngoc Anh"
                         android:textColor="@color/black"
                         android:textSize="18dp"
                         android:textStyle="bold" />

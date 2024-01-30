@@ -35,7 +35,7 @@
             android:id="@+id/tvNameProfile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Lê Quang Huy"
+            android:text="Nguyen Ngoc Anh"
             android:textColor="@color/black"
             android:textSize="24dp"
             android:textStyle="bold"

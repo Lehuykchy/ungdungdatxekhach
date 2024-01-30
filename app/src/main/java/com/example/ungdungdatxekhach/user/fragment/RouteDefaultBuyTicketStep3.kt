@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.ungdungdatxekhach.R
 import com.example.ungdungdatxekhach.admin.Constants
+import com.example.ungdungdatxekhach.admin.model.Admin
 import com.example.ungdungdatxekhach.admin.model.Vehicle
 import com.example.ungdungdatxekhach.databinding.FragmentRouteDefaultBuyticketStep3Binding
 import com.example.ungdungdatxekhach.modelshare.Notification
@@ -41,6 +42,7 @@ class RouteDefaultBuyTicketStep3 : Fragment() {
     private lateinit var route: Route
     private lateinit var schedule: Schedule
     private lateinit var ticket: Ticket
+    private lateinit var admin : Admin
     val db = Firebase.firestore
     private val dateFormat = SimpleDateFormat("dd/MM/yyyy")
     override fun onCreateView(
@@ -62,8 +64,10 @@ class RouteDefaultBuyTicketStep3 : Fragment() {
             route = receivedBundle.getSerializable("route") as Route
             schedule = receivedBundle.getSerializable("schedule") as Schedule
             ticket = receivedBundle.getSerializable("ticket") as Ticket
+            admin = receivedBundle.getSerializable("admin") as Admin
             val dateFormat = SimpleDateFormat("dd/MM/yyyy")
             setVehicle()
+            binding.tvAdminName.text = admin.name
             binding.tvBuyTicketStep3DepartureDate.text = dateFormat.format(schedule.date).toString()
             binding.tvBuyTicketStep3TotalMoney.text =
                 Constants.formatCurrency(ticket.count * route.price.toString().toInt().toDouble())

@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.ungdungdatxekhach.R
 import com.example.ungdungdatxekhach.admin.Constants
+import com.example.ungdungdatxekhach.admin.model.Admin
 import com.example.ungdungdatxekhach.databinding.FragmentRouteDefaultBuyticketStep1Binding
 import com.example.ungdungdatxekhach.databinding.FragmentRouteDefaultBuyticketStep2Binding
 import com.example.ungdungdatxekhach.modelshare.Location
@@ -37,6 +38,7 @@ class RouteDefaultBuyTicketStep2 : Fragment() {
     private var count = 0
     private lateinit var departure: String
     private lateinit var destination: String
+    private lateinit var admin: Admin
     private var ticket = Ticket()
     val db = Firebase.firestore
     override fun onCreateView(
@@ -59,6 +61,7 @@ class RouteDefaultBuyTicketStep2 : Fragment() {
         route = receivedBundle.getSerializable("route") as Route
         schedule = receivedBundle.getSerializable("schedule") as Schedule
         count = receivedBundle.getSerializable("mount") as Int
+        admin = receivedBundle.getSerializable("admin") as Admin
         departure = route.location.get(0).other.toString()
         destination = route.location.get(route.location.size - 1).other.toString()
         setspinnerTvBuyTicketStep1Departure()
@@ -100,7 +103,7 @@ class RouteDefaultBuyTicketStep2 : Fragment() {
                 ticket.routeId = route.id
                 ticket.timeRoute = schedule.dateRoute
                 ticket.dateDeparture = schedule.date
-                val bundle = bundleOf("route" to route, "schedule" to schedule, "ticket" to ticket)
+                val bundle = bundleOf("route" to route, "schedule" to schedule, "ticket" to ticket, "admin" to admin)
                 val navController = activity?.findNavController(R.id.framelayout)
                 navController?.navigate(R.id.action_routeDefaultBuyTicketStep2_to_routeDefaultBuyTicketStep3, bundle)
             }
